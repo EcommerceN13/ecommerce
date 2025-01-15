@@ -1,6 +1,6 @@
 import { appConfig, databaseConfig, jwtConfig } from '@config';
 import { CheckAuthGuard, CheckRoleGuard } from '@guards';
-import { FileModule, User, UserModule } from '@modules';
+import { Cart, CartModule, Comment, CommentModule, FileModule, Like, LikeModule, User, UserModule } from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -37,7 +37,7 @@ import { AuthModule } from './modules/auth/auth.module';
             username: config.get<string>('databaseConfig.user'),
             password: config.get<string>('databaseConfig.password'),
             database: config.get<string>('databaseConfig.dbname'),
-            models: [User],
+            models: [User,Like,Comment,Cart],
             // sync:{force:true},
             synchronize: true,
             logging: console.log,
@@ -51,7 +51,10 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     UserModule,
     AuthModule,
-    FileModule
+    FileModule,
+    LikeModule,
+    CommentModule,
+    CartModule
   ],
   controllers: [],
   providers: [
