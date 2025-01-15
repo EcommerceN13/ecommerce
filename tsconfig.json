@@ -20,6 +20,9 @@
     "paths": {
       "@config": ["./src/config"],
       "@modules": ["./src/modules"],
+      "@filters": ["./src/filters"],
+      "@guards": ["./src/guards"],
+      "@decorators": ["./src/decorators"]
     }
   }
 }
