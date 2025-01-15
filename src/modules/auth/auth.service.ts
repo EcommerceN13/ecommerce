@@ -24,11 +24,11 @@ export class AuthService {
     return {
       accessToken: this.jwtService.sign(
         { userId, email },
-        { expiresIn: process.env.JWT_EXPIRATION_TIME || '24h', secret: process.env.JWT_SECRET },
+        { expiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '24h', secret: process.env.JWT_ACCESS_SECRET },
       ),
       refreshToken: this.jwtService.sign(
         { userId, email },
-        { expiresIn: process.env.JWT_REFRESH_EXPIRATION_TIME || '7d', secret: process.env.JWT_SECRET },
+        { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '7d', secret: process.env.JWT_REFRESH_SECRET },
       ),
     };
   }
