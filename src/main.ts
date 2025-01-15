@@ -8,8 +8,7 @@ import { ExceptionHandlerFilter } from './filters/exception-handler';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const configService = app.get(ConfigService)
-
+  const configService = app.get(ConfigService);
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -37,9 +36,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-
   await app.listen(configService.get<number>('appConfig.port'), () => {
-    console.log(`Uraaa server ${configService.get<number>('appConfig.port')} portda ishlamoqda...`);
+    console.log(
+      `Uraaa server ${configService.get<number>('appConfig.port')} portda ishlamoqda...`,
+    );
   });
 }
 bootstrap();
