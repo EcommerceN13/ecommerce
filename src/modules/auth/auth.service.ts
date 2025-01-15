@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { User } from '../users/model'; // User modeli
+import { User } from '../user';
 import { JwtService } from '@nestjs/jwt';
 import { MailerService } from '@nestjs-modules/mailer';
 import * as bcrypt from 'bcrypt';
@@ -14,14 +14,12 @@ export class AuthService {
     @InjectModel(User) private readonly userModel: typeof User,
     private readonly jwtService: JwtService,
     private readonly mailerService: MailerService,
-  ) {}
+  ) { }
 
-  // OTP yaratish uchun yordamchi funksiya
   private generateOtp(): string {
     return crypto.randomInt(100000, 999999).toString();
   }
 
-  // Access va refresh tokenlarni yaratish
   private generateTokens(userId: number, email: string) {
     return {
       accessToken: this.jwtService.sign(
@@ -35,22 +33,32 @@ export class AuthService {
     };
   }
 
-  // Register
   async register(registerDto: RegisterDto): Promise<{ message: string }> {
-    const { email, first_name, password } = registerDto;
+    const { email, fullname, password } = registerDto;
 
     const existingUser = await this.userModel.findOne({ where: { email } });
     if (existingUser) {
-      throw new HttpException('Email allaqachon ro‘yxatdan o‘tgan', HttpStatus.BAD_REQUEST);
+      throw new HttpException("Email allaqachon ro'yxatdan o'tgan", HttpStatus.BAD_REQUEST);
     }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await this.userModel.create({
+      fullname,
+      email,
+      password: hashedPassword,
+      is_verified: false, 
+    });
 
     const otp = this.generateOtp();
 
-    // OTPni vaqtinchalik saqlash
     global.otpStore = global.otpStore || {};
-    global.otpStore[email] = { otp, expiresAt: Date.now() + 10 * 60 * 1000 };
+    global.otpStore[email] = {
+      otp,
+      expiresAt: Date.now() + 10 * 60 * 1000,
+      userId: newUser.id 
+    };
 
-    // Emailga OTP yuborish
     await this.mailerService.sendMail({
       to: email,
       subject: 'Tasdiqlash kodi',
@@ -60,9 +68,8 @@ export class AuthService {
     return { message: 'Tasdiqlash kodi yuborildi' };
   }
 
-  // OTPni tekshirish va yangi foydalanuvchi yaratish
   async verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<AuthResponse> {
-    const { email, otp, password, first_name } = verifyOtpDto;
+    const { email, otp } = verifyOtpDto;
 
     const otpData = global.otpStore?.[email];
     if (!otpData) {
@@ -70,7 +77,7 @@ export class AuthService {
     }
 
     if (otpData.otp !== otp) {
-      throw new HttpException('Noto‘g‘ri tasdiqlash kodi', HttpStatus.BAD_REQUEST);
+      throw new HttpException("Noto'g'ri tasdiqlash kodi", HttpStatus.BAD_REQUEST);
     }
 
     if (Date.now() > otpData.expiresAt) {
@@ -78,15 +85,12 @@ export class AuthService {
       throw new HttpException('Tasdiqlash kodi muddati tugagan', HttpStatus.BAD_REQUEST);
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await this.userModel.findOne({ where: { id: otpData.userId } });
+    if (!user) {
+      throw new HttpException('Foydalanuvchi topilmadi', HttpStatus.NOT_FOUND);
+    }
 
-    const user = await this.userModel.create({
-      email,
-      password: hashedPassword,
-      role: 'user',
-      first_name,
-      last_name: first_name, // Yoki kerak bo'lsa boshqa qiymat bering
-    });
+    await user.update({ is_verified: true });
 
     delete global.otpStore[email];
 
@@ -95,25 +99,30 @@ export class AuthService {
       ...tokens,
       user: {
         id: user.id,
+        fullname: user.fullname,
         email: user.email,
         role: user.role,
+        is_verified: user.is_verified,
       },
-      message: 'Muvaffaqiyatli ro‘yxatdan o‘tdingiz',
+      message: "Muvaffaqiyatli ro'yxatdan o'tdingiz",
     };
   }
 
-  // Login
   async login(loginDto: LoginDto): Promise<AuthResponse> {
     const { email, password } = loginDto;
     const user = await this.userModel.findOne({ where: { email } });
 
     if (!user) {
-      throw new HttpException('Email yoki parol noto‘g‘ri', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Email yoki parol noto'g'ri", HttpStatus.UNAUTHORIZED);
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new HttpException('Email yoki parol noto‘g‘ri', HttpStatus.UNAUTHORIZED);
+      throw new HttpException("Email yoki parol noto'g'ri", HttpStatus.UNAUTHORIZED);
+    }
+
+    if (!user.is_verified) {
+      throw new HttpException('Iltimos, emailingizni tasdiqlang', HttpStatus.FORBIDDEN);
     }
 
     const tokens = this.generateTokens(user.id, user.email);
@@ -121,8 +130,10 @@ export class AuthService {
       ...tokens,
       user: {
         id: user.id,
+        fullname: user.fullname,
         email: user.email,
         role: user.role,
+        is_verified: user.is_verified,
       },
       message: 'Muvaffaqiyatli login qilindi',
     };

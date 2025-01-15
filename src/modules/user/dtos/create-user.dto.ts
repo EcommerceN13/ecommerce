@@ -45,7 +45,6 @@ export class CreateUserDto implements Omit<CreateUserRequest, "image"> {
         format: 'binary',
         required: false,
     })
-
     @IsOptional()
     image?: string;
 
@@ -57,4 +56,12 @@ export class CreateUserDto implements Omit<CreateUserRequest, "image"> {
     @IsOptional()
     @IsEnum(UserRoles)
     role?: UserRoles;
+
+    @ApiProperty({
+        type: Boolean,
+        required: false,
+        example: false
+    })
+    @IsOptional()
+    is_verified?: boolean;
 }

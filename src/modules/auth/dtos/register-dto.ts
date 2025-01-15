@@ -1,15 +1,36 @@
-// src/modules/auth/dtos/register.dto.ts
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsString, IsEmail, IsNotEmpty, IsStrongPassword } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
-export class RegisterDto {
-  @IsEmail()
-  email: string;
+export class RegisterDto  {
+    @ApiProperty({
+        description: "Foydalanuvchi to'liq ismi",
+        type: "string",
+        required: true,
+        example: "John Doe",
+    })
+    @IsString()
+    @IsNotEmpty()
+    fullname: string;
 
-  @IsNotEmpty()
-  @IsString()
-  first_name: string;
+    @ApiProperty({
+        description: "Foydalanuvchi email manzili",
+        type: "string",
+        required: true,
+        example: "john_doe@gmail.com",
+    })
+    @IsNotEmpty()
+    @IsEmail()
+    email: string;
 
-  @IsNotEmpty()
-  @IsString()
-  password: string;
+    @ApiProperty({
+        description: "Foydalanuvchi uchun kuchli parol",
+        type: "string",
+        required: true,
+        example: "Str0ng@Passw0rd!",
+    })
+    @IsNotEmpty()
+    @IsString()
+    password: string;
+
+    
 }

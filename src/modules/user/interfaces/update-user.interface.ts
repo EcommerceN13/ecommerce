@@ -6,5 +6,6 @@ export declare interface UpdateUserRequest {
     phone_number?: string;
     password?: string;
     image?: string;
-    role?: UserRoles
+    role?: UserRoles;
+    is_verified?: boolean
 }

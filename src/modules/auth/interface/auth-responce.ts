@@ -1,13 +1,12 @@
 export interface AuthResponse {
-    accessToken?: string;
-    refreshToken?: string;
-    message: string;
-    user?: {
+  accessToken: string;
+  refreshToken: string;
+  message: string;
+  user: {
       id: number;
       email: string;
-
-      first_name?: string;
-      last_name?: string;
+      fullname: string;
       role: string;
-    };
+      is_verified: boolean;
+  };
 }

@@ -1,22 +1,16 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { UserModule } from '../users/users.module';
+import { User } from '../user'; 
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { ConfigModule } from '@nestjs/config';
+import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({
     
   imports: [
-    UserModule,
-    ConfigModule.forRoot(),
-        JwtModule.register({
-                secret: process.env.JWT_SECRET, // JWT_SECRET qiymatini .env dan olish
-                signOptions: {
-                  expiresIn: process.env.JWT_EXPIRATION_TIME || '24h',
-                },
-              }),
+    SequelizeModule.forFeature([User]),
+    
     MailerModule.forRoot({
         transport: {
           host: 'smtp.gmail.com', // Gmail SMTP serveri
@@ -30,13 +24,7 @@ import { ConfigModule } from '@nestjs/config';
         defaults: {
           from: `"No Reply" <${process.env.MAIL_USER}>`,
         },
-        
       })
-      
-      
-      
-      
-      
   ],
   providers: [AuthService],
   controllers: [AuthController],

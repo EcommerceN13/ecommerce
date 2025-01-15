@@ -15,7 +15,7 @@ export class User extends Model {
     email: string;
 
     @Column({ type: DataType.BIGINT, allowNull: true })
-    phone_number: string;
+    phone_number ?: string;
 
     @Column({ type: DataType.STRING, allowNull: true })
     image?: string;
@@ -30,4 +30,7 @@ export class User extends Model {
         defaultValue: UserRoles.user,
     })
     role ?: UserRoles;
+
+    @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue:false })
+    is_verified: boolean;
 }

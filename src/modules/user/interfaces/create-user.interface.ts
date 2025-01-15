@@ -7,4 +7,5 @@ export declare interface CreateUserRequest {
     password: string;
     image?: string;
     role?: UserRoles;
+    is_verified ?: boolean
 }

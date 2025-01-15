@@ -59,4 +59,12 @@ export class UpdateUserDto implements Omit<CreateUserRequest, "image"> {
     @IsOptional()
     @IsEnum(UserRoles)
     role?: UserRoles;
+
+    @ApiProperty({
+        type: Boolean,
+        required: false,
+        example: false
+    })
+    @IsOptional()
+    is_verified ?: boolean;
 }
