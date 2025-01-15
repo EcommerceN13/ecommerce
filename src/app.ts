@@ -4,6 +4,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { User } from './modules/users/model';
+import { UserModule } from '@modules';
+import { AuthModule } from './modules/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -28,7 +32,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
             password: config.get<string>('databaseConfig.password'),
             database: config.get<string>('databaseConfig.dbname'),
             models: [User],
-            sync:{force:true},
+            // sync:{force:true},
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,
@@ -40,6 +44,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       },
     }),
     UserModule,
+    AuthModule,
     FileModule
   ],
   controllers: [],
