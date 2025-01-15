@@ -1,4 +1,4 @@
-import { appConfig, databaseConfig, jwtConfig } from '@config';
+import { appConfig, databaseConfig } from '@config';
 import { CheckAuthGuard, CheckRoleGuard } from '@guards';
 import { Cart, CartModule, Comment, CommentModule, FileModule, Like, LikeModule, User, UserModule } from '@modules';
 import { Module } from '@nestjs/common';
@@ -12,7 +12,7 @@ import { AuthModule } from './modules/auth/auth.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig, jwtConfig],
+      load: [appConfig, databaseConfig],
     }),
     ServeStaticModule.forRoot({
       serveRoot: "./uploads",
