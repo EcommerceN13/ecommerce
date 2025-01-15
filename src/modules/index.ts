@@ -1,3 +1,6 @@
 export * from './user'
 export * from './auth'
 export * from './file'
+export * from './cart'
+export * from './comment'
+export * from './like'
