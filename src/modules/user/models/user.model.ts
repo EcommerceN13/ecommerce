@@ -1,4 +1,4 @@
-import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
+import { Table, Model, Column, DataType, HasMany, Unique } from "sequelize-typescript";
 
 
 export enum UserRoles {
