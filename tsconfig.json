@@ -21,7 +21,8 @@
       "@config": ["./src/config"],
       "@modules": ["./src/modules"],
       "@guards": ["./src/guards"],
-      "@decorators": ["./src/decorators"],
+      "@filters": ["./src/filters"],
+      "@decorators": ["./src/decorators"]
     }
   }
 }
