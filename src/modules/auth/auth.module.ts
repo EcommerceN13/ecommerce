@@ -17,8 +17,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
           port: 587,  // TLS uchun port
           secure: false, // TLS uchun false
           auth: {
-            user: 'kamronbekbahriyev18@gmail.com',
-            pass: 'whudllcxkbgnpgmu',
+            user: 'yuldashevabduqodir429@gmail.com',
+            pass: 'obim dktx hqxv cxve',
           },
         },
         defaults: {

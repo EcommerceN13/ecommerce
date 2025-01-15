@@ -11,7 +11,7 @@ export class User extends Model {
     @Column({ type: DataType.STRING, allowNull: false })
     fullname: string;
 
-    @Column({ type: DataType.STRING, allowNull: false,unique: true })
+    @Column({ type: DataType.STRING, allowNull: false, unique:true })
     email: string;
 
     @Column({ type: DataType.BIGINT, allowNull: true })
