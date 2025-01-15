@@ -1,6 +1,9 @@
-import { appConfig, databaseConfig } from '@config';
+import { appConfig, databaseConfig, jwtConfig } from '@config';
+import { CheckAuthGuard, CheckRoleGuard } from '@guards';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ServeStaticModule } from '@nestjs/serve-static';
 
@@ -8,11 +11,18 @@ import { ServeStaticModule } from '@nestjs/serve-static';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig],
+      load: [appConfig, databaseConfig, jwtConfig],
     }),
     ServeStaticModule.forRoot({
       serveRoot: "./uploads",
       rootPath: "./uploads"
+    }),
+    JwtModule.register({
+      secret: 'ashyosite',
+      global: true,
+      signOptions: {
+        expiresIn: 60 * 15,
+      },
     }),
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
@@ -40,6 +50,15 @@ import { ServeStaticModule } from '@nestjs/serve-static';
     }),
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    // {
+    //   useClass: CheckAuthGuard,
+    //   provide: APP_GUARD,
+    // },
+    // {
+    //   useClass: CheckRoleGuard,
+    //   provide: APP_GUARD,
+    // },
+  ],
 })
 export class AppModule { }
