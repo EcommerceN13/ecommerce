@@ -1,4 +1,5 @@
 import { appConfig, databaseConfig } from '@config';
+import { FileModule, User, UserModule } from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
@@ -44,6 +45,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     UserModule,
     AuthModule,
+    FileModule
   ],
   controllers: [],
   providers: [],
