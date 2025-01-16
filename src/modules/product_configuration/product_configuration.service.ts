@@ -1,26 +1,39 @@
-import { Injectable } from '@nestjs/common';
-import { CreateProductConfigurationDto } from './dto/create-product_configuration.dto';
-import { UpdateProductConfigurationDto } from './dto/update-product_configuration.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { CreateProductConfigurationDto } from './dto';
+import {UpdateProductConfigurationDto} from './dto'
+import { ProductConfiguration } from './models';
 
 @Injectable()
 export class ProductConfigurationService {
-  create(createProductConfigurationDto: CreateProductConfigurationDto) {
-    return 'This action adds a new productConfiguration';
-  }
+    constructor(
+        @InjectModel(ProductConfiguration)
+        private readonly productConfigurationModel: typeof ProductConfiguration,
+    ) {}
 
-  findAll() {
-    return `This action returns all productConfiguration`;
-  }
+    async create(dto: CreateProductConfigurationDto): Promise<ProductConfiguration> {
+        return this.productConfigurationModel.create(dto as any);
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} productConfiguration`;
-  }
+    async findAll(): Promise<ProductConfiguration[]> {
+        return this.productConfigurationModel.findAll({ include: { all: true } });
+    }
 
-  update(id: number, updateProductConfigurationDto: UpdateProductConfigurationDto) {
-    return `This action updates a #${id} productConfiguration`;
-  }
+    async findOne(id: number): Promise<ProductConfiguration> {
+        const productConfiguration = await this.productConfigurationModel.findByPk(id, { include: { all: true } });
+        if (!productConfiguration) {
+            throw new NotFoundException(`ProductConfiguration with ID ${id} not found.`);
+        }
+        return productConfiguration;
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} productConfiguration`;
-  }
+    async update(id: number, dto: UpdateProductConfigurationDto): Promise<ProductConfiguration> {
+        const productConfiguration = await this.findOne(id);
+        return productConfiguration.update(dto);
+    }
+
+    async remove(id: number): Promise<void> {
+        const productConfiguration = await this.findOne(id);
+        await productConfiguration.destroy();
+    }
 }

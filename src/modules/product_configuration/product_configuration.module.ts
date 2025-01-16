@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ProductConfigurationService } from './product_configuration.service';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { ProductConfiguration } from './models';
 import { ProductConfigurationController } from './product_configuration.controller';
+import { ProductConfigurationService } from './product_configuration.service';
 
 @Module({
-  controllers: [ProductConfigurationController],
-  providers: [ProductConfigurationService],
+    imports: [SequelizeModule.forFeature([ProductConfiguration])],
+    controllers: [ProductConfigurationController],
+    providers: [ProductConfigurationService],
 })
 export class ProductConfigurationModule {}
