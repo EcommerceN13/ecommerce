@@ -1,13 +1,13 @@
 import { Table, Model, Column, DataType } from "sequelize-typescript";
 
-@Table({ tableName: 'variation', timestamps: true })
-export class Variation extends Model {
+@Table({ tableName: 'product_item', timestamps: true })
+export class ProductItem extends Model {
     @Column({ type: DataType.BIGINT, allowNull: false })
-    category_id: number;
+    price: number;
 
     @Column({ type: DataType.STRING, allowNull: false })
-    name: string;
+    image: string;
 
-    @Column({ type: DataType.STRING, allowNull: false })
-    color: string;
+    @Column({ type: DataType.BIGINT, allowNull: false })
+    product_id: number;
 }
