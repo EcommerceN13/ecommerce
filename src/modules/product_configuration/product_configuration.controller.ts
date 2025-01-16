@@ -1,34 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
+import { CreateProductConfigurationDto } from './dto';
+import {UpdateProductConfigurationDto} from './dto'
 import { ProductConfigurationService } from './product_configuration.service';
-import { CreateProductConfigurationDto } from './dto/create-product_configuration.dto';
-import { UpdateProductConfigurationDto } from './dto/update-product_configuration.dto';
 
-@Controller('product-configuration')
+@Controller('product-configurations')
 export class ProductConfigurationController {
-  constructor(private readonly productConfigurationService: ProductConfigurationService) {}
+    constructor(private readonly productConfigurationService: ProductConfigurationService) {}
 
-  @Post()
-  create(@Body() createProductConfigurationDto: CreateProductConfigurationDto) {
-    return this.productConfigurationService.create(createProductConfigurationDto);
-  }
+    @Post()
+    async create(@Body() dto: CreateProductConfigurationDto) {
+        return this.productConfigurationService.create(dto);
+    }
 
-  @Get()
-  findAll() {
-    return this.productConfigurationService.findAll();
-  }
+    @Get()
+    async findAll() {
+        return this.productConfigurationService.findAll();
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productConfigurationService.findOne(+id);
-  }
+    @Get(':id')
+    async findOne(@Param('id') id: number) {
+        return this.productConfigurationService.findOne(+id);
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductConfigurationDto: UpdateProductConfigurationDto) {
-    return this.productConfigurationService.update(+id, updateProductConfigurationDto);
-  }
+    @Patch(':id')
+    async update(@Param('id') id: number, @Body() dto: UpdateProductConfigurationDto) {
+        return this.productConfigurationService.update(+id, dto);
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productConfigurationService.remove(+id);
-  }
+    @Delete(':id')
+    async remove(@Param('id') id: number) {
+        return this.productConfigurationService.remove(+id);
+    }
 }
