@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { Address } from './models/address.model';
+import { Address } from './models'; 
 import { User } from '../user';
 
 @Injectable()

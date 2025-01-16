@@ -13,4 +13,5 @@ export * from './comment'
 export * from './like'
 export * from './order'
 export * from './order_items'
-
+export * from './category'
+export * from './product'
