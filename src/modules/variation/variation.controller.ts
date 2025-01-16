@@ -3,7 +3,7 @@ import { VariationService } from './variation.service';
 import { CreateVariationDto } from './dto/create-variation.dto';
 import { UpdateVariationDto } from './dto/update-variation.dto';
 
-@Controller('variation')
+@Controller('variations')
 export class VariationController {
   constructor(private readonly variationService: VariationService) {}
 
@@ -18,17 +18,17 @@ export class VariationController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.variationService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateVariationDto: UpdateVariationDto) {
+  update(@Param('id') id: number, @Body() updateVariationDto: UpdateVariationDto) {
     return this.variationService.update(+id, updateVariationDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.variationService.remove(+id);
+  delete(@Param('id') id: number) {
+    return this.variationService.delete(+id);
   }
 }
