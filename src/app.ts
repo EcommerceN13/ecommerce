@@ -7,6 +7,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './modules/auth/auth.module';
+import { Address } from './modules/address/models';
+import { AddressModule } from './modules/address/address.module';
 
 @Module({
   imports: [
@@ -37,11 +39,11 @@ import { AuthModule } from './modules/auth/auth.module';
             username: config.get<string>('databaseConfig.user'),
             password: config.get<string>('databaseConfig.password'),
             database: config.get<string>('databaseConfig.dbname'),
-            models: [User,Like,Comment,Cart,CartItem,Order,OrderItems,ProductConfiguration,ProductItem,Variation,VariationOption,Category,Product],
-            sync:{force:true},
+            models: [Address,User,Like,Comment,Cart,CartItem,Order,OrderItems,ProductConfiguration,ProductItem,Variation,VariationOption,Category,Product],
+            // sync:{force:true},
             synchronize: true,
             logging: console.log,
-            autoLoadModels: true,
+            // autoLoadModels: true,
           };
         } catch (error) {
           console.error('Error occurred while connecting to the database', error);
@@ -50,6 +52,7 @@ import { AuthModule } from './modules/auth/auth.module';
       },
     }),
     UserModule,
+    AddressModule,
     AuthModule,
     FileModule,
     LikeModule,
