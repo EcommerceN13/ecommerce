@@ -1,34 +1,134 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { AddressService } from './address.service';
-import { CreateAddressDto } from './dto/create-address.dto';
-import { UpdateAddressDto } from './dto/update-address.dto';
+// import {
+//   Controller,
+//   Get,
+//   Post,
+//   Body,
+//   Patch,
+//   Param,
+//   Delete,
+//   UseGuards,
+//   ParseIntPipe,
+// } from '@nestjs/common';
+// import { AddressService } from './address.service';
+// import { CreateAddressDto } from './dto/create-address.dto';
+// import { UpdateAddressDto } from './dto/update-address.dto';
+// import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+// import { Address } from './models';
+// import { Protected, Roles } from '@decorators';
+// import { UserRoles } from '../user';
 
-@Controller('address')
-export class AddressController {
-  constructor(private readonly addressService: AddressService) {}
+// @ApiTags('Address')
+// @ApiBearerAuth()
+// @Controller('address')
+// export class AddressController {
+//   constructor(private readonly addressService: AddressService) {}
 
-  @Post()
-  create(@Body() createAddressDto: CreateAddressDto) {
-    return this.addressService.create(createAddressDto);
-  }
+//   @ApiOperation({ summary: 'Create new address' })
+//   @ApiResponse({
+//     status: 201,
+//     description: 'Address has been successfully created',
+//     type: Address,
+//   })
+//   @Protected(true)
+//   @Roles([UserRoles.admin])
+//   @Post()
+//   create(
+//     @Body() createAddressDto: CreateAddressDto,
+//     @GetUser('id') userId: number,
+//   ): Promise<Address> {
+//     return this.addressService.create(createAddressDto, userId);
+//   }
 
-  @Get()
-  findAll() {
-    return this.addressService.findAll();
-  }
+//   @Get()
+//   @ApiOperation({ summary: 'Get all addresses for current user' })
+//   @ApiResponse({
+//     status: 200,
+//     description: 'Return all addresses',
+//     type: [Address],
+//   })
+//   findAll(@GetUser('id') userId: number): Promise<Address[]> {
+//     return this.addressService.findAll(userId);
+//   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.addressService.findOne(+id);
-  }
+//   @Get('region/:regionId/cities')
+//   @ApiOperation({ summary: 'Get all cities by region ID' })
+//   @ApiResponse({
+//     status: 200,
+//     description: 'Return all cities in the region',
+//     type: [Address],
+//   })
+//   getCitiesByRegion(
+//     @Param('regionId', ParseIntPipe) regionId: number,
+//   ): Promise<Address[]> {
+//     return this.addressService.getCitiesByRegion(regionId);
+//   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAddressDto: UpdateAddressDto) {
-    return this.addressService.update(+id, updateAddressDto);
-  }
+//   @Get('city/:cityId/districts')
+//   @ApiOperation({ summary: 'Get all districts by city ID' })
+//   @ApiResponse({
+//     status: 200,
+//     description: 'Return all districts in the city',
+//     type: [Address],
+//   })
+//   getDistrictsByCity(
+//     @Param('cityId', ParseIntPipe) cityId: number,
+//   ): Promise<Address[]> {
+//     return this.addressService.getDistrictsByCity(cityId);
+//   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.addressService.remove(+id);
-  }
-}
+//   @Get(':id')
+//   @ApiOperation({ summary: 'Get address by ID' })
+//   @ApiResponse({
+//     status: 200,
+//     description: 'Return address by ID',
+//     type: Address,
+//   })
+//   @ApiResponse({
+//     status: 404,
+//     description: 'Address not found',
+//   })
+//   findOne(
+//     @Param('id', ParseIntPipe) id: number,
+//     // @GetUser('id') userId: number,
+//   ): Promise<Address> {
+//     // return this.addressService.findByAddressId(id, userId);
+//   }
+
+//   @Patch(':id')
+//   @ApiOperation({ summary: 'Update address' })
+//   @ApiResponse({
+//     status: 200,
+//     description: 'Address has been successfully updated',
+//     type: Address,
+//   })
+//   @ApiResponse({
+//     status: 404,
+//     description: 'Address not found',
+//   })
+//   update(
+//     @Param('id', ParseIntPipe) id: number,
+//     @Body() updateAddressDto: UpdateAddressDto,
+//     // @GetUser('id') userId: number,
+//   ): Promise<Address> {
+//     // return this.addressService.update(id, updateAddressDto, userId);
+//   }
+
+//   @Delete(':id')
+//   @ApiOperation({ summary: 'Delete address' })
+//   @ApiResponse({
+//     status: 200,
+//     description: 'Address has been successfully deleted',
+//   })
+//   @ApiResponse({
+//     status: 404,
+//     description: 'Address not found',
+//   })
+//   remove(
+//     @Param('id', ParseIntPipe) id: number,
+//     // @GetUser('id') userId: number,
+//   ): Promise<void> {
+//     // return this.addressService.remove(id, userId);
+//   }
+// }
+
+// hali chalasi boridi shunga commitda

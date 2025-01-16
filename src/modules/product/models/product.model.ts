@@ -1,10 +1,10 @@
 import {
-  BelongsTo,
+  Table,
+  Model,
   Column,
   DataType,
   ForeignKey,
-  Model,
-  Table,
+  BelongsTo
 } from 'sequelize-typescript';
 import { Category } from 'src/modules/category';
 
@@ -40,7 +40,6 @@ export class Product extends Model {
   @Column({ type: DataType.INTEGER, allowNull: false })
   price: number;
 
-  //   @ForeignKey(()=>Brand)
   @Column({ type: DataType.INTEGER, allowNull: false })
   brand_id: number;
 
