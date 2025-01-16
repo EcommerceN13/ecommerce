@@ -1,4 +1,4 @@
-import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
+import { Table, Model, Column, DataType, HasMany, Unique } from "sequelize-typescript";
 import { Address } from "src/modules/address";
 
 
