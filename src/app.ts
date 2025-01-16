@@ -7,12 +7,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './modules/auth/auth.module';
-import { Address } from './modules/address/models/address.model';
 import { AddressModule } from './modules/address/address.module';
-import { Product } from './modules/product/models/product.model';
-import { ProductModule } from './modules/product/product.module';
 import { Address } from './modules/address/models';
-import { AddressModule } from './modules/address/address.module';
+
 
 @Module({
   imports: [
