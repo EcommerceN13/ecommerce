@@ -5,7 +5,8 @@ import { Product } from 'src/modules/product/models/product.model';
 
 @Table({ tableName: 'product_item', timestamps: true })
 export class ProductItem extends Model {
-    @Column({ type: DataType.BIGINT, allowNull: false })
+
+  @Column({ type: DataType.BIGINT, allowNull: false })
     price: number;
 
     @Column({ type: DataType.STRING, allowNull: false })
@@ -20,4 +21,5 @@ export class ProductItem extends Model {
 
   @BelongsTo(() => Product)
   product: Product;
+   
 }
