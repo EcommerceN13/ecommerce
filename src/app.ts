@@ -1,6 +1,6 @@
 import { appConfig, databaseConfig } from '@config';
 import { CheckAuthGuard, CheckRoleGuard } from '@guards';
-import {  Cart, CartItem, CartItemModule, CartModule, Comment, CommentModule, FileModule, Like, LikeModule, Order, OrderItems, OrderItemsModule, OrderModule, ProductConfiguration, ProductConfigurationModule, ProductItem, ProductItemModule, User, UserModule, Variation, VariationModule, VariationOption, VariationOptionModule } from '@modules';
+import {  Cart, CartItem, CartItemModule, CartModule, Category, CategoryModule, Comment, CommentModule, FileModule, Like, LikeModule, Order, OrderItems, OrderItemsModule, OrderModule, Product, ProductConfiguration, ProductConfigurationModule, ProductItem, ProductItemModule, ProductModule, User, UserModule, Variation, VariationModule, VariationOption, VariationOptionModule } from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -37,7 +37,7 @@ import { AuthModule } from './modules/auth/auth.module';
             username: config.get<string>('databaseConfig.user'),
             password: config.get<string>('databaseConfig.password'),
             database: config.get<string>('databaseConfig.dbname'),
-            models: [User,Like,Comment,Cart,CartItem,Order,OrderItems,ProductConfiguration,ProductItem,Variation,VariationOption],
+            models: [User,Like,Comment,Cart,CartItem,Order,OrderItems,ProductConfiguration,ProductItem,Variation,VariationOption,Category,Product],
             sync:{force:true},
             synchronize: true,
             logging: console.log,
@@ -61,7 +61,9 @@ import { AuthModule } from './modules/auth/auth.module';
     ProductConfigurationModule,
     ProductItemModule,
     VariationModule,
-    VariationOptionModule
+    VariationOptionModule,
+    CategoryModule,
+    ProductModule
   ],
   controllers: [],
   providers: [
