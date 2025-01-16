@@ -1,6 +1,6 @@
 import { appConfig, databaseConfig } from '@config';
 import { CheckAuthGuard, CheckRoleGuard } from '@guards';
-import { Cart, CartModule, Comment, CommentModule, FileModule, Like, LikeModule, User, UserModule } from '@modules';
+import {  Cart, CartItem, CartItemModule, CartModule, Comment, CommentModule, FileModule, Like, LikeModule, Order, OrderItems, OrderItemsModule, OrderModule, ProductConfiguration, ProductConfigurationModule, ProductItem, ProductItemModule, User, UserModule, Variation, VariationModule, VariationOption, VariationOptionModule } from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -37,8 +37,8 @@ import { AuthModule } from './modules/auth/auth.module';
             username: config.get<string>('databaseConfig.user'),
             password: config.get<string>('databaseConfig.password'),
             database: config.get<string>('databaseConfig.dbname'),
-            models: [User,Like,Comment,Cart],
-            // sync:{force:true},
+            models: [User,Like,Comment,Cart,CartItem,Order,OrderItems,ProductConfiguration,ProductItem,Variation,VariationOption],
+            sync:{force:true},
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,
@@ -54,7 +54,14 @@ import { AuthModule } from './modules/auth/auth.module';
     FileModule,
     LikeModule,
     CommentModule,
-    CartModule
+    CartModule,
+    CartItemModule,
+    OrderModule,
+    OrderItemsModule,
+    ProductConfigurationModule,
+    ProductItemModule,
+    VariationModule,
+    VariationOptionModule
   ],
   controllers: [],
   providers: [

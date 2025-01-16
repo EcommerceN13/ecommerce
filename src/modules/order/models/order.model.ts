@@ -11,7 +11,7 @@ export class Order extends Model {
     @Column({ type: DataType.BIGINT, allowNull: false })
     product_id: number;
 
-    @Column({ type: DataType.ENUM, allowNull: false })
+    @Column({ type: DataType.ENUM,values: [OrderStatus.delivered,OrderStatus.denied,OrderStatus.processing],allowNull: false })
     status: OrderStatus;
 
     @Column({ type: DataType.BIGINT, allowNull: false })
