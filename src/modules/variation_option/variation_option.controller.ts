@@ -1,34 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
+import { CreateVariationOptionDto} from './dto';
+import {UpdateVariationOptionDto } from './dto'
 import { VariationOptionService } from './variation_option.service';
-import { CreateVariationOptionDto } from './dto/create-variation_option.dto';
-import { UpdateVariationOptionDto } from './dto/update-variation_option.dto';
 
-@Controller('variation-option')
+@Controller('variation-options')
 export class VariationOptionController {
-  constructor(private readonly variationOptionService: VariationOptionService) {}
+    constructor(private readonly variationOptionService: VariationOptionService) {}
 
-  @Post()
-  create(@Body() createVariationOptionDto: CreateVariationOptionDto) {
-    return this.variationOptionService.create(createVariationOptionDto);
-  }
+    @Post()
+    async create(@Body() dto: CreateVariationOptionDto) {
+        return this.variationOptionService.create(dto);
+    }
 
-  @Get()
-  findAll() {
-    return this.variationOptionService.findAll();
-  }
+    @Get()
+    async findAll() {
+        return this.variationOptionService.findAll();
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.variationOptionService.findOne(+id);
-  }
+    @Get(':id')
+    async findOne(@Param('id') id: number) {
+        return this.variationOptionService.findOne(+id);
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateVariationOptionDto: UpdateVariationOptionDto) {
-    return this.variationOptionService.update(+id, updateVariationOptionDto);
-  }
+    @Patch(':id')
+    async update(@Param('id') id: number, @Body() dto: UpdateVariationOptionDto) {
+        return this.variationOptionService.update(+id, dto);
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.variationOptionService.remove(+id);
-  }
+    @Delete(':id')
+    async remove(@Param('id') id: number) {
+        return this.variationOptionService.remove(+id);
+    }
 }

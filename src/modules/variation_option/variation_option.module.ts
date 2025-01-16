@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
-import { VariationOptionService } from './variation_option.service';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { VariationOption } from './models';
 import { VariationOptionController } from './variation_option.controller';
+import { VariationOptionService } from './variation_option.service';
 
 @Module({
-  controllers: [VariationOptionController],
-  providers: [VariationOptionService],
+    imports: [SequelizeModule.forFeature([VariationOption])],
+    controllers: [VariationOptionController],
+    providers: [VariationOptionService],
 })
 export class VariationOptionModule {}
