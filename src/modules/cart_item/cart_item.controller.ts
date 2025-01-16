@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+// src/modules/cart-item/cart-item.controller.ts
+import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
 import { CartItemService } from './cart_item.service';
-import { CreateCartItemDto } from './dto/create-cart_item.dto';
-import { UpdateCartItemDto } from './dto/update-cart_item.dto';
+import { CreateCartItemDto } from './dto';
+import { UpdateCartItemDto } from './dto';
 
 @Controller('cart-item')
 export class CartItemController {
@@ -18,17 +19,17 @@ export class CartItemController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartItemService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.cartItemService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartItemDto: UpdateCartItemDto) {
-    return this.cartItemService.update(+id, updateCartItemDto);
+  update(@Param('id') id: number, @Body() updateCartItemDto: UpdateCartItemDto) {
+    return this.cartItemService.update(id, updateCartItemDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cartItemService.remove(+id);
+  delete(@Param('id') id: number) {
+    return this.cartItemService.delete(id);
   }
 }

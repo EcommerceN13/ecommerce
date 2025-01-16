@@ -1,24 +1,23 @@
-import { IsNotEmpty, IsNumber, Min, IsPositive, IsOptional, IsDate } from 'class-validator';
+import { IsNotEmpty, IsNumber, Min, IsPositive } from 'class-validator';
+import { Attributes } from 'sequelize';
 
-// create-cart-item.dto.ts
-export class CreateCartItemDto {
-    @IsNotEmpty()
-    @IsNumber()
-    @IsPositive()
-    cart_id: number;
-    
-    @IsNotEmpty()
-    @IsNumber()
-    @IsPositive()
-    product_id: number;
-    
-    @IsNotEmpty()
-    @IsNumber()
-    @Min(1)
-    quantity: number;
-    
-    @IsNotEmpty()
-    @IsNumber()
-    @IsPositive()
-    price: number;
+import { CartItem } from '../models';
+
+// CreateCartItemDto
+export class CreateCartItemDto implements Partial<Attributes<CartItem>> {
+  @IsNotEmpty()
+  @IsPositive()
+  cart_id: number;
+
+  @IsNotEmpty()
+  @IsPositive()
+  product_id: number;
+
+  @IsNotEmpty()
+  @Min(1)
+  quantity: number;
+
+  @IsNotEmpty()
+  @IsPositive()
+  price: number;
 }

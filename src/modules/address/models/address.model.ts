@@ -9,7 +9,9 @@ import {
 } from 'sequelize-typescript';
 import { User } from 'src/modules/user';
 
+
 @Table({ tableName: "addres", timestamps: true })
+
 export class Address extends Model {
   @ForeignKey(() => Address)
   @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE', onUpdate: 'NO ACTION' })

@@ -1,4 +1,21 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateCartItemDto } from './create-cart_item.dto';
+import { Attributes } from "sequelize";
+import { CartItem } from "../models";
+import { IsNumber, IsPositive } from "class-validator";
+import { Min } from "sequelize-typescript";
 
-export class UpdateCartItemDto extends PartialType(CreateCartItemDto) {}
+export class UpdateCartItemDto implements Partial<Attributes<CartItem>> {
+    @IsNumber()
+    @IsPositive()
+    cart_id?: number;
+  
+    @IsNumber()
+    @IsPositive()
+    product_id?: number;
+  
+    @IsNumber()
+    quantity?: number;
+  
+    @IsNumber()
+    @IsPositive()
+    price?: number;
+}
