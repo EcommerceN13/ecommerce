@@ -1,6 +1,10 @@
 export * from './user'
 export * from './auth'
 export * from './file'
+export * from "./category"
+export * from "./brand"
+export * from "./product"
+
 export * from './product_configuration'
 export * from './variation_option'
 export * from './cart_item'
@@ -11,3 +15,4 @@ export * from './comment'
 export * from './like'
 export * from './order'
 export * from './order_items'
+
