@@ -5,8 +5,12 @@ import {
   ForeignKey,
   HasMany,
   Model,
+  Table,
 } from 'sequelize-typescript';
 import { User } from 'src/modules/user';
+
+
+@Table({ tableName: "addres", timestamps: true })
 
 export class Address extends Model {
   @ForeignKey(() => Address)

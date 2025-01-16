@@ -1,12 +1,18 @@
 import { appConfig, databaseConfig } from '@config';
 import { CheckAuthGuard, CheckRoleGuard } from '@guards';
-import {  Cart, CartItem, CartItemModule, CartModule, Comment, CommentModule, FileModule, Like, LikeModule, Order, OrderItems, OrderItemsModule, OrderModule, ProductConfiguration, ProductConfigurationModule, ProductItem, ProductItemModule, User, UserModule, Variation, VariationModule, VariationOption, VariationOptionModule } from '@modules';
+import {  Cart, CartItem, CartItemModule, CartModule, Category, CategoryModule, Comment, CommentModule, FileModule, Like, LikeModule, Order, OrderItems, OrderItemsModule, OrderModule, Product, ProductConfiguration, ProductConfigurationModule, ProductItem, ProductItemModule, ProductModule, User, UserModule, Variation, VariationModule, VariationOption, VariationOptionModule } from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './modules/auth/auth.module';
+import { Address } from './modules/address/models/address.model';
+import { AddressModule } from './modules/address/address.module';
+import { Product } from './modules/product/models/product.model';
+import { ProductModule } from './modules/product/product.module';
+import { Address } from './modules/address/models';
+import { AddressModule } from './modules/address/address.module';
 
 @Module({
   imports: [
@@ -37,11 +43,11 @@ import { AuthModule } from './modules/auth/auth.module';
             username: config.get<string>('databaseConfig.user'),
             password: config.get<string>('databaseConfig.password'),
             database: config.get<string>('databaseConfig.dbname'),
-            models: [User,Like,Comment,Cart,CartItem,Order,OrderItems,ProductConfiguration,ProductItem,Variation,VariationOption],
-            sync:{force:true},
+            models: [User,Like,Comment,Cart,CartItem,Order,OrderItems,ProductConfiguration,ProductItem,Variation,VariationOption,Address,Product,Category],
+            // sync:{force:true},
             synchronize: true,
             logging: console.log,
-            autoLoadModels: true,
+            // autoLoadModels: true,
           };
         } catch (error) {
           console.error('Error occurred while connecting to the database', error);
@@ -50,6 +56,7 @@ import { AuthModule } from './modules/auth/auth.module';
       },
     }),
     UserModule,
+    AddressModule,
     AuthModule,
     FileModule,
     LikeModule,
@@ -61,7 +68,9 @@ import { AuthModule } from './modules/auth/auth.module';
     ProductConfigurationModule,
     ProductItemModule,
     VariationModule,
-    VariationOptionModule
+    VariationOptionModule,
+    CategoryModule,
+    ProductModule
   ],
   controllers: [],
   providers: [
