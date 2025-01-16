@@ -4,8 +4,8 @@ import { CartItem } from './models';
 import { CreateCartItemDto } from './dto';
 import { UpdateCartItemDto } from './dto';
 import { Attributes } from 'sequelize';
-import { Product } from '../product';
 import { Cart } from '../cart/models';
+import { Product } from '../product';
 
 @Injectable()
 export class CartItemService {
@@ -22,6 +22,8 @@ export class CartItemService {
                 { model: Product },
               ]}
     );
+
+    return this.cartItemModel.findAll();
   }
 
   async findOne(id: number): Promise<CartItem> {
