@@ -1,34 +1,54 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ProductService } from './product.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { ProductService } from "./product.service";
+import { Product } from "./models";
+import { ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { CreateProductDto, UpdateProductDto } from "./dto";
 
-@Controller('product')
+@ApiTags('Products')
+@Controller('products')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+    #_service: ProductService;
+    constructor(service: ProductService) { this.#_service = service; }
 
-  @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
-  }
+    @ApiOperation({ summary: 'Get all products' })
+    @Get()
+    async getAllProducts(): Promise<Product[]> {
+        return await this.#_service.getAllProducts();
+    }
 
-  @Get()
-  findAll() {
-    return this.productService.findAll();
-  }
+    @ApiOperation({ summary: 'Get single product' })
+    @Get('/:id')
+    async getSingleProduct(@Param('id') id: string): Promise<Product> {
+        return await this.#_service.getSingleProduct(+id);
+    }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productService.findOne(+id);
-  }
+    @ApiOperation({ summary: "Create product" })
+    @ApiConsumes('multipart/form-data')
+    @Post('/add')
+    @UseInterceptors(FileInterceptor('image'))
+    async createProduct(
+        @Body() createProductPayload: CreateProductDto,
+        @UploadedFile() image: Express.Multer.File
+    ): Promise<{ message: string, new_product: Product }> {
+        return await this.#_service.createProduct(createProductPayload, image);
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productService.update(+id, updateProductDto);
-  }
+    @ApiOperation({ summary: "Update product" })
+    @ApiConsumes('multipart/form-data')
+    @Put('/:id')
+    @UseInterceptors(FileInterceptor('image'))
+    async updateProduct(
+        @Param('id') id: string,
+        @Body() updateProductPayload: UpdateProductDto,
+        @UploadedFile() file?: Express.Multer.File
+    ): Promise<{ message: string, updatedProduct: Product }> {
+        return await this.#_service.updateProduct(+id, updateProductPayload, file);
+    }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productService.remove(+id);
-  }
+    @ApiOperation({ summary: "Delete product" })
+    @Delete('/:id')
+    async deleteProduct(@Param('id') id: string): Promise<{ message: string }> {
+        return await this.#_service.deleteProduct(+id);
+    }
 }

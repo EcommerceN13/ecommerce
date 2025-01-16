@@ -43,7 +43,7 @@ export class Product extends Model {
   @Column({ type: DataType.INTEGER, allowNull: false })
   brand_id: number;
 
-  @Column({ type: DataType.TEXT, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: false })
   image: string;
 
   @BelongsTo(() => Category)
