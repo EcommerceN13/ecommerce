@@ -18,6 +18,7 @@ export class CreateUserDto implements Omit<CreateUserRequest, "image"> {
         example: 'john.doe@gmail.com',
     })
     @IsEmail()
+
     email: string;
 
     @ApiProperty({
