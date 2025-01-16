@@ -6,7 +6,7 @@ import {
     ForeignKey,
     BelongsTo
   } from 'sequelize-typescript';
-  import { Product } from '../../product/models/product.model';
+  import { Product } from 'src/modules/product'; 
   
   @Table({ tableName: 'cart', timestamps: true })
   export class Cart extends Model {

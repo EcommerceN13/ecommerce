@@ -1,4 +1,4 @@
-import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
+import { Table, Model, Column, DataType, HasMany, ForeignKey, BelongsTo } from "sequelize-typescript";
 import { ProductConfiguration } from "src/modules/product_configuration";
 import { Product } from 'src/modules/product/models/product.model';
 
