@@ -1,20 +1,18 @@
-import {
-    Table,
-    Model,
-    Column,
-    DataType,
-    ForeignKey,
-    BelongsTo
-  } from 'sequelize-typescript';
+import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
+import { ProductConfiguration } from "src/modules/product_configuration";
 import { Product } from 'src/modules/product/models/product.model';
+
 
 @Table({ tableName: 'product_item', timestamps: true })
 export class ProductItem extends Model {
-  @Column({ type: DataType.BIGINT, allowNull: false })
-  price: number;
+    @Column({ type: DataType.BIGINT, allowNull: false })
+    price: number;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  image: string;
+    @Column({ type: DataType.STRING, allowNull: false })
+    image: string;
+
+    @HasMany(() => ProductConfiguration)
+    configurations: ProductConfiguration[];
 
   @ForeignKey(() => Product)
   @Column({ type: DataType.BIGINT, allowNull: false })
