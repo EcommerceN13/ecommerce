@@ -1,4 +1,5 @@
 import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
+import { Address } from "src/modules/address";
 
 
 export enum UserRoles {
@@ -33,4 +34,8 @@ export class User extends Model {
 
     @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue:false })
     is_verified: boolean;
+
+    // Address ga bog'lanish uchun
+    @HasMany(() => Address)
+    movies: Address[];
 }
