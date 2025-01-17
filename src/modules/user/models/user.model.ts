@@ -1,4 +1,6 @@
-import { Table, Model, Column, DataType, HasMany } from "sequelize-typescript";
+import { Table, Model, Column, DataType, HasMany, Unique } from "sequelize-typescript";
+
+import { Address } from "src/modules/address/models"; 
 
 
 export enum UserRoles {
@@ -11,7 +13,7 @@ export class User extends Model {
     @Column({ type: DataType.STRING, allowNull: false })
     fullname: string;
 
-    @Column({ type: DataType.STRING, allowNull: false })
+    @Column({ type: DataType.STRING, allowNull: false, unique:true })
     email: string;
 
     @Column({ type: DataType.BIGINT, allowNull: true })
@@ -33,4 +35,7 @@ export class User extends Model {
 
     @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue:false })
     is_verified: boolean;
+
+    @HasMany(() => Address)
+    movies: Address[];
 }
