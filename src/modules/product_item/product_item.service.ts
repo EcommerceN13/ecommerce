@@ -1,26 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { CreateProductItemDto } from './dto/create-product_item.dto';
-import { UpdateProductItemDto } from './dto/update-product_item.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { ProductItem } from './models';
+import { CreateProductItemDto } from './dto';
+import { UpdateProductItemDto } from './dto';
+import { Attributes } from 'sequelize';
 
 @Injectable()
 export class ProductItemService {
-  create(createProductItemDto: CreateProductItemDto) {
-    return 'This action adds a new productItem';
+  constructor(@InjectModel(ProductItem) private readonly productItemModel: typeof ProductItem) {}
+
+  async create(createProductItemDto: CreateProductItemDto): Promise<ProductItem> {
+    return this.productItemModel.create(createProductItemDto as Attributes<ProductItem>);
   }
 
-  findAll() {
-    return `This action returns all productItem`;
+  async findAll(): Promise<ProductItem[]> {
+    return this.productItemModel.findAll({ include: [{ all: true }] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} productItem`;
+  async findOne(id: number): Promise<ProductItem> {
+    const productItem = await this.productItemModel.findByPk(id, { include: [{ all: true }] });
+    if (!productItem) {
+      throw new NotFoundException(`ProductItem with ID ${id} not found.`);
+    }
+    return productItem;
   }
 
-  update(id: number, updateProductItemDto: UpdateProductItemDto) {
-    return `This action updates a #${id} productItem`;
+  async update(id: number, updateProductItemDto: UpdateProductItemDto): Promise<ProductItem> {
+    const productItem = await this.findOne(id);
+    return productItem.update(updateProductItemDto as Attributes<ProductItem>);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} productItem`;
+  async delete(id: number): Promise<void> {
+    const productItem = await this.findOne(id);
+    await productItem.destroy();
   }
 }
