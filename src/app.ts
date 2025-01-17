@@ -1,6 +1,12 @@
 import { appConfig, databaseConfig, jwtConfig } from '@config';
 import { CheckAuthGuard, CheckRoleGuard } from '@guards';
-import { FileModule, User, UserModule } from '@modules';
+import {
+  Category,
+  CategoryModule,
+  FileModule,
+  User,
+  UserModule,
+} from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -15,8 +21,8 @@ import { AuthModule } from './modules/auth/auth.module';
       load: [appConfig, databaseConfig, jwtConfig],
     }),
     ServeStaticModule.forRoot({
-      serveRoot: "./uploads",
-      rootPath: "./uploads"
+      serveRoot: './uploads',
+      rootPath: './uploads',
     }),
     JwtModule.register({
       secret: 'ashyosite',
@@ -37,21 +43,25 @@ import { AuthModule } from './modules/auth/auth.module';
             username: config.get<string>('databaseConfig.user'),
             password: config.get<string>('databaseConfig.password'),
             database: config.get<string>('databaseConfig.dbname'),
-            models: [User],
-            // sync:{force:true},
+            models: [User, Category],
+            // sync: { force: true },
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,
           };
         } catch (error) {
-          console.error('Error occurred while connecting to the database', error);
+          console.error(
+            'Error occurred while connecting to the database',
+            error,
+          );
           throw error;
         }
       },
     }),
     UserModule,
     AuthModule,
-    FileModule
+    FileModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [
@@ -65,4 +75,4 @@ import { AuthModule } from './modules/auth/auth.module';
     // },
   ],
 })
-export class AppModule { }
+export class AppModule {}

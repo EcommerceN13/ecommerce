@@ -8,10 +8,10 @@ export class Category extends Model{
     @Column({type: DataType.TEXT, allowNull: false, unique: true})
     name: string;
     
-    @Column({type: DataType.TEXT, allowNull: false, unique: true})
+    @Column({type: DataType.TEXT, allowNull: false})
     image: string;
     
-    @Column({type: DataType.TEXT, allowNull: false, unique: true})
+    @Column({type: DataType.TEXT, allowNull: false})
     icon: string;
 
     // @HasMany(()=> Product)
