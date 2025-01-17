@@ -28,10 +28,9 @@ export class CreateProductDto implements Omit<CreateProductRequest, "image"> {
     description: string;
 
     @ApiProperty({
-        enum: ['Tolangan', 'Tolanmagan', 'On proccess'],
+        enum: ['3 oy', '6 oy', '12 oy'],
         required: true,
     })
-    @IsEnum(['Tolangan', 'Tolanmagan', 'On proccess'])
     nasiya: 'Tolangan' | 'Tolanmagan' | 'On proccess';
 
     @ApiProperty({
@@ -47,7 +46,7 @@ export class CreateProductDto implements Omit<CreateProductRequest, "image"> {
         required: true,
         example: 999,
     })
-    @IsNumber()
+    @IsNumberString()
     price: number;
 
     @ApiProperty({
@@ -55,7 +54,7 @@ export class CreateProductDto implements Omit<CreateProductRequest, "image"> {
         required: true,
         example: 1,
     })
-    @IsNumber()
+    @IsNumberString()
     brand_id: number;
 
     @ApiProperty({

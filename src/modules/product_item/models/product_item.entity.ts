@@ -21,5 +21,4 @@ export class ProductItem extends Model {
 
   @BelongsTo(() => Product)
   product: Product;
-   
 }

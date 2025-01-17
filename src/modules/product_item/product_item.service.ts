@@ -4,6 +4,7 @@ import { ProductItem } from './models';
 import { CreateProductItemDto } from './dto';
 import { UpdateProductItemDto } from './dto';
 import { Attributes } from 'sequelize';
+import { Product } from '../product/models';
 
 @Injectable()
 export class ProductItemService {
@@ -14,7 +15,7 @@ export class ProductItemService {
   }
 
   async findAll(): Promise<ProductItem[]> {
-    return this.productItemModel.findAll({ include: [{ all: true }] });
+    return this.productItemModel.findAll({ include: [{ model:Product }] });
   }
 
   async findOne(id: number): Promise<ProductItem> {
