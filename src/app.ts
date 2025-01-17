@@ -85,7 +85,7 @@ import { Address } from './modules/address/models';
               Product,
               Category,
             ] as ModelCtor[],
-            sync: { force: true },
+            // sync: { force: true },
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,
