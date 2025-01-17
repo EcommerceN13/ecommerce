@@ -29,7 +29,7 @@ export class Product extends Model {
   description: string;
 
   @Column({
-    type: DataType.ENUM('Tolangan', 'Tolanmagan', 'On proccess'),
+    type: DataType.ENUM('3 oy', '6 oy', '12 oy'),
     allowNull: false,
   })
   nasiya: string;
@@ -40,7 +40,9 @@ export class Product extends Model {
   @Column({ type: DataType.INTEGER, allowNull: false })
   price: number;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
+  //   @ForeignKey(()=>Brand)
+  @Column({ type: DataType.BIGINT, allowNull: false })
+
   brand_id: number;
 
   @Column({ type: DataType.STRING, allowNull: false })

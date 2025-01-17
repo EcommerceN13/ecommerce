@@ -1,6 +1,33 @@
 import { appConfig, databaseConfig } from '@config';
 import { CheckAuthGuard, CheckRoleGuard } from '@guards';
-import {  Cart, CartItem, CartItemModule, CartModule, Category, CategoryModule, Comment, CommentModule, FileModule, Like, LikeModule, Order, OrderItems, OrderItemsModule, OrderModule, Product, ProductConfiguration, ProductConfigurationModule, ProductItem, ProductItemModule, ProductModule, User, UserModule, Variation, VariationModule, VariationOption, VariationOptionModule } from '@modules';
+import {
+  Cart,
+  CartItem,
+  CartItemModule,
+  CartModule,
+  Category,
+  CategoryModule,
+  CommentModule,
+  FileModule,
+  Like,
+  LikeModule,
+  Order,
+  OrderItems,
+  OrderItemsModule,
+  OrderModule,
+  Product,
+  ProductConfiguration,
+  ProductConfigurationModule,
+  ProductItem,
+  ProductItemModule,
+  ProductModule,
+  User,
+  UserModule,
+  Variation,
+  VariationModule,
+  VariationOption,
+  VariationOptionModule,
+} from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -10,7 +37,6 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AddressModule } from './modules/address/address.module';
 import { Address } from './modules/address/models';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -18,8 +44,8 @@ import { Address } from './modules/address/models';
       load: [appConfig, databaseConfig],
     }),
     ServeStaticModule.forRoot({
-      serveRoot: "./uploads",
-      rootPath: "./uploads"
+      serveRoot: './uploads',
+      rootPath: './uploads',
     }),
     JwtModule.register({
       secret: 'ashyosite',
@@ -40,14 +66,33 @@ import { Address } from './modules/address/models';
             username: config.get<string>('databaseConfig.user'),
             password: config.get<string>('databaseConfig.password'),
             database: config.get<string>('databaseConfig.dbname'),
-            models: [User,Like,Comment,Cart,CartItem,Order,OrderItems,ProductConfiguration,ProductItem,Variation,VariationOption,Address,Product,Category],
+
+            models: [
+              User,
+              Like,
+              Comment,
+              Cart,
+              CartItem,
+              Order,
+              OrderItems,
+              ProductConfiguration,
+              ProductItem,
+              Variation,
+              VariationOption,
+              Address,
+              Product,
+              Category,
+            ],
             // sync:{force:true},
             synchronize: true,
             logging: console.log,
             // autoLoadModels: true,
           };
         } catch (error) {
-          console.error('Error occurred while connecting to the database', error);
+          console.error(
+            'Error occurred while connecting to the database',
+            error,
+          );
           throw error;
         }
       },
@@ -67,7 +112,7 @@ import { Address } from './modules/address/models';
     VariationModule,
     VariationOptionModule,
     CategoryModule,
-    ProductModule
+    ProductModule,
   ],
   controllers: [],
   providers: [
@@ -81,4 +126,4 @@ import { Address } from './modules/address/models';
     // },
   ],
 })
-export class AppModule { }
+export class AppModule {}

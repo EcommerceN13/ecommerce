@@ -5,6 +5,7 @@ import {
     HttpException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import sequelize from 'sequelize';
 
 @Catch()
 export class ExceptionHandlerFilter implements ExceptionFilter {
@@ -24,6 +25,15 @@ export class ExceptionHandlerFilter implements ExceptionFilter {
                 statusCode: exception.getStatus(),
             });
         }
+        if (exception instanceof sequelize.UniqueConstraintError) {
+           return response.status(400).json({
+            message: exception.message,
+            requestTime,
+            url: request.url,
+            error: 'Duplicate value',
+            errorName: exception.name,
+            });
+          } 
 
         return response.status(500).json({
             message: exception?.message || 'Internal server error',

@@ -1,9 +1,19 @@
+<<<<<<< HEAD
+
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { UserService } from "./user.service";
+import { User } from "./models";
+import { ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { CreateUserDto, UpdateUserDto } from "./dtos";
+=======
     import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
     import { UserService } from "./user.service";
     import { User } from "./models";
     import { ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
     import { FileInterceptor } from "@nestjs/platform-express";
     import { CreateUserDto, UpdateUserDto } from "./dtos";
+>>>>>>> dacdbbe33b16fdef3a2121a4f44a46a8410815e2
 
     @ApiTags('Users')
     @Controller('users')
