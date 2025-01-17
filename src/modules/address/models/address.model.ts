@@ -11,11 +11,13 @@ import { User } from 'src/modules/user';
 
 
 @Table({ tableName: "addres", timestamps: true })
-
 export class Address extends Model {
   @ForeignKey(() => Address)
-  @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE', onUpdate: 'NO ACTION' })
+  @Column({ type: DataType.INTEGER, allowNull: true, onDelete: 'CASCADE', onUpdate: 'NO ACTION' })
   region_id: number;
+
+  @Column({ type: DataType.STRING, allowNull: false })
+  region_name: string;
 
   @BelongsTo(() => Address)
   region: Address;
@@ -30,15 +32,15 @@ export class Address extends Model {
   })
   type: 'REGION' | 'CITY' | 'DISTRICT';
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: true })
   city: string
 
   // To'liq manzilni olish uchun Misol Viloyat va shahar kiritgandan keyin kocha yoki mahallani olish uchun
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: true })
   street: string
 
   @ForeignKey(() => User)
-  @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE', onUpdate: 'NO ACTION' })
+  @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   user_id: number;
 
   @BelongsTo(() => User)
