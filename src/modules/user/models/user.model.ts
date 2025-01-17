@@ -39,7 +39,7 @@ export class User extends Model {
     is_verified: boolean;
 
     @HasMany(() => Address)
-    movies: Address[];
+    address: Address[];
 
     @HasMany(() => Like)
     like: Like[];
