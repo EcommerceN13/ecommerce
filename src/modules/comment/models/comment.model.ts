@@ -1,6 +1,7 @@
 import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript";
 import { User } from "src/modules/user";
 import { Product } from "src/modules/product";
+
 @Table({ tableName: "comment", timestamps: true })
 export class Comment extends Model {
     @ForeignKey(() => User)
