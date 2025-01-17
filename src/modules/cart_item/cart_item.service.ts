@@ -1,10 +1,11 @@
-// src/modules/cart-item/cart-item.service.ts
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { CartItem } from './models';
 import { CreateCartItemDto } from './dto';
 import { UpdateCartItemDto } from './dto';
 import { Attributes } from 'sequelize';
+import { Product } from '../product';
+import { Cart } from '../cart/models';
 
 @Injectable()
 export class CartItemService {
@@ -15,7 +16,12 @@ export class CartItemService {
   }
 
   async findAll(): Promise<CartItem[]> {
-    return this.cartItemModel.findAll();
+    return this.cartItemModel.findAll(
+      {include: [
+                { model: Cart},
+                { model: Product },
+              ]}
+    );
   }
 
   async findOne(id: number): Promise<CartItem> {

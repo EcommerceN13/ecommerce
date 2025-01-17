@@ -4,6 +4,7 @@ import { Variation } from './models';
 import { CreateVariationDto } from './dto/create-variation.dto';
 import { UpdateVariationDto } from './dto/update-variation.dto';
 import { Attributes } from 'sequelize';
+import { Category } from '../category';
 
 @Injectable()
 export class VariationService {
@@ -14,7 +15,7 @@ export class VariationService {
   }
 
   async findAll(): Promise<Variation[]> {
-    return this.variationModel.findAll({ include: [{ all: true }] });
+    return this.variationModel.findAll({ include: [{ model:Category }] });
   }
 
   async findOne(id: number): Promise<Variation> {
