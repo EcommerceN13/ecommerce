@@ -19,6 +19,7 @@ export class CommentService {
 
     async createComment(payload: CreateCommentDto): Promise<{ message: string; new_comment: Comment }> {
         const new_comment = await this.commentModel.create({
+            text: payload.text,
             user_id: payload.user_id,
             product_id: payload.product_id
         })

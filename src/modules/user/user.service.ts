@@ -4,13 +4,21 @@ import { User, UserRoles } from "./models";
 import { FileService } from "../file";
 import { CreateUserDto } from "./dtos";
 import { UpdateUserRequest } from "./interfaces";
+import { Like } from "../like";
+import { Comment } from "../comment";
 
 @Injectable()
 export class UserService {
     constructor(@InjectModel(User) private userModel: typeof User, private fileService: FileService) { }
 
     async getAllUsers(): Promise<User[]> {
-        return await this.userModel.findAll()
+        return await this.userModel.findAll({
+            include: [
+            { model: Like, attributes: ["id", "product_id",] },
+            { model: Comment, attributes: ["id", "product_id"] }
+        ]}
+
+        )
     }
 
     async getSingleUser(id: number): Promise<User> {

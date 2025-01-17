@@ -4,6 +4,9 @@ import { Product } from "src/modules/product";
 
 @Table({ tableName: "comment", timestamps: true })
 export class Comment extends Model {
+    @Column({type: DataType.TEXT, allowNull:false})
+    text:string
+
     @ForeignKey(() => User)
     @Column({ type: DataType.INTEGER, allowNull: false, onDelete: "CASCADE", onUpdate: "CASCADE" })
     user_id: number;

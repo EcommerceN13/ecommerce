@@ -24,7 +24,6 @@ import {
 import { Category } from './models';
 import {
   FileFieldsInterceptor,
-  FileInterceptor,
 } from '@nestjs/platform-express';
 
 @ApiTags('Category')
@@ -37,10 +36,9 @@ export class CategoryController {
   }
 
   @Protected(false)
-  @Roles([UserRoles.user, UserRoles.admin])
   @ApiOperation({
     description: 'Barcha CategoryLarni olish',
-    summary: 'Barcha Categoryni Olish',
+    summary: 'Barcha Categoryn Olishi',
   })
   @Get('/all')
   async getAllCategories(): Promise<Category[]> {
@@ -51,7 +49,6 @@ export class CategoryController {
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Category create qilish' })
   @Protected(true)
-  @Roles([UserRoles.admin])
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'image', maxCount: 1 },
@@ -72,7 +69,6 @@ export class CategoryController {
   }
 
   @Protected(false)
-  @Roles([UserRoles.user, UserRoles.admin])
   @ApiOperation({
     summary: 'Bitta Categoryni Olish',
   })
@@ -81,56 +77,32 @@ export class CategoryController {
     return this.#_service.getOneCategory(+id);
   }
 
-  // @ApiBearerAuth()
-  // @ApiConsumes('multipart/form-data')
-  // @ApiOperation({ summary: 'Categoryni Update qilish' })
-  // @Protected(true)
-  // @Roles([UserRoles.admin])
-  // @Patch('/update/:categoryId')
-
-  // @UseInterceptors(FileFieldsInterceptor([
-  //   { name: 'image', maxCount: 1 },
-  //   { name: 'icon', maxCount: 1 },
-  // ]))
-  // uploadFile(@UploadedFiles() files: { image?: Express.Multer.File, icon?: Express.Multer.File }) {
-  //   console.log(files);
-  // }
-
-  // async updateCategory(
-  //   @Body() updateCategoryPayload: UpdateCategoryDto,
-  //   @Param('categoryId', ParseIntPipe) categoryId: number,
-  // ): Promise<void> 
-
-  // }
-
 
   @ApiBearerAuth()
-@ApiConsumes('multipart/form-data')
-@ApiOperation({ summary: 'Categoryni Update qilish' })
-@Protected(true)
-@Roles([UserRoles.admin])
-@Patch('/update/:categoryId')
-@UseInterceptors(
-  FileFieldsInterceptor([
-    { name: 'image', maxCount: 1 },
-    { name: 'icon', maxCount: 1 },
-  ]),
-)
-async updateCategory(
-  @UploadedFiles() files: { image?: Express.Multer.File[]; icon?: Express.Multer.File[] },
-  @Body() updateCategoryPayload: UpdateCategoryDto,
-  @Param('categoryId', ParseIntPipe) categoryId: number,
-): Promise<{ message: string; updatedCategory: Category }> {
-  const imageFile = files?.image?.[0];
-  const iconFile = files?.icon?.[0];
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Categoryni Update qilish' })
+  @Protected(true)
+  @Patch('/update/:categoryId')
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'image', maxCount: 1 },
+      { name: 'icon', maxCount: 1 },
+    ]),
+  )
+  async updateCategory(
+    @UploadedFiles() files: { image?: Express.Multer.File[]; icon?: Express.Multer.File[] },
+    @Body() updateCategoryPayload: UpdateCategoryDto,
+    @Param('categoryId', ParseIntPipe) categoryId: number,
+  ): Promise<{ message: string; updatedCategory: Category }> {
+    const imageFile = files?.image?.[0];
+    const iconFile = files?.icon?.[0];
 
-  return this.#_service.updateCategory(categoryId, updateCategoryPayload, imageFile, iconFile);
-}
+    return this.#_service.updateCategory(categoryId, updateCategoryPayload, imageFile, iconFile);
+  }
 
 
   @ApiBearerAuth()
   @Protected(true)
-  @Roles([UserRoles.admin])
   @ApiOperation({
     summary: 'Categoryni Ochirib tashlash',
   })
