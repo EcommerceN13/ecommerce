@@ -1,6 +1,8 @@
 import { Table, Model, Column, DataType, HasMany, Unique } from "sequelize-typescript";
 
 import { Address } from "src/modules/address/models"; 
+import { Comment } from "src/modules/comment";
+import { Like } from "src/modules/like";
 
 
 export enum UserRoles {
@@ -38,4 +40,10 @@ export class User extends Model {
 
     @HasMany(() => Address)
     movies: Address[];
+
+    @HasMany(() => Like)
+    like: Like[];
+
+    @HasMany(() => Comment)
+    comment: Comment[];
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsNumber, IsEnum, IsOptional } from "class-validator";
+import { IsString, IsNumber, IsEnum, IsOptional, IsNumberString } from "class-validator";
 import { CreateProductRequest } from "../interfaces/create-product.interface";
 
 export class CreateProductDto implements Omit<CreateProductRequest, "image"> {
@@ -16,7 +16,7 @@ export class CreateProductDto implements Omit<CreateProductRequest, "image"> {
         required: true,
         example: 1,
     })
-    @IsNumber()
+    @IsNumberString()
     category_id: number;
 
     @ApiProperty({
