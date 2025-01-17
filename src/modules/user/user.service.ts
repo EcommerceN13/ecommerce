@@ -15,7 +15,7 @@ export class UserService {
         return await this.userModel.findAll({
             include: [
             { model: Like, attributes: ["id", "product_id",] },
-            { model: Comment, attributes: ["id", "product_id"] }
+            { model: Comment, attributes: ["id", "product_id","text"] }
         ]}
 
         )
