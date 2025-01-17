@@ -44,7 +44,7 @@ import { Address } from './modules/address/models';
             // sync:{force:true},
             synchronize: true,
             logging: console.log,
-            // autoLoadModels: true,
+            autoLoadModels: true,
           };
         } catch (error) {
           console.error('Error occurred while connecting to the database', error);
