@@ -1,5 +1,7 @@
 import { appConfig, databaseConfig } from '@config';
 import { CheckAuthGuard, CheckRoleGuard } from '@guards';
+import { ModelCtor } from 'sequelize-typescript';
+import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import {
   Cart,
   CartItem,
@@ -7,6 +9,7 @@ import {
   CartModule,
   Category,
   CategoryModule,
+  Comment,
   CommentModule,
   FileModule,
   Like,
@@ -57,7 +60,7 @@ import { Address } from './modules/address/models';
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
+      useFactory: async (config: ConfigService) => {
         try {
           return {
             dialect: 'postgres',
@@ -66,7 +69,6 @@ import { Address } from './modules/address/models';
             username: config.get<string>('databaseConfig.user'),
             password: config.get<string>('databaseConfig.password'),
             database: config.get<string>('databaseConfig.dbname'),
-
             models: [
               User,
               Like,
@@ -82,12 +84,12 @@ import { Address } from './modules/address/models';
               Address,
               Product,
               Category,
-            ],
-            // sync:{force:true},
+            ] as ModelCtor[],
+            sync: { force: true },
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,
-          };
+          } as SequelizeModuleOptions;
         } catch (error) {
           console.error(
             'Error occurred while connecting to the database',
@@ -95,7 +97,7 @@ import { Address } from './modules/address/models';
           );
           throw error;
         }
-      },
+      }
     }),
     UserModule,
     AddressModule,
@@ -126,4 +128,4 @@ import { Address } from './modules/address/models';
     // },
   ],
 })
-export class AppModule {}
+export class AppModule { }
