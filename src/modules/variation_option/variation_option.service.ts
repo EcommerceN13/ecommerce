@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { CreateVariationOptionDto} from './dto';
 import {UpdateVariationOptionDto } from './dto'
 import { VariationOption } from './models';
+import { Variation } from '../variation/models';
 
 @Injectable()
 export class VariationOptionService {
@@ -16,7 +17,7 @@ export class VariationOptionService {
     }
 
     async findAll(): Promise<VariationOption[]> {
-        return this.variationOptionModel.findAll({ include: { all: true } });
+        return this.variationOptionModel.findAll({ include: [{ model:Variation }] });
     }
 
     async findOne(id: number): Promise<VariationOption> {

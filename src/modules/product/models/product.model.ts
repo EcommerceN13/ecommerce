@@ -45,7 +45,7 @@ export class Product extends Model {
 
   brand_id: number;
 
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: true })
   image: string;
 
   @BelongsTo(() => Category)
