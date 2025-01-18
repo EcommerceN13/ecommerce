@@ -8,7 +8,7 @@ import {
   } from "sequelize-typescript";
   import { Product } from "src/modules/product/models/product.model";
   import { User } from "src/modules/user/models/user.model";
-  import { Address } from "src/modules/address/models/address.model";
+  // import { Address } from "src/modules/address/models/address.model";
   
   export enum OrderStatus {
     processing = "processing",
@@ -32,12 +32,12 @@ import {
     @BelongsTo(() => User)
     user: User;
   
-    @ForeignKey(() => Address)
-    @Column({ type: DataType.BIGINT, allowNull: false })
-    address_id: number;
+    // @ForeignKey(() => Address)
+    // @Column({ type: DataType.BIGINT, allowNull: false })
+    // address_id: number;
   
-    @BelongsTo(() => Address)
-    address: Address;
+    // @BelongsTo(() => Address)
+    // address: Address;
   
     @Column({
       type: DataType.ENUM,

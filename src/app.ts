@@ -24,6 +24,7 @@ import {
   ProductItem,
   ProductItemModule,
   ProductModule,
+  Region,
   User,
   UserModule,
   Variation,
@@ -37,8 +38,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './modules/auth/auth.module';
-import { AddressModule } from './modules/address/address.module';
-import { Address } from './modules/address/models';
+import { RegionModule } from './modules/region/region.module';
 
 @Module({
   imports: [
@@ -81,11 +81,11 @@ import { Address } from './modules/address/models';
               ProductItem,
               Variation,
               VariationOption,
-              Address,
+              Region,
               Product,
               Category,
             ] as ModelCtor[],
-            // sync: { force: true },
+            sync: { force: true },
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,
@@ -100,7 +100,7 @@ import { Address } from './modules/address/models';
       }
     }),
     UserModule,
-    AddressModule,
+    RegionModule,
     AuthModule,
     FileModule,
     LikeModule,
