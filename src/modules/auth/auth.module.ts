@@ -17,12 +17,12 @@ import { SequelizeModule } from '@nestjs/sequelize';
           port: 587,  // TLS uchun port
           secure: false, // TLS uchun false
           auth: {
-            user: 'yuldashevabduqodir429@gmail.com',
-            pass: 'obim dktx hqxv cxve',
+            user: `kamronbekbahriyev18@gmail.com`,
+            pass:  `whudllcxkbgnpgmu`,
           },
         },
         defaults: {
-          from: `"No Reply" <${process.env.MAIL_USER}>`,
+          from: `"No Reply" <${process.env.SENDING_EMAIL}>`,
         },
       })
   ],

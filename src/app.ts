@@ -91,7 +91,7 @@ import { RegionModule } from './modules/region/region.module';
               Brand,
               Address
             ] as ModelCtor[],
-            sync: { force: true },
+            // sync: { force: true },
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,

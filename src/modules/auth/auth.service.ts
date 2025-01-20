@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   async register(registerDto: RegisterDto): Promise<{ message: string }> {
-    const { email, fullname, password } = registerDto;
+    const { email, fullname, password} = registerDto;
 
     const existingUser = await this.userModel.findOne({ where: { email } });
     if (existingUser) {
@@ -47,10 +47,30 @@ export class AuthService {
       fullname,
       email,
       password: hashedPassword,
-      is_verified: false, 
     });
 
     return { message: 'Ro‘yxatdan o‘tish muvaffaqiyatli amalga oshirildi' };
+  }
+
+  async sendOtp(email: string): Promise<{ message: string }> {
+    const user = await this.userModel.findOne({ where: { email } });
+    if (!user) {
+      throw new HttpException('Foydalanuvchi topilmadi', HttpStatus.NOT_FOUND);
+    }
+
+    const otp = this.generateOtp();
+    const expiresAt = Date.now() + 5 * 60 * 1000; 
+
+    global.otpStore = global.otpStore || {};
+    global.otpStore[email] = { otp, expiresAt, userId: user.id };
+
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Tasdiqlash kodi',
+      text: `Sizning tasdiqlash kodingiz: ${otp}`,
+    });
+
+    return { message: 'Tasdiqlash kodi emailingizga yuborildi' };
   }
 
   async verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<AuthResponse> {
