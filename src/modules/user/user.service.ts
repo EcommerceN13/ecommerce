@@ -6,6 +6,7 @@ import { CreateUserDto } from "./dtos";
 import { UpdateUserRequest } from "./interfaces";
 import { Like } from "../like";
 import { Comment } from "../comment";
+
 import { Address } from "../address";
 
 @Injectable()
@@ -16,6 +17,7 @@ export class UserService {
         return await this.userModel.findAll({
             include: [
             { model: Like, attributes: ["id", "product_id",] },
+
             { model: Comment, attributes: ["id", "product_id"] },
             { model: Address }
         ]}

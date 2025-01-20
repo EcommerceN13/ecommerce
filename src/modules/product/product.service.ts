@@ -4,6 +4,8 @@ import { Product } from "./models";
 import { FileService } from "../file";
 import { CreateProductDto } from "./dto"; 
 import { UpdateProductRequest } from "./interfaces/update-product.interface";
+import { Like } from "../like";
+import { Comment } from "../comment";
 
 @Injectable()
 export class ProductService {
@@ -13,8 +15,10 @@ export class ProductService {
   ) { }
 
   async getAllProducts(): Promise<Product[]> {
-    return await this.productModel.findAll({
-      include: ['category']
+    return await this.productModel.findAll({ include: [
+              { model: Comment},
+              { model: Like },
+            ]
     });
   }
 
