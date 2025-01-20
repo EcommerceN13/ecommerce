@@ -1,31 +1,34 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/sequelize";
-import { Product } from "./models";
-import { FileService } from "../file";
-import { CreateProductDto } from "./dto";
-import { UpdateProductRequest } from "./interfaces/update-product.interface";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { Product } from './models';
+import { FileService } from '../file';
+import { CreateProductDto } from './dto';
+import { UpdateProductRequest } from './interfaces/update-product.interface';
 import { Op } from 'sequelize';
 import { Query } from '@nestjs/common';
-import { ProductFilterDto } from './interfaces'
-import { Like } from "../like";
-import { Comment } from "../comment";
-import { Category } from "../category";
-import { PaginatedResponse } from "./interfaces/paginate-product.interface";
+import { ProductFilterDto } from './interfaces';
+import { Like } from '../like';
+import { Comment } from '../comment';
+import { Category } from '../category';
+import { PaginatedResponse } from './interfaces/paginate-product.interface';
+import { ProductItem } from '../product_item';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(Product) private productModel: typeof Product,
-    private fileService: FileService
-  ) { }
+    private fileService: FileService,
+  ) {}
 
-  async getAllProducts(filters?: ProductFilterDto): Promise<PaginatedResponse<Product>> {
+  async getAllProducts(
+    filters?: ProductFilterDto,
+  ): Promise<PaginatedResponse<Product>> {
     const whereClause: any = {};
     const page = filters?.page || 1;
     const limit = filters?.limit || 10;
     const offset = (page - 1) * limit;
     let order: any[] = [];
-    
+
     if (filters) {
       // Existing filters
       if (filters.category_id) {
@@ -50,14 +53,14 @@ export class ProductService {
         whereClause[Op.or] = [
           {
             name: {
-              [Op.iLike]: `%${filters.search}%`
-            }
+              [Op.iLike]: `%${filters.search}%`,
+            },
           },
           {
             description: {
-              [Op.iLike]: `%${filters.search}%`
-            }
-          }
+              [Op.iLike]: `%${filters.search}%`,
+            },
+          },
         ];
       }
 
@@ -81,11 +84,12 @@ export class ProductService {
       include: [
         { model: Comment },
         { model: Like },
-        { model: Category }
+        { model: Category },
+        { model: ProductItem },
       ],
       order,
       limit,
-      offset
+      offset,
     });
 
     return {
@@ -93,34 +97,44 @@ export class ProductService {
       total: count,
       page: page,
       limit: limit,
-      totalPages: Math.ceil(count / limit)
+      totalPages: Math.ceil(count / limit),
     };
   }
-  
-
 
   async getSingleProduct(id: number): Promise<Product> {
     return await this.productModel.findOne({
       where: { id },
-      include: ['category']
+      include: [
+        { model: Comment },
+        { model: Like },
+        { model: Category },
+        { model: ProductItem },
+      ],
     });
   }
 
-  async createProduct(payload: CreateProductDto, file: Express.Multer.File): Promise<{ message: string, new_product: Product }> {
+  async createProduct(
+    payload: CreateProductDto,
+    file: Express.Multer.File,
+  ): Promise<{ message: string; new_product: Product }> {
     const image = await this.fileService.uploadFile(file);
 
     const new_product = await this.productModel.create({
       ...payload,
-      image
+      image,
     });
 
     return {
       message: 'Product created successfully',
-      new_product
+      new_product,
     };
   }
 
-  async updateProduct(id: number, payload: UpdateProductRequest, file?: Express.Multer.File): Promise<{ message: string, updatedProduct: Product }> {
+  async updateProduct(
+    id: number,
+    payload: UpdateProductRequest,
+    file?: Express.Multer.File,
+  ): Promise<{ message: string; updatedProduct: Product }> {
     let newFileName: string | undefined;
 
     if (file) {
@@ -133,12 +147,12 @@ export class ProductService {
     }
 
     await this.productModel.update(payload, {
-      where: { id }
+      where: { id },
     });
 
     const updatedProduct = await this.productModel.findOne({
       where: { id },
-      include: ['category']
+      include: ['category'],
     });
 
     return {
@@ -157,7 +171,7 @@ export class ProductService {
     await foundedProduct.destroy();
 
     return {
-      message: 'Product deleted successfully'
+      message: 'Product deleted successfully',
     };
   }
 }
