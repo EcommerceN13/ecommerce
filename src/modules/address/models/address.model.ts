@@ -1,46 +1,37 @@
-import {
-  BelongsTo,
-  Column,
-  DataType,
-  ForeignKey,
-  HasMany,
-  Model,
-  Table,
-} from 'sequelize-typescript';
-import { User } from 'src/modules/user';
+import { Table, Model, Column, DataType, ForeignKey, BelongsTo } from "sequelize-typescript";
+import { Region } from "src/modules/region";
+import { User } from "src/modules/user";
 
-
-@Table({ tableName: "addres", timestamps: true })
-
+@Table({ tableName: "address", timestamps: true })
 export class Address extends Model {
-  @ForeignKey(() => Address)
-  @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE', onUpdate: 'NO ACTION' })
-  region_id: number;
-
-  @BelongsTo(() => Address)
-  region: Address;
-
-  @HasMany(() => Address)
-  cities: Address[];
-
-  @Column({
-    type: DataType.ENUM('REGION', 'CITY', 'DISTRICT'),
-    allowNull: false,
-    defaultValue: 'REGION',
-  })
-  type: 'REGION' | 'CITY' | 'DISTRICT';
-
-  @Column({ type: DataType.STRING, allowNull: false })
-  city: string
-
-  // To'liq manzilni olish uchun Misol Viloyat va shahar kiritgandan keyin kocha yoki mahallani olish uchun
-  @Column({ type: DataType.STRING, allowNull: false })
-  street: string
-
   @ForeignKey(() => User)
-  @Column({ type: DataType.INTEGER, allowNull: false, onDelete: 'CASCADE', onUpdate: 'NO ACTION' })
+  @Column({ type: DataType.INTEGER, allowNull: false })
   user_id: number;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, { foreignKey: "user_id" })
   user: User;
+
+  @ForeignKey(() => Region)
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  region_id: number;
+
+  @BelongsTo(() => Region, { foreignKey: "region_id" })
+  region: Region;
+
+  @ForeignKey(() => Region)
+  @Column({ type: DataType.INTEGER, allowNull: true })
+  city_id?: number | null;
+
+  @BelongsTo(() => Region, { foreignKey: "city_id" })
+  city: Region;
+
+  @ForeignKey(() => Region)
+  @Column({ type: DataType.INTEGER, allowNull: true })
+  district_id?: number | null;
+
+  @BelongsTo(() => Region, { foreignKey: "district_id" })
+  district?: Region;
+
+  @Column({ type: DataType.STRING, allowNull: false })
+  street: string;
 }

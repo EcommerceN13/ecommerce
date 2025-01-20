@@ -5,6 +5,8 @@ import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import {
   Brand,
   BrandModule,
+  Address,
+  AddressModule,
   Cart,
   CartItem,
   CartItemModule,
@@ -26,6 +28,7 @@ import {
   ProductItem,
   ProductItemModule,
   ProductModule,
+  Region,
   User,
   UserModule,
   Variation,
@@ -42,6 +45,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AddressModule } from './modules/address/address.module';
 import { Address } from './modules/address/models';
 import { SeedsModule } from '@seeds';
+import { RegionModule } from './modules/region/region.module';
 
 @Module({
   imports: [
@@ -84,16 +88,17 @@ import { SeedsModule } from '@seeds';
               ProductItem,
               Variation,
               VariationOption,
-              Address,
+              Region,
               Product,
               Category,
               Brand
+              Address
             ] as ModelCtor[],
             // sync: { force: true },
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,
-          } as SequelizeModuleOptions;
+          };
         } catch (error) {
           console.error(
             'Error occurred while connecting to the database',
@@ -104,7 +109,7 @@ import { SeedsModule } from '@seeds';
       }
     }),
     UserModule,
-    AddressModule,
+    RegionModule,
     AuthModule,
     FileModule,
     LikeModule,
@@ -121,6 +126,7 @@ import { SeedsModule } from '@seeds';
     ProductModule,
     BrandModule,
     SeedsModule,
+    AddressModule,
   ],
   controllers: [],
   providers: [
