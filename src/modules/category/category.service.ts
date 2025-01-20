@@ -11,7 +11,6 @@ import { Product } from '../product';
 export class CategoryService {
   constructor(
     @InjectModel(Category) private categoryModel: typeof Category,
-    @InjectModel(Product) private productModel: typeof Product,
     private fileService: FileService,
   ) {}
 
