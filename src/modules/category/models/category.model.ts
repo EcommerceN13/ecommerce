@@ -3,8 +3,10 @@ import {
     Model,
     Column,
     DataType,
+    HasMany,
 
   } from 'sequelize-typescript';
+import { Product } from 'src/modules/product';
 
 @Table({ tableName: 'categories', timestamps: true})
 export class Category extends Model{
@@ -19,4 +21,7 @@ export class Category extends Model{
     
     @Column({type: DataType.TEXT, allowNull: false})
     icon: string;
+
+    @HasMany(() => Product)
+    product: Product[];
 }
