@@ -7,11 +7,11 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
+import { Address } from 'src/modules/address/models';
 
 
 @Table({ tableName: "region", timestamps: true })
 export class Region extends Model {
-
   @Column({ type: DataType.STRING, allowNull: false })
   name: string;
 
@@ -31,4 +31,8 @@ export class Region extends Model {
 
   @HasMany(() => Region)
   children: Region[];
+
+  // Address modeliga bog'lanish uchun
+  @HasMany(() => Address)
+  address: Address[];
 }
