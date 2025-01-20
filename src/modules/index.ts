@@ -16,3 +16,4 @@ export * from './order_items'
 export * from './category'
 export * from './product'
 export * from "./region"
+export * from "./address"

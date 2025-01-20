@@ -3,6 +3,8 @@ import { CheckAuthGuard, CheckRoleGuard } from '@guards';
 import { ModelCtor } from 'sequelize-typescript';
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import {
+  Address,
+  AddressModule,
   Cart,
   CartItem,
   CartItemModule,
@@ -84,8 +86,9 @@ import { RegionModule } from './modules/region/region.module';
               Region,
               Product,
               Category,
+              Address
             ] as ModelCtor[],
-            sync: { force: true },
+            // sync: { force: true },
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,
@@ -115,6 +118,7 @@ import { RegionModule } from './modules/region/region.module';
     VariationOptionModule,
     CategoryModule,
     ProductModule,
+    AddressModule,
   ],
   controllers: [],
   providers: [

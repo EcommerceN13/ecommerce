@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Region } from './models';
 import { CreateRegionDto, UpdateRegionDto } from './dto';
 import { regionSeedData } from './region.seeds';
+import sequelize from 'sequelize';
 
 @Injectable()
 export class RegionService implements OnModuleInit {
@@ -21,6 +22,7 @@ export class RegionService implements OnModuleInit {
       // console.log('Table is empty. Seeding data...');
       // Seed ma'lumotlarni qo'shish
       await this.regionModel.bulkCreate(regionSeedData);
+
       console.log('Seeding complete.');
     } else {
       console.log('Table already contains data. Skipping seed.');
