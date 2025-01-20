@@ -14,7 +14,7 @@ export class AuthService {
     @InjectModel(User) private readonly userModel: typeof User,
     private readonly jwtService: JwtService,
     private readonly mailerService: MailerService,
-  ) { }
+  ) {}
 
   private generateOtp(): string {
     return crypto.randomInt(100000, 999999).toString();
@@ -43,29 +43,14 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser = await this.userModel.create({
+    await this.userModel.create({
       fullname,
       email,
       password: hashedPassword,
       is_verified: false, 
     });
 
-    const otp = this.generateOtp();
-
-    global.otpStore = global.otpStore || {};
-    global.otpStore[email] = {
-      otp,
-      expiresAt: Date.now() + 10 * 60 * 1000,
-      userId: newUser.id 
-    };
-
-    await this.mailerService.sendMail({
-      to: email,
-      subject: 'Tasdiqlash kodi',
-      text: `Sizning tasdiqlash kodingiz: ${otp}`,
-    });
-
-    return { message: 'Tasdiqlash kodi yuborildi' };
+    return { message: 'Ro‘yxatdan o‘tish muvaffaqiyatli amalga oshirildi' };
   }
 
   async verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<AuthResponse> {
@@ -104,7 +89,7 @@ export class AuthService {
         role: user.role,
         is_verified: user.is_verified,
       },
-      message: "Muvaffaqiyatli ro'yxatdan o'tdingiz",
+      message: "Email muvaffaqiyatli tasdiqlandi",
     };
   }
 
