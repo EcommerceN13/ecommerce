@@ -1,220 +1,218 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Address } from './models';
-import { User } from '../user';
-import { Op, where } from 'sequelize';
-import { CreateCityDistrictDto, CreateRegionDto, UpdateCityDistrictDto, UpdateRegionDto } from './dto';
+import { Region } from '../region';
+import { CreateAddressDto, UpdateAddressDto } from './dto';
+import { addressSeedData } from './address.seeds';
 
 @Injectable()
-export class AddressService {
+export class AddressService implements OnModuleInit {
   constructor(
     @InjectModel(Address)
     private readonly addressModel: typeof Address,
+    @InjectModel(Region)
+    private readonly regionModel: typeof Region,
   ) {}
 
-  // Service methods
-  async createRegion(createRegionDto: CreateRegionDto): Promise<Address> {
+  async onModuleInit(): Promise<void> {
+      // console.log('Initializing MyModule...');
+  
+      // Jadvaldagi rowlar sonini tekshirish
+      const count = await this.addressModel.count();
+  
+      if (count === 0) {
+        // console.log('Table is empty. Seeding data...');
+        // Seed ma'lumotlarni qo'shish
+        await this.addressModel.bulkCreate(addressSeedData);
+        console.log('Seeding complete.');
+      } else {
+        console.log('Table already contains data. Skipping seed.');
+      }
+    }
+
+  async create(createAddressDto: CreateAddressDto) {
+    const { region_id, city_id, district_id } = createAddressDto;
+
+    if (region_id === null && district_id) {
+      // Toshkent shahar uchun tekshiruv
+      const district = await this.regionModel.findOne({
+        where: { 
+          id: district_id, 
+          type: 'DISTRICT',
+          region_id: null 
+        }
+      });
+      
+      if (!district) {
+        throw new Error('Invalid district for Tashkent city');
+      }
+    } else if (region_id && district_id) {
+      // Viloyatlar uchun tekshiruv
+      if (city_id) {
+        const city = await this.regionModel.findOne({
+          where: { 
+            id: city_id, 
+            type: 'CITY',
+            region_id: region_id 
+          }
+        });
+        
+        if (!city) {
+          throw new Error('Invalid city for selected region');
+        }
+
+        const district = await this.regionModel.findOne({
+          where: { 
+            id: district_id, 
+            type: 'DISTRICT',
+            region_id: city_id 
+          }
+        });
+        
+        if (!district) {
+          throw new Error('Invalid district for selected city');
+        }
+      } else {
+        const district = await this.regionModel.findOne({
+          where: { 
+            id: district_id, 
+            type: 'DISTRICT',
+            region_id: region_id 
+          }
+        });
+        
+        if (!district) {
+          throw new Error('Invalid district for selected region');
+        }
+      }
+    }
+
     return this.addressModel.create({
-      type: 'REGION',
-      region_id: null,
-      region_name: createRegionDto.region_name,
-      user_id: createRegionDto.user_id,
+      user_id: createAddressDto.user_id,
+      region_id: createAddressDto.region_id,
+      city_id: createAddressDto.city_id || null,
+      district_id: createAddressDto.district_id || null,
+      street: createAddressDto.street,
     });
+    
   }
 
-  async createCityOrDistrict(
-    createCityDistrictDto: CreateCityDistrictDto,
-  ): Promise<Address> {
-    const region = await this.addressModel.findByPk(
-      createCityDistrictDto.region_id,
-    );
-    if (!region) {
-      throw new NotFoundException(
-        `Region with ID ${createCityDistrictDto.region_id} not found`,
-      );
-    }
-
-    // Toshkent shahri uchun maxsus logika
-    if (
-      region.city === 'Toshkent shahar' &&
-      createCityDistrictDto.type === 'CITY'
-    ) {
-      throw new BadRequestException(
-        `Cannot create cities in Tashkent city, only districts are allowed`,
-      );
-    }
-
-    // Boshqa regionlar uchun
-    if (
-      region.city === 'Toshkent shahar' &&
-      createCityDistrictDto.type !== 'DISTRICT'
-    ) {
-      throw new BadRequestException(
-        `Only districts can be created in Tashkent city`,
-      );
-    }
-
-    return this.addressModel.create({
-      type: createCityDistrictDto.type,
-      region_id: createCityDistrictDto.region_id,
-      region_name: region.region_name,
-      city: createCityDistrictDto.city,
-      street: createCityDistrictDto.street,
-      user_id: createCityDistrictDto.user_id,
-    });
-  }
-
-  async findAddressByUserId(user_id: number): Promise<Address[]> {
+  async findAll() {
     return this.addressModel.findAll({
-      where: { user_id: user_id },
       include: [
         {
-          model: Address,
+          model: Region,
           as: 'region',
+          attributes: ['id', 'region_id', 'name', 'type']
         },
         {
-          model: Address,
-          as: 'cities',
+          model: Region,
+          as: 'city',
+          attributes: ['id', 'region_id', 'name', 'type']
         },
         {
-          model: User,
-          as: 'user',
-        },
-      ],
+          model: Region,
+          as: 'district',
+          attributes: ['id', 'region_id', 'name', 'type']
+        }
+      ]
     });
   }
 
-  /**
-   * Viloyat bo'yicha shaharlarni olish yoki faqat Toshkent shahri region
-   * sifatida kiritilgani uchun Toshkent shahridagi tumanlarni olishi uchun
-   * @param regionId - Viloyat yoki Toshkent shahar ID  si
-   * @returns Viloyatga tegishli shaharlar yoki Toshkent shahridagi tumanlar ro'yxati
-   */
-  async getCitiesByRegion(regionId: number): Promise<Address[]> {
-    return this.addressModel.findAll({
-      where: {
-        region_id: regionId,
-        type: {
-          [Op.or]: ['CITY', 'DISTRICT'], // 'CITY' yoki 'DISTRICT' bo'lsa
-        },
-      },
-    });
-  }
-
-  async findByAddressId(id: number, userId: number): Promise<Address> {
-    const address = await this.addressModel.findOne({
-      where: { id, user_id: userId },
+  async findOne(id: number) {
+    return this.addressModel.findOne({
+      where: { id },
       include: [
         {
-          model: Address,
+          model: Region,
           as: 'region',
+          attributes: ['id', 'region_id', 'name', 'type']
         },
         {
-          model: Address,
-          as: 'cities',
+          model: Region,
+          as: 'city',
+          attributes: ['id', 'region_id', 'name', 'type']
         },
         {
-          model: User,
-          as: 'user',
-        },
-      ],
+          model: Region,
+          as: 'district',
+          attributes: ['id', 'region_id', 'name', 'type']
+        }
+      ]
     });
-    // console.log(address, "***")
+  }
+
+  async update(id: number, updateAddressDto: UpdateAddressDto) {
+    const address = await this.addressModel.findByPk(id);
     if (!address) {
-      throw new NotFoundException(`ID ${id} ga ega manzil topilmadi`);
+      throw new Error('Address not found');
     }
 
-    return address;
+    const { region_id, city_id, district_id } = updateAddressDto;
+
+    if (region_id === null && district_id) {
+      // Toshkent shahar uchun tekshiruv
+      const district = await this.regionModel.findOne({
+        where: { 
+          id: district_id, 
+          type: 'DISTRICT',
+          region_id: null 
+        }
+      });
+      
+      if (!district) {
+        throw new Error('Invalid district for Tashkent city');
+      }
+    } else if (region_id && district_id) {
+      // Viloyatlar uchun tekshiruv
+      if (city_id) {
+        const city = await this.regionModel.findOne({
+          where: { 
+            id: city_id, 
+            type: 'CITY',
+            region_id: region_id 
+          }
+        });
+        
+        if (!city) {
+          throw new Error('Invalid city for selected region');
+        }
+
+        const district = await this.regionModel.findOne({
+          where: { 
+            id: district_id, 
+            type: 'DISTRICT',
+            region_id: city_id 
+          }
+        });
+        
+        if (!district) {
+          throw new Error('Invalid district for selected city');
+        }
+      } else {
+        const district = await this.regionModel.findOne({
+          where: { 
+            id: district_id, 
+            type: 'DISTRICT',
+            region_id: region_id 
+          }
+        });
+        
+        if (!district) {
+          throw new Error('Invalid district for selected region');
+        }
+      }
+    }
+
+    return address.update(updateAddressDto);
   }
 
-  async findAllAddress(): Promise<Address[]> {
-    const address = await this.addressModel.findAll();
-
+  async remove(id: number) {
+    const address = await this.addressModel.findByPk(id);
     if (!address) {
-      throw new NotFoundException(`1 ta ham Address topilmadi`);
+      throw new Error('Address not found');
     }
-
-    return address;
-  }
-
-  async updateRegion(
-    id: number,
-    UpdateRegionDto: UpdateRegionDto,
-  ): Promise<Address> {
-    // console.log(id)
-    // const address = await this.findByAddressId(id, UpdateRegionDto.user_id);
-    await this.addressModel.update(
-      {
-        type: 'REGION',
-        region_id: null,
-        region_name: UpdateRegionDto.region_name,
-        user_id: UpdateRegionDto.user_id,
-      },
-      { where: { id } },
-    );
-    return this.findByAddressId(id, UpdateRegionDto.user_id);
-  }
-
-  async updateCity(
-    id: number,
-    UpdateCityDistrictDto: UpdateCityDistrictDto,
-  ): Promise<Address> {
-    const region = await this.addressModel.findByPk(
-      UpdateCityDistrictDto.region_id,
-    );
-    if (!region) {
-      throw new NotFoundException(
-        `Region with ID ${UpdateCityDistrictDto.region_id} not found`,
-      );
-    }
-
-    // Toshkent shahri uchun maxsus logika
-    if (
-      region.city === 'Toshkent shahar' &&
-      UpdateCityDistrictDto.type === 'CITY'
-    ) {
-      throw new BadRequestException(
-        `Cannot create cities in Tashkent city, only districts are allowed`,
-      );
-    }
-
-    // Boshqa regionlar uchun
-    if (
-      region.city === 'Toshkent shahar' &&
-      UpdateCityDistrictDto.type !== 'DISTRICT'
-    ) {
-      throw new BadRequestException(
-        `Only districts can be created in Tashkent city`,
-      );
-    }
-
-    // console.log(id)
-    // const address = await this.findByAddressId(id, UpdateRegionDto.user_id);
-    await this.addressModel.update(
-      {
-        type: UpdateCityDistrictDto.type,
-      region_id: UpdateCityDistrictDto.region_id,
-      region_name: region.region_name,
-      city: UpdateCityDistrictDto.city,
-      street: UpdateCityDistrictDto.street,
-      user_id: UpdateCityDistrictDto.user_id,
-      },
-      { where: { id } },
-    );
-    return this.findByAddressId(id, UpdateCityDistrictDto.user_id);
-  }
-
-
-  async removeAddressById(id: number, userId: number): Promise<void> {
-    const address = await this.findByAddressId(id, userId);
     await address.destroy();
+    return { message: 'Address deleted successfully' };
   }
-  // async removeCityOrDistrict(id: number, userId: number): Promise<void> {
-  //   const address = await this.findByAddressId(id, userId);
-  //   await address.destroy();
-  // }
 }

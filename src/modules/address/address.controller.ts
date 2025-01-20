@@ -6,168 +6,140 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
+  HttpException,
+  HttpStatus,
   ParseIntPipe,
 } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { AddressService } from './address.service';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiParam,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger';
-import { Address } from './models';
-import { Protected, Roles } from '@decorators';
-import { UserRoles } from '../user';
-import {
-  CreateCityDistrictDto,
-  CreateRegionDto,
-  UpdateCityDistrictDto,
-  UpdateRegionDto,
-} from './dto';
-// import { UserRoles } from '../user';
+import { CreateAddressDto, UpdateAddressDto } from './dto';
 
 @ApiTags('Address')
-@ApiBearerAuth()
 @Controller('address')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
-  // Controller methods
-  @Post('region')
-  @ApiOperation({ summary: 'Create new region' })
+  @Post()
+  @ApiOperation({ summary: 'Create new address' })
   @ApiResponse({
     status: 201,
-    description: 'Region has been successfully created',
-    type: Address,
+    description: 'Address has been successfully created',
   })
-  @Protected(true)
-  @Roles([UserRoles.admin])
-  createRegion(@Body() createRegionDto: CreateRegionDto): Promise<Address> {
-    return this.addressService.createRegion(createRegionDto);
-  }
-
-  @Post('city-district')
-  @ApiOperation({ summary: 'Create new city or district' })
   @ApiResponse({
-    status: 201,
-    description: 'City or district has been successfully created',
-    type: Address,
+    status: 400,
+    description: 'Bad Request. Invalid input data',
   })
-  @Protected(true)
-  @Roles([UserRoles.admin])
-  createCityOrDistrict(
-    @Body() createCityDistrictDto: CreateCityDistrictDto,
-  ): Promise<Address> {
-    return this.addressService.createCityOrDistrict(createCityDistrictDto);
+  async create(@Body() createAddressDto: CreateAddressDto) {
+    try {
+      return await this.addressService.create(createAddressDto);
+    } catch (error) {
+      throw new HttpException(
+        error.message || 'Error creating address',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
-  // 1 ta Userni idsi bo'yicha barcha addresslarini olish
-  @Get(':userId')
-  @ApiOperation({ summary: 'Get all addresses for current user' })
+  @Get()
+  @ApiOperation({ summary: 'Get all addresses' })
   @ApiResponse({
     status: 200,
     description: 'Return all addresses',
-    type: [Address],
   })
-  findAddressByUserId(
-    @Param('userId', ParseIntPipe) userId: number,
-  ): Promise<Address[]> {
-    return this.addressService.findAddressByUserId(userId);
+  async findAll() {
+    try {
+      return await this.addressService.findAll();
+    } catch (error) {
+      throw new HttpException(
+        'Error fetching addresses',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
-  @Get('region/:regionId/cities')
-  @ApiOperation({
-    summary: 'Get all cities by region ID',
-    description:
-      "Viloyat bo'yicha shaharlarni olish yoki faqat Toshkent shahri region sifatida kiritilgani uchun Toshkent shahridagi tumanlarni olishi uchun @param regionId - Viloyat yoki Toshkent shahar ID  si @returns Viloyatga tegishli shaharlar yoki Toshkent shahridagi tumanlar ro'yxati",
+  @Get(':id')
+  @ApiOperation({ summary: 'Get address by id' })
+  @ApiParam({
+    name: 'id',
+    type: 'number',
+    description: 'Address ID',
+    required: true,
   })
   @ApiResponse({
     status: 200,
-    description: 'Return all cities in the region',
-    type: [Address],
-  })
-  getCitiesByRegion(
-    @Param('regionId', ParseIntPipe) regionId: number,
-  ): Promise<Address[]> {
-    return this.addressService.getCitiesByRegion(regionId);
-  }
-
-  @Get(':userId/:id')
-@ApiOperation({ summary: 'Get address by ID and User ID' })
-@ApiResponse({
-  status: 200,
-  description: 'Return address by ID',
-  type: Address,
-})
-@ApiResponse({
-  status: 404,
-  description: 'Address not found',
-})
-findAddressById(
-  @Param('userId', ParseIntPipe) userId: number,
-  @Param('id', ParseIntPipe) id: number,
-): Promise<Address> {
-  // console.log(userId, id, "controller")
-  return this.addressService.findByAddressId(id, userId);
-}
-
-@Get()
-@ApiOperation({ summary: 'Get all address' })
-@ApiResponse({
-  status: 200,
-  description: 'Return all address',
-  type: Address,
-})
-@ApiResponse({
-  status: 404,
-  description: 'Address not found',
-})
-findAllAddress(
-): Promise<Address[]> {
-  return this.addressService.findAllAddress();
-}
-
-
-  @Patch('region/:id')
-  @ApiOperation({ summary: 'Update Region address' })
-  @ApiResponse({
-    status: 200,
-    description: 'Address has been successfully updated',
-    type: Address,
+    description: 'Return address by id',
   })
   @ApiResponse({
     status: 404,
     description: 'Address not found',
   })
-  updateRegion(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() UpdateRegionDto: UpdateRegionDto,
-  ): Promise<Address> {
-    return this.addressService.updateRegion(id, UpdateRegionDto);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    try {
+      const address = await this.addressService.findOne(id);
+      if (!address) {
+        throw new HttpException('Address not found', HttpStatus.NOT_FOUND);
+      }
+      return address;
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        'Error fetching address',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
-  @Patch('city/:id')
-  @ApiOperation({ summary: 'Update City or District address' })
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update address by id' })
+  @ApiParam({
+    name: 'id',
+    type: 'number',
+    description: 'Address ID',
+    required: true,
+  })
   @ApiResponse({
     status: 200,
     description: 'Address has been successfully updated',
-    type: Address,
   })
   @ApiResponse({
     status: 404,
     description: 'Address not found',
   })
-  updateCity(
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request. Invalid input data',
+  })
+  async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() UpdateCityDistrictDto: UpdateCityDistrictDto,
-  ): Promise<Address> {
-    return this.addressService.updateCity(id, UpdateCityDistrictDto);
+    @Body() updateAddressDto: UpdateAddressDto,
+  ) {
+    try {
+      const address = await this.addressService.update(id, updateAddressDto);
+      if (!address) {
+        throw new HttpException('Address not found', HttpStatus.NOT_FOUND);
+      }
+      return address;
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      }
+      throw new HttpException(
+        error.message || 'Error updating address',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
-  @Delete('delete/:id/:userId')
-  @ApiOperation({ summary: 'Delete address' })
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete address by id' })
+  @ApiParam({
+    name: 'id',
+    type: 'number',
+    description: 'Address ID',
+    required: true,
+  })
   @ApiResponse({
     status: 200,
     description: 'Address has been successfully deleted',
@@ -176,10 +148,15 @@ findAllAddress(
     status: 404,
     description: 'Address not found',
   })
-  remove(
-    @Param('id', ParseIntPipe) id: number,
-    @Param('userId', ParseIntPipe) userId: number,
-  ): Promise<void> {
-    return this.addressService.removeAddressById(id, userId);
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    try {
+      const result = await this.addressService.remove(id);
+      return result;
+    } catch (error) {
+      throw new HttpException(
+        'Error deleting address',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
