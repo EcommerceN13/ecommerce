@@ -1,7 +1,6 @@
 import { appConfig, databaseConfig } from '@config';
 import { CheckAuthGuard, CheckRoleGuard } from '@guards';
 import { ModelCtor } from 'sequelize-typescript';
-import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import {
   Brand,
   BrandModule,
@@ -42,8 +41,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './modules/auth/auth.module';
-import { AddressModule } from './modules/address/address.module';
-import { Address } from './modules/address/models';
 import { SeedsModule } from '@seeds';
 import { RegionModule } from './modules/region/region.module';
 
@@ -91,10 +88,10 @@ import { RegionModule } from './modules/region/region.module';
               Region,
               Product,
               Category,
-              Brand
+              Brand,
               Address
             ] as ModelCtor[],
-            // sync: { force: true },
+            sync: { force: true },
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,

@@ -5,6 +5,7 @@ export declare interface CreateProductRequest {
     nasiya: 'Tolangan' | 'Tolanmagan' | 'On proccess';
     summary: string;
     price: number;
+    rating: number;
     brand_id: number;
     image?: string;
 }

@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { Product } from "./models";
-import { ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiConsumes, ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { CreateProductDto, UpdateProductDto } from "./dto";
+import { ProductFilterDto } from "./interfaces";
+import { PaginatedResponse } from "./interfaces/paginate-product.interface";
 
 @ApiTags('Products')
 @Controller('products')
@@ -11,11 +13,45 @@ export class ProductController {
     #_service: ProductService;
     constructor(service: ProductService) { this.#_service = service; }
 
-    @ApiOperation({ summary: 'Get all products' })
+    @ApiOperation({ summary: 'Get all products with optional filters, pagination and sorting' })
+    @ApiQuery({ name: 'category_id', required: false, type: Number })
+    @ApiQuery({ name: 'brand_id', required: false, type: Number })
+    @ApiQuery({ name: 'min_price', required: false, type: Number })
+    @ApiQuery({ name: 'max_price', required: false, type: Number })
+    @ApiQuery({ name: 'search', required: false, type: String })
+    @ApiQuery({ name: 'page', required: false, type: Number, description: 'Page number (default: 1)' })
+    @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Items per page (default: 10)' })
+    @ApiQuery({
+        name: 'sort',
+        required: false,
+        enum: ['price_asc', 'price_desc', 'rating_desc'],
+        description: 'Sort by price (asc/desc) or rating'
+    })
     @Get()
-    async getAllProducts(): Promise<Product[]> {
-        return await this.#_service.getAllProducts();
+    async getAllProducts(
+        @Query('category_id') category_id?: number,
+        @Query('brand_id') brand_id?: number,
+        @Query('min_price') min_price?: number,
+        @Query('max_price') max_price?: number,
+        @Query('search') search?: string,
+        @Query('page') page?: number,
+        @Query('limit') limit?: number,
+        @Query('sort') sort?: 'price_asc' | 'price_desc' | 'rating_desc'
+    ): Promise<PaginatedResponse<Product>> {
+        const filters: ProductFilterDto = {
+            category_id: category_id ? +category_id : undefined,
+            brand_id: brand_id ? +brand_id : undefined,
+            min_price: min_price ? +min_price : undefined,
+            max_price: max_price ? +max_price : undefined,
+            search,
+            page: page ? +page : 1,
+            limit: limit ? +limit : 10,
+            sort
+        };
+
+        return await this.#_service.getAllProducts(filters);
     }
+
 
     @ApiOperation({ summary: 'Get single product' })
     @Get('/:id')

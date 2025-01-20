@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsNumber, IsEnum, IsOptional } from "class-validator";
+import { IsString, IsNumber, IsEnum, IsOptional, IsNumberString } from "class-validator";
 import { UpdateProductRequest } from "../interfaces/update-product.interface";
 
 export class UpdateProductDto implements Omit<UpdateProductRequest, "image"> {
@@ -53,8 +53,19 @@ export class UpdateProductDto implements Omit<UpdateProductRequest, "image"> {
         example: 999,
     })
     @IsOptional()
-    @IsNumber()
+    @IsNumberString()
     price?: number;
+
+    @ApiProperty({
+        type: Number,
+        required: true,
+        example: 4,
+        maxLength: 5,
+        minLength: 1,
+    })
+    @IsOptional()
+    @IsNumberString()
+    rating ?: number;
 
     @ApiProperty({
         type: Number,
