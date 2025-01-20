@@ -88,8 +88,8 @@ import { RegionModule } from './modules/region/region.module';
               Region,
               Product,
               Category,
-              Brand,
-              Address,
+              Brand
+              Address
             ] as ModelCtor[],
             sync: { force: true },
             synchronize: true,
