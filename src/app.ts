@@ -1,7 +1,6 @@
 import { appConfig, databaseConfig } from '@config';
 import { CheckAuthGuard, CheckRoleGuard } from '@guards';
 import { ModelCtor } from 'sequelize-typescript';
-import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import {
   Brand,
   BrandModule,
@@ -92,7 +91,7 @@ import { RegionModule } from './modules/region/region.module';
               Brand,
               Address
             ] as ModelCtor[],
-            // sync: { force: true },
+            sync: { force: true },
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,

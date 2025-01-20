@@ -52,6 +52,16 @@ export class CreateProductDto implements Omit<CreateProductRequest, "image"> {
     @ApiProperty({
         type: Number,
         required: true,
+        example: 4,
+        maxLength: 5,
+        minLength: 1,
+    })
+    @IsNumberString()
+    rating: number;
+
+    @ApiProperty({
+        type: Number,
+        required: true,
         example: 1,
     })
     @IsNumberString()

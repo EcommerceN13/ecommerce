@@ -16,11 +16,7 @@ export class CategoryService {
   ) {}
 
   async getAllCategories(): Promise<Category[]> {
-    return await this.categoryModel.findAll({
-      include: [
-        {model: Product }
-      ],
-    });
+    return await this.categoryModel.findAll({include:{model:Product}});
   }
 
   async createCategory(
