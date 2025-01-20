@@ -4,6 +4,8 @@ import { Address } from "src/modules/address";
 import { Comment } from "src/modules/comment";
 import { Like } from "src/modules/like";
 import { UserRoles } from "../enums";
+import { Region } from "src/modules/region";
+import { Order } from "src/modules/order";
 
 
 @Table({ tableName: 'users', timestamps: true })
@@ -42,4 +44,9 @@ export class User extends Model {
 
     @HasMany(() => Comment)
     comment: Comment[];
+
+    @HasMany(() => Order)
+    order: Order[];
+
+
 }

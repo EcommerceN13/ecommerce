@@ -5,12 +5,15 @@ import { UserService } from "./user.service";
 import { FileService } from "../file";
 import { UserController } from "./user.controller";
 import { Address } from "../address";
+import { MeService } from "./me.service";
+import { MeController } from "./me.controller";
+import { Region } from "../region";
 
 
 @Module({
-    imports: [SequelizeModule.forFeature([User, Address])],
-    providers: [UserService, FileService],
-    controllers: [UserController]
+    imports: [SequelizeModule.forFeature([User, Address,Region])],
+    providers: [UserService, FileService,MeService],
+    controllers: [UserController,MeController]
 })
 
 export class UserModule { }

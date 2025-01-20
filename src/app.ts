@@ -42,8 +42,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './modules/auth/auth.module';
-import { AddressModule } from './modules/address/address.module';
-import { Address } from './modules/address/models';
 import { SeedsModule } from '@seeds';
 import { RegionModule } from './modules/region/region.module';
 
@@ -91,8 +89,8 @@ import { RegionModule } from './modules/region/region.module';
               Region,
               Product,
               Category,
-              Brand
-              Address
+              Brand,
+              Address,
             ] as ModelCtor[],
             // sync: { force: true },
             synchronize: true,
