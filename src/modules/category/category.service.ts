@@ -11,6 +11,7 @@ import { Product } from '../product';
 export class CategoryService {
   constructor(
     @InjectModel(Category) private categoryModel: typeof Category,
+    @InjectModel(Product) private productModel: typeof Product,
     private fileService: FileService,
   ) {}
 
@@ -80,8 +81,6 @@ export class CategoryService {
   //   };
   // }
 
-
-
   async updateCategory(
     id: number,
     payload: UpdateCategoryDto,
@@ -89,11 +88,11 @@ export class CategoryService {
     iconFile?: Express.Multer.File,
   ): Promise<{ message: string; updatedCategory: Category }> {
     const category = await this.categoryModel.findOne({ where: { id } });
-  
+
     if (!category) {
       throw new Error(`Category with id ${id} not found`);
     }
-  
+
     // Update image if provided
     if (imageFile) {
       const newImage = await this.fileService.uploadFile(imageFile);
@@ -102,7 +101,7 @@ export class CategoryService {
       }
       payload.image = newImage;
     }
-  
+
     // Update icon if provided
     if (iconFile) {
       const newIcon = await this.fileService.uploadFile(iconFile);
@@ -111,20 +110,17 @@ export class CategoryService {
       }
       payload.icon = newIcon;
     }
-  
+
     // Update the category
     await this.categoryModel.update(payload, { where: { id } });
-  
+
     const updatedCategory = await this.categoryModel.findOne({ where: { id } });
-  
+
     return {
       message: 'Category updated successfully',
       updatedCategory,
     };
   }
-  
-
-
 
   async deleteCategory(id: number): Promise<void> {
     const foundedCategory = await this.categoryModel.findByPk(id);

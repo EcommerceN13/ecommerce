@@ -1,26 +1,68 @@
 import { Injectable } from '@nestjs/common';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { Order } from './models/order.model';
+import { CreateOrderDto, UpdateOrderDto } from './dto';
+import { User } from '../user/models/user.model';
+import { Address } from '../address';
 
 @Injectable()
 export class OrderService {
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+  constructor(
+    @InjectModel(Order)
+    private orderModel: typeof Order,
+  ) {}
+
+  async create(createOrderDto: CreateOrderDto): Promise<Order> {
+    return await this.orderModel.create({ ...createOrderDto });
   }
 
-  findAll() {
-    return `This action returns all order`;
+  async findAll(offset: number, limit: number): Promise<{ rows: Order[]; count: number }> {
+    return await this.orderModel.findAndCountAll({
+      offset,
+      limit,
+      include: [
+        {
+          model: User,
+          // attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: Address,
+          // attributes: ['id', 'address', 'city', 'country'],
+        },
+      ],
+      order: [['createdAt', 'DESC']],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number): Promise<Order> {
+    return await this.orderModel.findOne({
+      where: { id },
+      include: [
+        {
+          model: User,
+          // attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: Address,
+          // attributes: ['id', 'address', 'city', 'country'],
+        },
+      ],
+    });
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto): Promise<Order> {
+    const order = await this.orderModel.findByPk(id);
+    if (!order) {
+      return null;
+    }
+    await order.update(updateOrderDto);
+    return order;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async remove(id: number): Promise<boolean> {
+    const deleted = await this.orderModel.destroy({
+      where: { id },
+    });
+    return deleted > 0;
   }
 }
