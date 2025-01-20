@@ -1,51 +1,47 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-// Create DTO
 export class CreateAddressDto {
   @ApiProperty({
-    type: Number,
-    required: false,
-    description: 'ID of the parent region',
+    description: 'User ID',
+    example: 1,
   })
+  @IsNotEmpty()
   @IsNumber()
+  user_id: number;
+
+  @ApiProperty({
+    description: 'Region ID (null for Tashkent city)',
+    example: 1,
+    nullable: true,
+  })
   @IsOptional()
+  @IsNumber()
   region_id?: number;
 
-  @ApiProperty({
-    enum: ['REGION', 'CITY', 'DISTRICT'],
-    default: 'REGION',
-    description: 'Address type',
+  @ApiPropertyOptional({
+    description: 'City ID',
+    example: 2,
+    nullable: true,
   })
-  @IsEnum(['REGION', 'CITY', 'DISTRICT'])
-  type: 'REGION' | 'CITY' | 'DISTRICT';
-
-  @ApiProperty({
-    type: String,
-    required: true,
-    description: 'City name',
-  })
-  @IsString()
   @IsOptional()
-  city?: string;
-
-  @ApiProperty({
-    type: String,
-    required: false,
-    description: 'Street name or additional address details',
-    example: 'Amir Temur street'
-  })
-  @IsString()
-  @IsOptional()
-  street?: string;
-
-  @ApiProperty({
-    type: Number,
-    required: false,
-    description: 'ID of the user who owns this address',
-    example: 1
-  })
   @IsNumber()
+  city_id?: number | null;
+
+  @ApiPropertyOptional({
+    description: 'District ID',
+    example: 3,
+    nullable: true,
+  })
   @IsOptional()
-  user_id?: number;
+  @IsNumber()
+  district_id?: number | null;
+
+  @ApiProperty({
+    description: 'Street address',
+    example: 'Amir Temur street, 15',
+  })
+  @IsNotEmpty()
+  @IsString()
+  street: string;
 }

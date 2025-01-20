@@ -5,6 +5,7 @@ export declare interface UpdateProductRequest {
     nasiya?: 'Tolangan' | 'Tolanmagan' | 'On proccess';
     summary?: string;
     price?: number;
+    rating ?: number; 
     brand_id?: number;
     image?: string;
 }

@@ -2,8 +2,15 @@ import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 import { Product } from "./models";
 import { FileService } from "../file";
-import { CreateProductDto } from "./dto"; 
+import { CreateProductDto } from "./dto";
 import { UpdateProductRequest } from "./interfaces/update-product.interface";
+import { Op } from 'sequelize';
+import { Query } from '@nestjs/common';
+import { ProductFilterDto } from './interfaces'
+import { Like } from "../like";
+import { Comment } from "../comment";
+import { Category } from "../category";
+import { PaginatedResponse } from "./interfaces/paginate-product.interface";
 
 @Injectable()
 export class ProductService {
@@ -12,11 +19,85 @@ export class ProductService {
     private fileService: FileService
   ) { }
 
-  async getAllProducts(): Promise<Product[]> {
-    return await this.productModel.findAll({
-      include: ['category']
+  async getAllProducts(filters?: ProductFilterDto): Promise<PaginatedResponse<Product>> {
+    const whereClause: any = {};
+    const page = filters?.page || 1;
+    const limit = filters?.limit || 10;
+    const offset = (page - 1) * limit;
+    let order: any[] = [];
+    
+    if (filters) {
+      // Existing filters
+      if (filters.category_id) {
+        whereClause.category_id = filters.category_id;
+      }
+
+      if (filters.brand_id) {
+        whereClause.brand_id = filters.brand_id;
+      }
+
+      if (filters.min_price || filters.max_price) {
+        whereClause.price = {};
+        if (filters.min_price) {
+          whereClause.price[Op.gte] = filters.min_price;
+        }
+        if (filters.max_price) {
+          whereClause.price[Op.lte] = filters.max_price;
+        }
+      }
+
+      if (filters.search) {
+        whereClause[Op.or] = [
+          {
+            name: {
+              [Op.iLike]: `%${filters.search}%`
+            }
+          },
+          {
+            description: {
+              [Op.iLike]: `%${filters.search}%`
+            }
+          }
+        ];
+      }
+
+      if (filters.sort) {
+        switch (filters.sort) {
+          case 'price_asc':
+            order.push(['price', 'ASC']);
+            break;
+          case 'price_desc':
+            order.push(['price', 'DESC']);
+            break;
+          case 'rating_desc':
+            order.push(['rating', 'DESC']);
+            break;
+        }
+      }
+    }
+
+    const { count, rows } = await this.productModel.findAndCountAll({
+      where: whereClause,
+      include: [
+        { model: Comment },
+        { model: Like },
+        { model: Category }
+      ],
+      order,
+      limit,
+      offset
     });
+
+    return {
+      items: rows,
+      total: count,
+      page: page,
+      limit: limit,
+      totalPages: Math.ceil(count / limit)
+    };
   }
+  
+
 
   async getSingleProduct(id: number): Promise<Product> {
     return await this.productModel.findOne({

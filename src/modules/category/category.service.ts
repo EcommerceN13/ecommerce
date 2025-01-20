@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Category } from './models';
 import { CreateCategoryRequest, UpdateCategoryRequest } from './interfaces';
 import { FileService } from '../file';
+import { Product } from '../product';
 
 @Injectable()
 export class CategoryService {
@@ -14,7 +15,7 @@ export class CategoryService {
   ) {}
 
   async getAllCategories(): Promise<Category[]> {
-    return await this.categoryModel.findAll();
+    return await this.categoryModel.findAll({include:{model:Product}});
   }
 
   async createCategory(

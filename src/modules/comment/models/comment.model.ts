@@ -4,8 +4,8 @@ import { Product } from "src/modules/product";
 
 @Table({ tableName: "comment", timestamps: true })
 export class Comment extends Model {
-    @Column({type: DataType.TEXT, allowNull:false})
-    text:string
+    @Column({ type: DataType.TEXT, allowNull: false })
+    text: string;
 
     @ForeignKey(() => User)
     @Column({ type: DataType.INTEGER, allowNull: false, onDelete: "CASCADE", onUpdate: "CASCADE" })
@@ -13,7 +13,7 @@ export class Comment extends Model {
 
     @ForeignKey(() => Product)
     @Column({ type: DataType.INTEGER, allowNull: false, onDelete: "CASCADE", onUpdate: "CASCADE" })
-    product_id: number
+    product_id: number;
 
     @BelongsTo(() => User)
     user: User;

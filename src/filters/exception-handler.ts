@@ -17,6 +17,7 @@ export class ExceptionHandlerFilter implements ExceptionFilter {
         const requestTime = new Date().toISOString();
 
         if (exception instanceof HttpException) {
+            console.log(exception, "*")
             return response.status(exception.getStatus()).json({
                 message: exception.message,
                 requestTime,

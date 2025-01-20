@@ -1,14 +1,12 @@
 import { Table, Model, Column, DataType, HasMany, Unique } from "sequelize-typescript";
+import { Address } from "src/modules/address";
 
-import { Address } from "src/modules/address/models"; 
 import { Comment } from "src/modules/comment";
 import { Like } from "src/modules/like";
+import { UserRoles } from "../enums";
+import { Region } from "src/modules/region";
+import { Order } from "src/modules/order";
 
-
-export enum UserRoles {
-    user = 'USER',
-    admin = 'ADMIN',
-}
 
 @Table({ tableName: 'users', timestamps: true })
 export class User extends Model {
@@ -39,11 +37,16 @@ export class User extends Model {
     is_verified: boolean;
 
     @HasMany(() => Address)
-    movies: Address[];
+    address: Address[];
 
     @HasMany(() => Like)
     like: Like[];
 
     @HasMany(() => Comment)
     comment: Comment[];
+
+    @HasMany(() => Order)
+    order: Order[];
+
+
 }

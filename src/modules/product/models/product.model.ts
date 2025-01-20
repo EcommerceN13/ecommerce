@@ -4,9 +4,13 @@ import {
   Column,
   DataType,
   ForeignKey,
-  BelongsTo
+  BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
+import { Brand } from 'src/modules/brand';
 import { Category } from 'src/modules/category';
+import { Comment } from 'src/modules/comment';
+import { Like } from 'src/modules/like';
 
 @Table({ tableName: 'products', timestamps: true })
 export class Product extends Model {
@@ -40,9 +44,11 @@ export class Product extends Model {
   @Column({ type: DataType.INTEGER, allowNull: false })
   price: number;
 
-  //   @ForeignKey(()=>Brand)
-  @Column({ type: DataType.BIGINT, allowNull: false })
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  rating: number;
 
+  @ForeignKey(() => Brand)
+  @Column({ type: DataType.BIGINT, allowNull: false,})
   brand_id: number;
 
   @Column({ type: DataType.STRING, allowNull: true })
@@ -50,4 +56,13 @@ export class Product extends Model {
 
   @BelongsTo(() => Category)
   category: Category;
+
+  @BelongsTo(() => Brand)
+  brand: Brand;
+
+  @HasMany(() => Comment)
+  comments: Comment[];
+
+  @HasMany(() => Like)
+  like: Like[];
 }
