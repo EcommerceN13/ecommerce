@@ -1,4 +1,4 @@
-import { Category, Product, User, UserRoles } from "@modules";
+import { Brand, Category, Product, User, UserRoles } from "@modules";
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 
@@ -6,12 +6,14 @@ import { InjectModel } from "@nestjs/sequelize";
 export class SeedsService implements OnModuleInit {
     constructor(@InjectModel(User) private userModel: typeof User,
         @InjectModel(Category) private categoryModel: typeof Category,
-        @InjectModel(Product) private productModel: typeof Product
+        @InjectModel(Product) private productModel: typeof Product,
+        @InjectModel(Brand) private brandModel: typeof Brand
     ) { }
 
     async onModuleInit() {
         await this.seedUsers()
         await this.seedCategory(),
+        await this.seedBrand()
         await this.seedProduct()
     }
 
@@ -23,7 +25,7 @@ export class SeedsService implements OnModuleInit {
                 fullname: "Abduqodir Teamlead",
                 email: "abduqodiir@gmail.com",
                 phone_number: "+998884891727",
-                image: "localhost:3000/uploads/ahmad_aka.jpg_6f5b92c6-44a8-47ae-9101-972a2c8982b4.jpg",
+                image: "/ahmad_aka.jpg_6f5b92c6-44a8-47ae-9101-972a2c8982b4.jpg",
                 password: "password123",
                 is_verified: true,
                 role: UserRoles.admin
@@ -36,8 +38,8 @@ export class SeedsService implements OnModuleInit {
         if (categoryCount == 0) {
             await this.categoryModel.create({
                 name: "telephones",
-                image: "localhost:3000/uploads/galaxy_s24_samsung_1705488155097.webp",
-                icon: ""
+                image: "/galaxy_s24_samsung_1705488155097.webp",
+                icon: "/Group.png"
             })
         }
     }
@@ -52,8 +54,20 @@ export class SeedsService implements OnModuleInit {
                 nasiya: "6 oy",
                 summary: "The Samsung Galaxy S25 is anticipated to deliver powerful performance with the latest processors and a stunning Dynamic AMOLED 2X display. It will also feature an upgraded camera system and a long-lasting battery with fast charging support.",
                 price: 12000,
+                rating: 5,
                 brand_id: 1,
-                image: "localhost:3000/uploads/product_image.jpg"
+                image: "/product_image.jpg"
+            })
+        }
+    }
+
+    async seedBrand(): Promise<void> {
+        const brandCount = await this.brandModel.count()
+
+        if(brandCount == 0) {
+            await this.brandModel.create({
+                name: "Samsung",
+                image: "/samsung_brand"
             })
         }
     }
