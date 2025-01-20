@@ -42,23 +42,10 @@ export class OrderController {
 
   @Get()
   @ApiOperation({ summary: 'Get all orders' })
-  @ApiQuery({ name: 'page', required: false, type: Number })
-  @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiResponse({ status: 200, description: 'Return all orders', type: [Order] })
-  async findAll(
-    @Query('page', new ParseIntPipe({ optional: true })) page = 1,
-    @Query('limit', new ParseIntPipe({ optional: true })) limit = 10,
-  ): Promise<{ data: Order[]; total: number; page: number; limit: number }> {
+  async findAll(): Promise<Order[]> {
     try {
-      const offset = (page - 1) * limit;
-      const { rows, count } = await this.orderService.findAll(offset, limit);
-
-      return {
-        data: rows,
-        total: count,
-        page,
-        limit,
-      };
+      return this.orderService.findAll()
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
