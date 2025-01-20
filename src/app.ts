@@ -3,6 +3,8 @@ import { CheckAuthGuard, CheckRoleGuard } from '@guards';
 import { ModelCtor } from 'sequelize-typescript';
 import { SequelizeModuleOptions } from '@nestjs/sequelize';
 import {
+  Brand,
+  BrandModule,
   Cart,
   CartItem,
   CartItemModule,
@@ -39,6 +41,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './modules/auth/auth.module';
 import { AddressModule } from './modules/address/address.module';
 import { Address } from './modules/address/models';
+import { SeedsModule } from '@seeds';
 
 @Module({
   imports: [
@@ -84,6 +87,7 @@ import { Address } from './modules/address/models';
               Address,
               Product,
               Category,
+              Brand
             ] as ModelCtor[],
             // sync: { force: true },
             synchronize: true,
@@ -115,6 +119,8 @@ import { Address } from './modules/address/models';
     VariationOptionModule,
     CategoryModule,
     ProductModule,
+    BrandModule,
+    SeedsModule,
   ],
   controllers: [],
   providers: [

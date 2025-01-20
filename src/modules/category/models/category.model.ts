@@ -3,8 +3,7 @@ import {
     Model,
     Column,
     DataType,
-    ForeignKey,
-    BelongsTo
+
   } from 'sequelize-typescript';
 
 @Table({ tableName: 'categories', timestamps: true})
