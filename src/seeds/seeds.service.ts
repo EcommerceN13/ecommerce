@@ -22,7 +22,7 @@ export class SeedsService implements OnModuleInit {
 
         if (usersCount == 0) {
             await this.userModel.create({
-                fullname: "Abduqodir Teamlead",
+                fullname: "Abduqodir",
                 email: "abduqodiir@gmail.com",
                 phone_number: "+998884891727",
                 image: "/ahmad_aka.jpg_6f5b92c6-44a8-47ae-9101-972a2c8982b4.jpg",

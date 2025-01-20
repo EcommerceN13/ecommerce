@@ -4,6 +4,7 @@ import { Order } from './models/order.model';
 import { CreateOrderDto, UpdateOrderDto } from './dto';
 import { User } from '../user/models/user.model';
 import { Address } from '../address';
+import { Region } from '../region';
 
 @Injectable()
 export class OrderService {
@@ -16,10 +17,8 @@ export class OrderService {
     return await this.orderModel.create({ ...createOrderDto });
   }
 
-  async findAll(offset: number, limit: number): Promise<{ rows: Order[]; count: number }> {
-    return await this.orderModel.findAndCountAll({
-      offset,
-      limit,
+  async findAll(): Promise<Order[]> {
+    return await this.orderModel.findAll({
       include: [
         {
           model: User,
@@ -27,10 +26,10 @@ export class OrderService {
         },
         {
           model: Address,
+          include: [{ model: Region, as: 'region' }, { model: Region, as: 'city' }, { model: Region, as: 'district' }],
           // attributes: ['id', 'address', 'city', 'country'],
         },
       ],
-      order: [['createdAt', 'DESC']],
     });
   }
 
@@ -44,6 +43,7 @@ export class OrderService {
         },
         {
           model: Address,
+          include: [{ model: Region, as: 'region' }, { model: Region, as: 'city' }, { model: Region, as: 'district' }],
           // attributes: ['id', 'address', 'city', 'country'],
         },
       ],
