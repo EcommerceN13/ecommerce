@@ -46,6 +46,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './modules/auth/auth.module';
 import { SeedsModule } from '@seeds';
 import { RegionModule } from './modules/region/region.module';
+import { BannerModule } from './modules/banner/banner.module';
+import { Banner } from './modules/banner/model';
 
 @Module({
   imports: [
@@ -92,10 +94,11 @@ import { RegionModule } from './modules/region/region.module';
               Product,
               Category,
               Brand,
-              Address,
               Contact,
+              Banner,
+              Address
             ] as ModelCtor[],
-            sync: { force: true },
+            // sync: { force: true },
             synchronize: true,
             logging: console.log,
             autoLoadModels: true,
@@ -130,6 +133,7 @@ import { RegionModule } from './modules/region/region.module';
     AddressModule,
     ContactModule,
     TelegramModule
+    BannerModule
   ],
   controllers: [],
   providers: [

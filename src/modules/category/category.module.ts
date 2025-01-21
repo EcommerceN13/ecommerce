@@ -8,6 +8,6 @@ import { FileService } from '../file';
 @Module({
   imports: [SequelizeModule.forFeature([Category])],
   providers: [CategoryService, FileService],
-  controllers: [CategoryController],  
+  controllers: [CategoryController],
 })
 export class CategoryModule {}

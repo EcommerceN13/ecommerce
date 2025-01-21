@@ -7,10 +7,4 @@ export class VerifyOtpDto {
 
   @IsNotEmpty()
   otp: string;
-
-  @IsNotEmpty()
-  password: string;
-
-  @IsString()
-  first_name: string;
 }

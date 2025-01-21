@@ -7,10 +7,12 @@ import {
   BelongsTo,
   HasMany,
 } from 'sequelize-typescript';
+import { Banner } from 'src/modules/banner/model';
 import { Brand } from 'src/modules/brand';
 import { Category } from 'src/modules/category';
 import { Comment } from 'src/modules/comment';
 import { Like } from 'src/modules/like';
+import { ProductItem } from 'src/modules/product_item';
 
 @Table({ tableName: 'products', timestamps: true })
 export class Product extends Model {
@@ -68,4 +70,12 @@ export class Product extends Model {
 
   @HasMany(() => Like)
   like: Like[];
+
+
+  @HasMany(() => ProductItem)
+  product_item: ProductItem[]
+
+  @HasMany(() => Banner)  
+  banners: Banner[];
+
 }

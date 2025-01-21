@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { User } from "./models";
 import { ApiConsumes, ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -21,7 +21,8 @@ export class UserController {
     @ApiOperation({ summary: 'Yagona userlarni olish' })
     @Get('/:id')
     @ApiOperation({ summary: 'Yagona userni olish' })
-    async getSingleUser(id: number): Promise<User> {
+    // Abduqodiriy paramdan olish esdan chiqibdiku aken to'g'rilab qo'ydi
+    async getSingleUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
         return await this.#_service.getSingleUser(id);
     }
 
