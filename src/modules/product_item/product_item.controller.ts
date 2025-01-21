@@ -3,6 +3,7 @@ import { ProductItemService } from './product_item.service';
 import { CreateProductItemDto } from './dto';
 import { UpdateProductItemDto } from './dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiConsumes } from '@nestjs/swagger';
 
 @Controller('product-items')
 export class ProductItemController {
@@ -10,7 +11,9 @@ export class ProductItemController {
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes("multipart/form-data")
   create(@Body() createProductItemDto: CreateProductItemDto, @UploadedFile() file: Express.Multer.File) {
+    console.log(createProductItemDto)
     return this.productItemService.create(createProductItemDto,file);
   }
 

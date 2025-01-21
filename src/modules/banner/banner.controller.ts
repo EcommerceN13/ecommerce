@@ -3,6 +3,7 @@ import { BannerService } from './banner.service';
 import { CreateBannerDto, UpdateBannerDto } from './dto';
 import { Banner } from './model';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiConsumes } from '@nestjs/swagger';
 
 @Controller('banners')
 export class BannerController {
@@ -11,6 +12,7 @@ export class BannerController {
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
+  @ApiConsumes("multipart/form-data")
   async create(@Body() createBannerDto: CreateBannerDto,@UploadedFile() image: Express.Multer.File): Promise<Banner> {
     return this.bannerService.create(createBannerDto, image);
   }
