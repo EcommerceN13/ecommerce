@@ -17,8 +17,7 @@ export class CreateProductItemDto {
   })
   @Type(() => Number)
   @IsNotEmpty()
-  @IsNumber()
-  @IsPositive()
+  @IsNumberString()
   price: number;
 
   @ApiProperty({
@@ -39,8 +38,7 @@ export class CreateProductItemDto {
   })
   @Type(() => Number)
   @IsNotEmpty()
-  @IsNumber()
-  @IsPositive()
+  @IsNumberString()
   product_id: number;
 
   @ApiProperty({
