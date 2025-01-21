@@ -68,11 +68,11 @@ export class Product extends Model {
   @HasMany(() => Like)
   like: Like[];
 
-<<<<<<< HEAD
+
   @HasMany(() => ProductItem)
   product_item: ProductItem[]
-=======
+
   @HasMany(() => Banner)  
   banners: Banner[];
->>>>>>> e3e1126 (kamchilila togirlandi)
+
 }
