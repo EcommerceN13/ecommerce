@@ -47,6 +47,9 @@ export class Product extends Model {
   @Column({ type: DataType.INTEGER, allowNull: false })
   rating: number;
 
+  @Column({ type: DataType.BOOLEAN, allowNull: true, defaultValue: false })
+  is_aksiya: boolean;
+
   @ForeignKey(() => Brand)
   @Column({ type: DataType.BIGINT, allowNull: false,})
   brand_id: number;

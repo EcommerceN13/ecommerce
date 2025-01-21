@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsNumber, IsEnum, IsOptional, IsNumberString } from "class-validator";
+import { IsString, IsNumber, IsEnum, IsOptional, IsNumberString, IsBoolean } from "class-validator";
 import { CreateProductRequest } from "../interfaces/create-product.interface";
 
 export class CreateProductDto implements Omit<CreateProductRequest, "image"> {
@@ -58,6 +58,14 @@ export class CreateProductDto implements Omit<CreateProductRequest, "image"> {
     })
     @IsNumberString()
     rating: number;
+
+    @ApiProperty({
+        type: Boolean,
+        required: false,
+        example: false,
+    })
+    @IsBoolean()
+    is_aksiya: boolean;
 
     @ApiProperty({
         type: Number,

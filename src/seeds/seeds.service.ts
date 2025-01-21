@@ -55,6 +55,7 @@ export class SeedsService implements OnModuleInit {
                 summary: "The Samsung Galaxy S25 is anticipated to deliver powerful performance with the latest processors and a stunning Dynamic AMOLED 2X display. It will also feature an upgraded camera system and a long-lasting battery with fast charging support.",
                 price: 12000,
                 rating: 5,
+                is_aksiya: true,
                 brand_id: 1,
                 image: "/product_image.jpg"
             })

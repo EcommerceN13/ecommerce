@@ -5,7 +5,6 @@ import { FileService } from "../file";
 import { CreateProductDto } from "./dto";
 import { UpdateProductRequest } from "./interfaces/update-product.interface";
 import { Op } from 'sequelize';
-import { Query } from '@nestjs/common';
 import { ProductFilterDto } from './interfaces'
 import { Like } from "../like";
 import { Comment } from "../comment";
@@ -25,7 +24,7 @@ export class ProductService {
     const limit = filters?.limit || 10;
     const offset = (page - 1) * limit;
     let order: any[] = [];
-    
+
     if (filters) {
       // Existing filters
       if (filters.category_id) {
@@ -96,7 +95,7 @@ export class ProductService {
       totalPages: Math.ceil(count / limit)
     };
   }
-  
+
 
 
   async getSingleProduct(id: number): Promise<Product> {
@@ -105,6 +104,22 @@ export class ProductService {
       include: ['category']
     });
   }
+
+  async getAllAksiyadagiProducts(): Promise<Product[]> {
+    return await this.productModel.findAll({
+      where: { is_aksiya: true }, 
+      include: [Category, Like, Comment], 
+    });
+  }
+
+  async getMostPopularProducts(limit: number = 5): Promise<Product[]> {
+    return await this.productModel.findAll({
+      order: [['rating', 'DESC']], 
+      limit, 
+      include: [Category, Like, Comment], 
+    });
+  }
+
 
   async createProduct(payload: CreateProductDto, file: Express.Multer.File): Promise<{ message: string, new_product: Product }> {
     const image = await this.fileService.uploadFile(file);

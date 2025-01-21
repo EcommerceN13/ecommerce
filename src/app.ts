@@ -34,6 +34,9 @@ import {
   VariationModule,
   VariationOption,
   VariationOptionModule,
+  Contact,
+  ContactModule,
+  TelegramModule,
 } from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -90,6 +93,7 @@ import { RegionModule } from './modules/region/region.module';
               Category,
               Brand,
               Address,
+              Contact,
             ] as ModelCtor[],
             sync: { force: true },
             synchronize: true,
@@ -124,6 +128,8 @@ import { RegionModule } from './modules/region/region.module';
     BrandModule,
     SeedsModule,
     AddressModule,
+    ContactModule,
+    TelegramModule
   ],
   controllers: [],
   providers: [
