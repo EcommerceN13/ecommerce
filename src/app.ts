@@ -34,6 +34,8 @@ import {
   VariationModule,
   VariationOption,
   VariationOptionModule,
+  Color,
+  ColorModule,
 } from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -92,7 +94,8 @@ import { Banner } from './modules/banner/model';
               Category,
               Brand,
               Banner,
-              Address
+              Address,
+              Color
             ] as ModelCtor[],
             // sync: { force: true },
             synchronize: true,
@@ -127,7 +130,8 @@ import { Banner } from './modules/banner/model';
     BrandModule,
     SeedsModule,
     AddressModule,
-    BannerModule
+    BannerModule,
+    ColorModule,
   ],
   controllers: [],
   providers: [
