@@ -58,7 +58,7 @@ import { Banner } from './modules/banner/model';
       load: [appConfig, databaseConfig],
     }),
     ServeStaticModule.forRoot({
-      serveRoot: './uploads',
+      serveRoot: '/uploads',
       rootPath: './uploads',
     }),
     JwtModule.register({
