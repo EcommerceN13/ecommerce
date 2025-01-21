@@ -36,6 +36,9 @@ import {
   VariationOptionModule,
   Color,
   ColorModule,
+  Contact,
+  ContactModule,
+  TelegramModule,
 } from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -93,6 +96,7 @@ import { Banner } from './modules/banner/model';
               Product,
               Category,
               Brand,
+              Contact,
               Banner,
               Address,
               Color
@@ -132,6 +136,8 @@ import { Banner } from './modules/banner/model';
     AddressModule,
     BannerModule,
     ColorModule,
+    ContactModule,
+    TelegramModule
   ],
   controllers: [],
   providers: [
