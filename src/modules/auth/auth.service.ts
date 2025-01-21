@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { MailerService } from '@nestjs-modules/mailer';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
-import { LoginDto, RegisterDto, VerifyOtpDto } from './dtos';
+import { LoginDto, RegisterDto, VerifyOtpDto, ResetPasswordDto } from './dtos';
 import { AuthResponse } from './interface';
 
 @Injectable()
@@ -142,5 +142,56 @@ export class AuthService {
       },
       message: 'Muvaffaqiyatli login qilindi',
     };
+  }
+
+  async sendOtpForPasswordReset(email: string): Promise<{ message: string }> {
+    const user = await this.userModel.findOne({ where: { email } });
+    if (!user) {
+      throw new HttpException('Foydalanuvchi topilmadi', HttpStatus.NOT_FOUND);
+    }
+
+    const otp = this.generateOtp();
+    const expiresAt = Date.now() + 5 * 60 * 1000; // 5 daqiqa amal qilish muddati
+
+    global.otpStore = global.otpStore || {};
+    global.otpStore[email] = { otp, expiresAt, userId: user.id };
+
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Parolni tiklash kodi',
+      text: `Sizning parolni tiklash kodingiz: ${otp}`,
+    });
+
+    return { message: 'Parolni tiklash kodi emailingizga yuborildi' };
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<{ message: string }> {
+    const { email, otp, new_password } = resetPasswordDto;
+
+    const otpData = global.otpStore?.[email];
+    if (!otpData) {
+      throw new HttpException('Tasdiqlash kodi topilmadi', HttpStatus.BAD_REQUEST);
+    }
+
+    if (otpData.otp !== otp) {
+      throw new HttpException("Noto'g'ri tasdiqlash kodi", HttpStatus.BAD_REQUEST);
+    }
+
+    if (Date.now() > otpData.expiresAt) {
+      delete global.otpStore[email];
+      throw new HttpException('Tasdiqlash kodi muddati tugagan', HttpStatus.BAD_REQUEST);
+    }
+
+    const user = await this.userModel.findOne({ where: { id: otpData.userId } });
+    if (!user) {
+      throw new HttpException('Foydalanuvchi topilmadi', HttpStatus.NOT_FOUND);
+    }
+
+    const hashedPassword = await bcrypt.hash(new_password, 10);
+    await user.update({ password: hashedPassword });
+
+    delete global.otpStore[email];
+
+    return { message: 'Parol muvaffaqiyatli yangilandi' };
   }
 }
