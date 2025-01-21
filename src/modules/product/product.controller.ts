@@ -59,6 +59,26 @@ export class ProductController {
         return await this.#_service.getSingleProduct(+id);
     }
 
+    @ApiOperation({ summary: 'Get all products with "aksiya" status' })
+    @Get('/aksiya')
+    async getAllAksiyadagiProducts(): Promise<Product[]> {
+        return await this.#_service.getAllAksiyadagiProducts();
+    }
+
+    @ApiOperation({ summary: 'Get most popular products' })
+    @ApiQuery({
+        name: 'limit',
+        required: false,
+        type: Number,
+        description: 'Number of popular products to return (default: 5)',
+    })
+    @Get('/popular')
+    async getMostPopularProducts(@Query('limit') limit?: number): Promise<Product[]> {
+        const parsedLimit = limit ? +limit : 5; 
+        return await this.#_service.getMostPopularProducts(parsedLimit);
+    }
+
+
     @ApiOperation({ summary: "Create product" })
     @ApiConsumes('multipart/form-data')
     @Post('/add')

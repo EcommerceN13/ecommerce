@@ -34,6 +34,9 @@ import {
   VariationModule,
   VariationOption,
   VariationOptionModule,
+  Contact,
+  ContactModule,
+  TelegramModule,
 } from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -91,6 +94,7 @@ import { Banner } from './modules/banner/model';
               Product,
               Category,
               Brand,
+              Contact,
               Banner,
               Address
             ] as ModelCtor[],
@@ -127,6 +131,8 @@ import { Banner } from './modules/banner/model';
     BrandModule,
     SeedsModule,
     AddressModule,
+    ContactModule,
+    TelegramModule
     BannerModule
   ],
   controllers: [],

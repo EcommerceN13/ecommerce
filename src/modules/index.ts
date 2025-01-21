@@ -17,3 +17,5 @@ export * from './category'
 export * from './product'
 export * from "./region"
 export * from "./address"
+export * from './telegram'
+export * from './contact'

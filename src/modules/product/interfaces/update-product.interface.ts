@@ -6,6 +6,7 @@ export declare interface UpdateProductRequest {
     summary?: string;
     price?: number;
     rating ?: number; 
+    is_aksiya ?: boolean;
     brand_id?: number;
     image?: string;
 }
