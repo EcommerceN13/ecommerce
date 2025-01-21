@@ -13,7 +13,7 @@ export class OrderItemsService {
     private orderRepository: typeof Order,
     @InjectModel(ProductItem)
     private productItemRepository: typeof ProductItem,
-  ) {}
+  ) { }
 
   async create(createOrderItemDto: {
     order_id: number;

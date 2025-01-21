@@ -5,11 +5,6 @@ import { FileService } from '../file';
 import { CreateProductDto } from './dto';
 import { UpdateProductRequest } from './interfaces/update-product.interface';
 import { Op } from 'sequelize';
-import { ProductFilterDto } from './interfaces'
-import { Like } from "../like";
-import { Comment } from "../comment";
-import { Category } from "../category";
-import { PaginatedResponse } from "./interfaces/paginate-product.interface";
 import { Query } from '@nestjs/common';
 import { ProductFilterDto } from './interfaces';
 import { Like } from '../like';
@@ -23,7 +18,7 @@ export class ProductService {
   constructor(
     @InjectModel(Product) private productModel: typeof Product,
     private fileService: FileService,
-  ) {}
+  ) { }
 
   async getAllProducts(
     filters?: ProductFilterDto,
@@ -119,26 +114,21 @@ export class ProductService {
 
   async getAllAksiyadagiProducts(): Promise<Product[]> {
     return await this.productModel.findAll({
-      where: { is_aksiya: true }, 
-      include: [Category, Like, Comment], 
+      where: { is_aksiya: true },
+      include: [Category, Like, Comment],
     });
   }
 
   async getMostPopularProducts(limit: number = 5): Promise<Product[]> {
     return await this.productModel.findAll({
-      order: [['rating', 'DESC']], 
-      limit, 
-      include: [Category, Like, Comment], 
+      order: [['rating', 'DESC']],
+      limit,
+      include: [Category, Like, Comment],
     });
   }
 
 
   async createProduct(payload: CreateProductDto, file: Express.Multer.File): Promise<{ message: string, new_product: Product }> {
-
-  async createProduct(
-    payload: CreateProductDto,
-    file: Express.Multer.File,
-  ): Promise<{ message: string; new_product: Product }> {
     const image = await this.fileService.uploadFile(file);
 
     const new_product = await this.productModel.create({

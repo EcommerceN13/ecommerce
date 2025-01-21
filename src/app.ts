@@ -137,7 +137,8 @@ import { Banner } from './modules/banner/model';
     BannerModule,
     ColorModule,
     ContactModule,
-    TelegramModule
+    TelegramModule,
+    BannerModule    
   ],
   controllers: [],
   providers: [
