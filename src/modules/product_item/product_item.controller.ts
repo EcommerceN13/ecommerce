@@ -9,7 +9,7 @@ export class ProductItemController {
   constructor(private readonly productItemService: ProductItemService) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('image'))
   create(@Body() createProductItemDto: CreateProductItemDto, @UploadedFile() file: Express.Multer.File) {
     return this.productItemService.create(createProductItemDto,file);
   }

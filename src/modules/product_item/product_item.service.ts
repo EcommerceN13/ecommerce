@@ -11,7 +11,9 @@ export class ProductItemService {
   constructor(@InjectModel(ProductItem) private readonly productItemModel: typeof ProductItem,private fileService: FileService,) {}
 
   async create(createProductItemDto: CreateProductItemDto, file: Express.Multer.File): Promise<ProductItem> {
+    console.log(file, createProductItemDto)
     const image = await this.fileService.uploadFile(file);
+
 
     return this.productItemModel.create({
       price: createProductItemDto.price,

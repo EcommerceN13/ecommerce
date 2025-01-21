@@ -1,6 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsNumber, IsEnum, IsOptional, IsNumberString, IsBoolean } from "class-validator";
 import { CreateProductRequest } from "../interfaces/create-product.interface";
+import { Transform } from "class-transformer";
 
 export class CreateProductDto implements Omit<CreateProductRequest, "image"> {
     @ApiProperty({
@@ -64,6 +65,7 @@ export class CreateProductDto implements Omit<CreateProductRequest, "image"> {
         required: false,
         example: false,
     })
+    @Transform(({ value }) => Boolean(value))
     @IsBoolean()
     is_aksiya: boolean;
 
