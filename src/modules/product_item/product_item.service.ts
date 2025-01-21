@@ -4,13 +4,20 @@ import { ProductItem } from './models';
 import { CreateProductItemDto } from './dto';
 import { UpdateProductItemDto } from './dto';
 import { Attributes } from 'sequelize';
+import { FileService } from '../file';
 
 @Injectable()
 export class ProductItemService {
-  constructor(@InjectModel(ProductItem) private readonly productItemModel: typeof ProductItem) {}
+  constructor(@InjectModel(ProductItem) private readonly productItemModel: typeof ProductItem,private fileService: FileService,) {}
 
-  async create(createProductItemDto: CreateProductItemDto): Promise<ProductItem> {
-    return this.productItemModel.create(createProductItemDto as Attributes<ProductItem>);
+  async create(createProductItemDto: CreateProductItemDto, file: Express.Multer.File): Promise<ProductItem> {
+    const image = await this.fileService.uploadFile(file);
+
+    return this.productItemModel.create({
+      price: createProductItemDto.price,
+      image,
+      product_id: createProductItemDto.product_id,
+    });
   }
 
   async findAll(): Promise<ProductItem[]> {

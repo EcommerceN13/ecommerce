@@ -1,27 +1,33 @@
-// src/banner/banner.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Banner } from './model';
 import { CreateBannerDto, UpdateBannerDto } from './dto';
 import { Product } from '../product';
 import { Category } from '../category';
+import { FileService } from '../file';
 
 @Injectable()
 export class BannerService {
   constructor(
     @InjectModel(Banner)
     private readonly bannerModel: typeof Banner,
+    private fileService: FileService,
   ) {}
 
-  // Create a new banner
-  async create(createBannerDto: CreateBannerDto): Promise<Banner> {
+  async create(createBannerDto: CreateBannerDto, file: Express.Multer.File): Promise<Banner> {
+    const image = await this.fileService.uploadFile(file)
+
     const banner = await this.bannerModel.create({
-      ...createBannerDto,
+      product_id: createBannerDto.product_id,
+      category_id: createBannerDto.category_id,
+      title: createBannerDto.title,
+      description: createBannerDto.description,
+      image: image,
+      name: createBannerDto.name,
     });
     return banner;
   }
 
-  // Get all banners
   async findAll(): Promise<Banner[]> {
     return this.bannerModel.findAll({
       include: [

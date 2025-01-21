@@ -132,7 +132,7 @@ import { Banner } from './modules/banner/model';
     SeedsModule,
     AddressModule,
     ContactModule,
-    TelegramModule
+    TelegramModule,
     BannerModule
   ],
   controllers: [],
