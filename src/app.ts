@@ -34,6 +34,8 @@ import {
   VariationModule,
   VariationOption,
   VariationOptionModule,
+  Color,
+  ColorModule,
   Contact,
   ContactModule,
   TelegramModule,
@@ -96,7 +98,8 @@ import { Banner } from './modules/banner/model';
               Brand,
               Contact,
               Banner,
-              Address
+              Address,
+              Color
             ] as ModelCtor[],
             // sync: { force: true },
             synchronize: true,
@@ -131,9 +134,10 @@ import { Banner } from './modules/banner/model';
     BrandModule,
     SeedsModule,
     AddressModule,
+    BannerModule,
+    ColorModule,
     ContactModule,
     TelegramModule
-    BannerModule
   ],
   controllers: [],
   providers: [

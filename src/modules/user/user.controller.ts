@@ -21,7 +21,6 @@ export class UserController {
     @ApiOperation({ summary: 'Yagona userlarni olish' })
     @Get('/:id')
     @ApiOperation({ summary: 'Yagona userni olish' })
-    // Abduqodiriy paramdan olish esdan chiqibdiku aken to'g'rilab qo'ydi
     async getSingleUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
         return await this.#_service.getSingleUser(id);
     }
