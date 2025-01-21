@@ -13,9 +13,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
     
     MailerModule.forRoot({
         transport: {
-          host: 'smtp.gmail.com', // Gmail SMTP serveri
-          port: 587,  // TLS uchun port
-          secure: false, // TLS uchun false
+          host: 'smtp.gmail.com',
+          port: 587,  
+          secure: false, 
           auth: {
             user: `kamronbekbahriyev18@gmail.com`,
             pass:  `whudllcxkbgnpgmu`,
