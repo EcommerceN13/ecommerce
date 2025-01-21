@@ -12,11 +12,12 @@ export class ProductItemService {
 
   async create(createProductItemDto: CreateProductItemDto, file: Express.Multer.File): Promise<ProductItem> {
     const image = await this.fileService.uploadFile(file);
-
+    console.log(createProductItemDto.price, createProductItemDto.product_id, createProductItemDto.color_id, "!")
     return this.productItemModel.create({
       price: createProductItemDto.price,
       image,
       product_id: createProductItemDto.product_id,
+      color_id: createProductItemDto.color_id,
     });
   }
 

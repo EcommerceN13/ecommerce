@@ -1,5 +1,12 @@
-import { IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform, Type } from 'class-transformer';
 
 export class CreateProductItemDto {
   @ApiProperty({
@@ -8,17 +15,20 @@ export class CreateProductItemDto {
     type: Number,
     minimum: 0.01,
   })
+  @Type(() => Number)
   @IsNotEmpty()
   @IsNumber()
   @IsPositive()
   price: number;
 
   @ApiProperty({
-    description: 'Mahsulot tasviriga havola',
     example: 'https://example.com/images/product.jpg',
+    description: 'Mahsulot tasviriga havola',
+    format: 'binary',
+    required: false,
     type: String,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   image: string;
 
@@ -27,8 +37,20 @@ export class CreateProductItemDto {
     example: 1,
     type: Number,
   })
+  @Type(() => Number)
   @IsNotEmpty()
   @IsNumber()
   @IsPositive()
   product_id: number;
+
+  @ApiProperty({
+    description: 'Tegishli mahsulot rangini IDsi',
+    example: 1,
+    type: Number,
+  })
+  @Type(() => Number)
+  @IsNotEmpty()
+  @IsNumber()
+  @IsPositive()
+  color_id: number;
 }

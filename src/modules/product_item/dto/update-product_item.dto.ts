@@ -1,6 +1,8 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateProductItemDto } from './create-product_item.dto';
+import { IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
 
 export class UpdateProductItemDto extends PartialType(CreateProductItemDto) {
   @ApiPropertyOptional({
@@ -9,6 +11,10 @@ export class UpdateProductItemDto extends PartialType(CreateProductItemDto) {
     type: Number,
     minimum: 0.01,
   })
+  @Type(() => Number)
+  @IsOptional()
+  @IsNumber()
+  @IsPositive()
   price?: number;
 
   @ApiPropertyOptional({
@@ -16,6 +22,8 @@ export class UpdateProductItemDto extends PartialType(CreateProductItemDto) {
     example: 'https://example.com/images/new-product.jpg',
     type: String,
   })
+  @IsOptional()
+  @IsString()
   image?: string;
 
   @ApiPropertyOptional({
@@ -23,6 +31,20 @@ export class UpdateProductItemDto extends PartialType(CreateProductItemDto) {
     example: 2,
     type: Number,
   })
+  @Type(() => Number)
+  @IsOptional()
+  @IsNumber()
+  @IsPositive()
   product_id?: number;
-}
 
+  @ApiProperty({
+    description: 'Tegishli mahsulot rangini IDsi',
+    example: 1,
+    type: Number,
+  })
+  @Type(() => Number)
+  @IsOptional()
+  @IsNumber()
+  @IsPositive()
+  color_id?: number;
+}
