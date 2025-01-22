@@ -7,4 +7,5 @@ export interface ProductFilterDto {
     page?: number;
     limit?: number;
     sort?: 'price_asc' | 'price_desc' | 'rating_desc';
+    variations?: Record<number, number>;
 }
