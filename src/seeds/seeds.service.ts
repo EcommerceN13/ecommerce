@@ -39,7 +39,7 @@ export class SeedsService implements OnModuleInit {
             await this.categoryModel.create({
                 name: "telephones",
                 image: "/galaxy_s24_samsung_1705488155097.webp",
-                icon: "/Group.png"
+                icon: "/Group.png",
             })
         }
     }

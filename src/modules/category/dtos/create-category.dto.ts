@@ -11,7 +11,8 @@ export class CreateCategoryDto implements CreateCategoryRequest {
   })
   @IsString()
   @IsNotEmpty()
-  name: string;
+  readonly name: string;
+  readonly parentCategoryId?: number;
 
   @ApiProperty({
     type: String,
