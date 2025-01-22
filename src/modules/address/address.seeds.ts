@@ -11,20 +11,6 @@ export const addressSeedData = [
     region_id: 2,
     city_id: null,
     district_id: 4,
-    street: 'Mustaqillik street, 22',
-  },
-  {
-    user_id: 1,
-    region_id: 2,
-    city_id: null,
-    district_id: 3,
-    street: 'Navoi street, 10',
-  },
-  {
-    user_id: 1,
-    region_id: 2,
-    city_id: null,
-    district_id: 4,
     street: 'Shahrisabz street, 19',
   },
   {

@@ -27,6 +27,12 @@ export class ProductController {
         enum: ['price_asc', 'price_desc', 'rating_desc'],
         description: 'Sort by price (asc/desc) or rating'
     })
+    @ApiQuery({
+        name: 'variations',
+        required: false,
+        type: 'object',
+        description: 'Variation filters as key-value pairs (variation_id: option_id)'
+    })
     @Get()
     async getAllProducts(
         @Query('category_id') category_id?: number,
@@ -36,7 +42,8 @@ export class ProductController {
         @Query('search') search?: string,
         @Query('page') page?: number,
         @Query('limit') limit?: number,
-        @Query('sort') sort?: 'price_asc' | 'price_desc' | 'rating_desc'
+        @Query('sort') sort?: 'price_asc' | 'price_desc' | 'rating_desc',
+        @Query('variations') variations?: string
     ): Promise<PaginatedResponse<Product>> {
         const filters: ProductFilterDto = {
             category_id: category_id ? +category_id : undefined,
@@ -46,7 +53,8 @@ export class ProductController {
             search,
             page: page ? +page : 1,
             limit: limit ? +limit : 10,
-            sort
+            sort,
+            variations: variations ? JSON.parse(variations) : undefined
         };
 
         return await this.#_service.getAllProducts(filters);
@@ -74,7 +82,7 @@ export class ProductController {
     })
     @Get('/popular')
     async getMostPopularProducts(@Query('limit') limit?: number): Promise<Product[]> {
-        const parsedLimit = limit ? +limit : 5; 
+        const parsedLimit = limit ? +limit : 5;
         return await this.#_service.getMostPopularProducts(parsedLimit);
     }
 

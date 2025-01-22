@@ -5,13 +5,14 @@ import { FileService } from '../file';
 import { CreateProductDto } from './dto';
 import { UpdateProductRequest } from './interfaces/update-product.interface';
 import { Op } from 'sequelize';
-import { Query } from '@nestjs/common';
 import { ProductFilterDto } from './interfaces';
 import { Like } from '../like';
 import { Comment } from '../comment';
 import { Category } from '../category';
 import { PaginatedResponse } from './interfaces/paginate-product.interface';
 import { ProductItem } from '../product_item';
+import { Variation } from '../variation';
+import { VariationOption } from '../variation_option';
 
 @Injectable()
 export class ProductService {
@@ -25,7 +26,7 @@ export class ProductService {
   ): Promise<PaginatedResponse<Product>> {
     const whereClause: any = {};
     const page = filters?.page || 1;
-    const limit = filters?.limit || 10;
+    const limit = filters?.limit || 20;
     const offset = (page - 1) * limit;
     let order: any[] = [];
 
@@ -63,6 +64,20 @@ export class ProductService {
         ];
       }
 
+      // Add variation filtering
+      if (filters.variations && Object.keys(filters.variations).length > 0) {
+        const variationFilters = [];
+
+        for (const [variationId, optionId] of Object.entries(filters.variations)) {
+          variationFilters.push({
+            '$productItems.variationOptions.variation_id$': variationId,
+            '$productItems.variationOptions.id$': optionId,
+          });
+        }
+
+        whereClause[Op.and] = variationFilters;
+      }
+
       if (filters.sort) {
         switch (filters.sort) {
           case 'price_asc':
@@ -84,11 +99,21 @@ export class ProductService {
         { model: Comment },
         { model: Like },
         { model: Category },
-        { model: ProductItem },
+        {
+          model: ProductItem,
+          include: [{
+            model: VariationOption,
+            include: [{
+              model: Variation,
+              attributes: ['name', 'color']
+            }]
+          }]
+        },
       ],
       order,
       limit,
       offset,
+      distinct: true,
     });
 
     return {
@@ -99,6 +124,7 @@ export class ProductService {
       totalPages: Math.ceil(count / limit),
     };
   }
+
 
   async getSingleProduct(id: number): Promise<Product> {
     return await this.productModel.findOne({
