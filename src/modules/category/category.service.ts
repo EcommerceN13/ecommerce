@@ -15,70 +15,50 @@ export class CategoryService {
   ) {}
 
   async getAllCategories(): Promise<Category[]> {
-    return await this.categoryModel.findAll({include:{model:Product}});
-  }
-
-  async createCategory(
-    payload: CreateCategoryRequest,
-    imageFile: Express.Multer.File,
-    iconFile: Express.Multer.File,
-  ): Promise<{ message: string; category: Category }> {
-    const image = await this.fileService.uploadFile(imageFile);
-    const icon = await this.fileService.uploadFile(iconFile);
-
-    const category = await this.categoryModel.create({
-      name: payload.name,
-      image,
-      icon,
+    return await this.categoryModel.findAll({
+      include: [
+        {
+          model: Product,
+        },
+        {
+          model: Category,
+          as: 'subCategories',
+          include: [{ model: Category, as: 'subCategories' }],
+        },
+      ],
     });
-    return {
-      message: 'Category Created Successfully',
-      category: category,
-    };
   }
 
-  async getOneCategory(id: number) {
-    const foundedCategory = await this.categoryModel.findOne({ where: { id } });
-    return foundedCategory;
-  }
+async createCategory(
+  payload: CreateCategoryRequest,
+  imageFile: Express.Multer.File,
+  iconFile: Express.Multer.File,
+): Promise<{ message: string; category: Category }> {
+  const image = await this.fileService.uploadFile(imageFile);
+  const icon = await this.fileService.uploadFile(iconFile);
 
-  // async updateCategory(
-  //   id: number,
-  //   payload: UpdateCategoryRequest,
-  //   imageFile?: Express.Multer.File,
-  //   iconFile?: Express.Multer.File,
-  // ): Promise<{ message: string; updatedCategory: Category }> {
-  //   let newImage: string | undefined;
-  //   let newIcon: string | undefined;
-  //   if (imageFile) {
-  //     newImage = await this.fileService.uploadFile(imageFile);
-  //     const category = await this.categoryModel.findOne({ where: { id } });
-  //     if (category?.image) {
-  //       await this.fileService.deleteFile(category.image);
-  //     }
-  //     payload.image = newImage;
-  //   }
+  const category = await this.categoryModel.create({
+    name: payload.name,
+    image,
+    icon,
+    parentCategoryId: payload.parentCategoryId || null, // Default null if no parent
+  });
+  return {
+    message: 'Category Created Successfully',
+    category: category,
+  };
+}
 
-  //   if (iconFile) {
-  //     newIcon = await this.fileService.uploadFile(iconFile);
-  //     const category = await this.categoryModel.findOne({ where: { id } });
-  //     if (category?.icon) {
-  //       await this.fileService.deleteFile(category.icon);
-  //     }
-  //     payload.image = newImage;
-  //   }
+async getOneCategory(id: number): Promise<Category> {
+  return await this.categoryModel.findOne({
+    where: { id },
+    include: [
+      { model: Product },
+      { model: Category, as: 'subCategories' },
+    ],
+  });
+}
 
-  //   await this.categoryModel.update(payload, {
-  //     where: { id },
-  //   });
-
-  //   const updatedCategory = await this.categoryModel.findOne({ where: { id } });
-
-  //   return {
-  //     message: 'User updated successfully',
-  //     updatedCategory,
-  //   };
-  // }
 
   async updateCategory(
     id: number,

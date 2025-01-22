@@ -22,32 +22,68 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Category } from './models';
-import {
-  FileFieldsInterceptor,
-} from '@nestjs/platform-express';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+
+// @ApiTags('Category')
+// @Controller('/categories')
+// export class CategoryController {
+//   categoryService: CategoryService;
+
+//   constructor(categoryService: CategoryService) {
+//     this.categoryService = categoryService;
+//   }
+
+//   @Protected(false)
+//   @ApiOperation({
+//     description: 'Barcha CategoryLarni olish',
+//     summary: 'Barcha Categoryn Olishi',
+//   })
+//   @Get('/all')
+//   async getAllCategories(): Promise<Category[]> {
+//     return this.categoryService.getAllCategories();
+//   }
+
+//   @ApiBearerAuth()
+//   @ApiConsumes('multipart/form-data')
+//   @ApiOperation({ summary: 'Category create qilish' })
+//   @Protected(true)
+//   @UseInterceptors(
+//     FileFieldsInterceptor([
+//       { name: 'image', maxCount: 1 },
+//       { name: 'icon', maxCount: 1 },
+//     ]),
+//   )
+//   @Post('/add')
+//   async createCategory(
+//     @Body() createCategoryDto: CreateCategoryDto,
+//     @UploadedFiles()
+//     files: { image: Express.Multer.File; icon: Express.Multer.File },
+//   ): Promise<{ message: string; category: Category }> {
+//     return this.categoryService.createCategory(
+//       createCategoryDto,
+//       files.image[0],
+//       files.icon[0],
+//     );
+//   }
 
 @ApiTags('Category')
 @Controller('/categories')
 export class CategoryController {
-  #_service: CategoryService;
-
-  constructor(categoryService: CategoryService) {
-    this.#_service = categoryService;
-  }
+  constructor(private readonly categoryService: CategoryService) {}
 
   @Protected(false)
   @ApiOperation({
-    description: 'Barcha CategoryLarni olish',
-    summary: 'Barcha Categoryn Olishi',
+    description: 'Barcha kategoriyalarni daraxt ko‘rinishida olish',
+    summary: 'Kategoriyalarni daraxt ko‘rinishida olish',
   })
   @Get('/all')
   async getAllCategories(): Promise<Category[]> {
-    return this.#_service.getAllCategories();
+    return this.categoryService.getAllCategories();
   }
 
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Category create qilish' })
+  @ApiOperation({ summary: 'Kategoriya yaratish' })
   @Protected(true)
   @UseInterceptors(
     FileFieldsInterceptor([
@@ -61,7 +97,7 @@ export class CategoryController {
     @UploadedFiles()
     files: { image: Express.Multer.File; icon: Express.Multer.File },
   ): Promise<{ message: string; category: Category }> {
-    return this.#_service.createCategory(
+    return this.categoryService.createCategory(
       createCategoryDto,
       files.image[0],
       files.icon[0],
@@ -70,13 +106,14 @@ export class CategoryController {
 
   @Protected(false)
   @ApiOperation({
-    summary: 'Bitta Categoryni Olish',
+    summary: 'Bitta kategoriyani barcha ichki kategoriyalari bilan olish',
   })
   @Get('/:categoryId')
-  async getOneCategory(@Param('categoryId') id: number) {
-    return this.#_service.getOneCategory(+id);
+  async getOneCategory(
+    @Param('categoryId', ParseIntPipe) categoryId: number,
+  ): Promise<Category> {
+    return this.categoryService.getOneCategory(categoryId);
   }
-
 
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
@@ -90,16 +127,21 @@ export class CategoryController {
     ]),
   )
   async updateCategory(
-    @UploadedFiles() files: { image?: Express.Multer.File[]; icon?: Express.Multer.File[] },
+    @UploadedFiles()
+    files: { image?: Express.Multer.File[]; icon?: Express.Multer.File[] },
     @Body() updateCategoryPayload: UpdateCategoryDto,
     @Param('categoryId', ParseIntPipe) categoryId: number,
   ): Promise<{ message: string; updatedCategory: Category }> {
     const imageFile = files?.image?.[0];
     const iconFile = files?.icon?.[0];
 
-    return this.#_service.updateCategory(categoryId, updateCategoryPayload, imageFile, iconFile);
+    return this.categoryService.updateCategory(
+      categoryId,
+      updateCategoryPayload,
+      imageFile,
+      iconFile,
+    );
   }
-
 
   @ApiBearerAuth()
   @Protected(true)
@@ -110,6 +152,6 @@ export class CategoryController {
   async deleteCategory(
     @Param('categoryId', ParseIntPipe) categoryId: number,
   ): Promise<void> {
-    await this.#_service.deleteCategory(categoryId);
+    await this.categoryService.deleteCategory(categoryId);
   }
 }
