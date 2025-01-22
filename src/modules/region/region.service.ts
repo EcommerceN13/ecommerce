@@ -3,7 +3,8 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Region } from './models';
 import { CreateRegionDto, UpdateRegionDto } from './dto';
 import { regionSeedData } from './region.seeds';
-import sequelize from 'sequelize';
+import sequelize, { literal, where } from 'sequelize';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class RegionService implements OnModuleInit {
@@ -62,6 +63,15 @@ export class RegionService implements OnModuleInit {
         { model: Region, as: 'children' },
       ],
     });
+  }
+
+  // Parent Regionlarni olish (masalan, Toshkent viloyati yoki Toshkent shahri)
+  async getParentRegions(): Promise<Region[]> {
+    return this.regionModel.findAll({
+      where: {
+        region_id: null
+      },
+      order: [['id', 'ASC']]});
   }
 
   // Regionni o'zgartirish
