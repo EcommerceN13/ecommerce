@@ -16,6 +16,8 @@ import { Brand } from './models';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateBrandRequest, UpdateBrandRequest } from './interfaces';
 import { CreateBrandDto } from './dto';
+import { Protected, Roles } from '@decorators';
+import { UserRoles } from '../user';
 
 @ApiTags('Brand')
 @Controller('/brands')
@@ -25,6 +27,8 @@ export class BrandController {
     this.#_brandService = service;
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Brandni create qilish' })
   @ApiConsumes('multipart/form-data')
   @Post('/add')
@@ -35,11 +39,17 @@ export class BrandController {
   ): Promise<{ message: string }> {
     return await this.#_brandService.createBrand(createBrandDto, image);
   }
+
+  @Protected(false)
+  @Roles([UserRoles.admin, UserRoles.user])
   @ApiOperation({ summary: 'Hamma brandlarni olish' })
   @Get('/all')
   async getAllBrands(): Promise<Brand[]> {
     return this.#_brandService.getAllBrands();
   }
+
+  @Protected(false)
+  @Roles([UserRoles.admin, UserRoles.user])
   @ApiOperation({ summary: '1 ta brandni olish' })
   @Get('/:brandId')
   async getSingleBrand(
@@ -48,6 +58,8 @@ export class BrandController {
     return await this.#_brandService.getSingleBrand(+id);
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Update brand' })
   @ApiConsumes('multipart/form-data')
   @Patch('/:id')
@@ -68,6 +80,9 @@ export class BrandController {
       updatedBrand: result.updatedBrand,
     };
   }
+
+  @Protected(true)
+  @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Brandni Ochirish' })
   @Delete(':id')
   @UseInterceptors(FileInterceptor('image'))

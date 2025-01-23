@@ -13,12 +13,16 @@ import {
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { AddressService } from './address.service';
 import { CreateAddressDto, UpdateAddressDto } from './dto';
+import { Protected, Roles } from '@decorators';
+import { UserRoles } from '../user';
 
 @ApiTags('Address')
 @Controller('address')
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Post()
   @ApiOperation({ summary: 'Create new address' })
   @ApiResponse({
@@ -40,6 +44,8 @@ export class AddressController {
     }
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Get()
   @ApiOperation({ summary: 'Get all addresses' })
   @ApiResponse({
@@ -57,6 +63,8 @@ export class AddressController {
     }
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Get(':id')
   @ApiOperation({ summary: 'Get address by id' })
   @ApiParam({
@@ -91,6 +99,8 @@ export class AddressController {
     }
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Patch(':id')
   @ApiOperation({ summary: 'Update address by id' })
   @ApiParam({
@@ -132,6 +142,8 @@ export class AddressController {
     }
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Delete(':id')
   @ApiOperation({ summary: 'Delete address by id' })
   @ApiParam({
