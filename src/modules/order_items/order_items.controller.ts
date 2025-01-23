@@ -3,12 +3,16 @@ import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { OrderItems } from './models';
 import { OrderItemsService } from './order_items.service';
 import { CreateOrderItemDto } from './dto';
+import { Protected, Roles } from '@decorators';
+import { UserRoles } from '../user';
 
 @ApiTags('Order Items')
 @Controller('order-items')
 export class OrderItemsController {
   constructor(private readonly orderItemsService: OrderItemsService) {}
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Post()
   @ApiOperation({ summary: 'Create a new order item' })
   @ApiResponse({
@@ -21,6 +25,8 @@ export class OrderItemsController {
     return this.orderItemsService.create(createOrderItemDto);
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Get()
   @ApiOperation({ summary: 'Get all order items' })
   @ApiResponse({
@@ -32,6 +38,8 @@ export class OrderItemsController {
     return this.orderItemsService.findAll();
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Get(':id')
   @ApiOperation({ summary: 'Get a single order item by id' })
   @ApiParam({ name: 'id', description: 'Order item ID' })

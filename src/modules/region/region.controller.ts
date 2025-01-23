@@ -22,10 +22,10 @@ export class RegionController {
   constructor(private readonly regionService: RegionService) {}
 
   // Region yaratish
-  @Post('create-region')
-  @ApiOperation({ summary: 'Create new region' })
   @Protected(true)
   @Roles([UserRoles.admin])
+  @Post('create-region')
+  @ApiOperation({ summary: 'Create new region' })
   async createRegion(
     @Body() createRegionDto: CreateRegionDto,
   ): Promise<Region> {
@@ -33,6 +33,8 @@ export class RegionController {
   }
 
   // Parent Regionlarni olish (masalan, Toshkent viloyati yoki Toshkent shahri)
+  @Protected(true)
+  @Roles([UserRoles.admin])
   @Get('parent')
   @ApiOperation({ summary: 'Get parent regions' })
   @ApiResponse({
@@ -46,6 +48,8 @@ export class RegionController {
   }
 
   // Regionni ID bo'yicha olish
+  @Protected(true)
+  @Roles([UserRoles.admin])
   @Get(':id')
   @ApiOperation({ summary: 'Get region by id' })
   async getRegionById(@Param('id', ParseIntPipe) id: number): Promise<Region> {
@@ -53,6 +57,8 @@ export class RegionController {
   }
 
   // Barcha regionlarni olish
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Get()
   @ApiOperation({ summary: 'Get all regions' })
   async getAllRegions(): Promise<Region[]> {
@@ -60,6 +66,8 @@ export class RegionController {
   }
 
   // Regionni yangilash
+  @Protected(true)
+  @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Update region by id' })
   @Patch(':id')
   async updateRegion(
@@ -70,6 +78,8 @@ export class RegionController {
   }
 
   // Regionni o'chirish
+  @Protected(true)
+  @Roles([UserRoles.admin])
   @Delete(':id')
   @ApiOperation({ summary: 'Delete region' })
   async deleteRegion(@Param('id', ParseIntPipe) id: number): Promise<void> {
