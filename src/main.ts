@@ -25,6 +25,11 @@ async function bootstrap() {
 
   app.useGlobalFilters(new ExceptionHandlerFilter());
 
+  app.enableCors({
+    origin: '*',
+    methods: ['POST', 'GET', 'PATCH', 'DELETE', 'PUT'],
+  });
+
   app.use(morgan('tiny'))
 
   const config = new DocumentBuilder()

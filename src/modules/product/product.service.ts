@@ -106,7 +106,6 @@ export class ProductService {
             model: ProductConfiguration,
             include: [{
               model: VariationOption,
-              attributes: ['name', 'color']
             }]
           }]
         },
