@@ -24,47 +24,6 @@ import {
 import { Category } from './models';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
-// @ApiTags('Category')
-// @Controller('/categories')
-// export class CategoryController {
-//   categoryService: CategoryService;
-
-//   constructor(categoryService: CategoryService) {
-//     this.categoryService = categoryService;
-//   }
-
-//   @Protected(false)
-//   @ApiOperation({
-//     description: 'Barcha CategoryLarni olish',
-//     summary: 'Barcha Categoryn Olishi',
-//   })
-//   @Get('/all')
-//   async getAllCategories(): Promise<Category[]> {
-//     return this.categoryService.getAllCategories();
-//   }
-
-//   @ApiBearerAuth()
-//   @ApiConsumes('multipart/form-data')
-//   @ApiOperation({ summary: 'Category create qilish' })
-//   @Protected(true)
-//   @UseInterceptors(
-//     FileFieldsInterceptor([
-//       { name: 'image', maxCount: 1 },
-//       { name: 'icon', maxCount: 1 },
-//     ]),
-//   )
-//   @Post('/add')
-//   async createCategory(
-//     @Body() createCategoryDto: CreateCategoryDto,
-//     @UploadedFiles()
-//     files: { image: Express.Multer.File; icon: Express.Multer.File },
-//   ): Promise<{ message: string; category: Category }> {
-//     return this.categoryService.createCategory(
-//       createCategoryDto,
-//       files.image[0],
-//       files.icon[0],
-//     );
-//   }
 
 @ApiTags('Category')
 @Controller('/categories')
@@ -92,17 +51,17 @@ export class CategoryController {
     ]),
   )
   @Post('/add')
-  async createCategory(
-    @Body() createCategoryDto: CreateCategoryDto,
-    @UploadedFiles()
-    files: { image: Express.Multer.File; icon: Express.Multer.File },
-  ): Promise<{ message: string; category: Category }> {
-    return this.categoryService.createCategory(
-      createCategoryDto,
-      files.image[0],
-      files.icon[0],
-    );
-  }
+async createCategory(
+  @Body() createCategoryDto: CreateCategoryDto,
+  @UploadedFiles()
+  files: { image: Express.Multer.File; icon: Express.Multer.File },
+): Promise<{ message: string; category: Category }> {
+  return this.categoryService.createCategory(
+    createCategoryDto,
+    files.image[0],
+    files.icon[0],
+  );
+}
 
   @Protected(false)
   @ApiOperation({

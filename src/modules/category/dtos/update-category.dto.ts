@@ -19,6 +19,13 @@ export class UpdateCategoryDto implements Omit<UpdateCategoryRequest, 'id'> {
   image: string;
 
   @ApiProperty({
+    description: 'Parent kategoriya ID (ixtiyoriy)',
+    example: 2,
+    required: false,
+  })
+  parentCategoryId?: number;
+
+  @ApiProperty({
     type: String,
     format: 'binary',
     example: 'Icons update',

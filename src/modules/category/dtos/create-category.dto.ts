@@ -12,7 +12,13 @@ export class CreateCategoryDto implements CreateCategoryRequest {
   @IsString()
   @IsNotEmpty()
   readonly name: string;
-  readonly parentCategoryId?: number;
+
+  @ApiProperty({
+    description: 'Parent kategoriya ID (ixtiyoriy)',
+    example: 1,
+    required: false,
+  })
+  parentCategoryId?: number;
 
   @ApiProperty({
     type: String,
