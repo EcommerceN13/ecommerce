@@ -40,7 +40,7 @@ export class CategoryController {
     description: 'Barcha CategoryLarni olish',
     summary: 'Barcha Categoryn Olishi',
   })
-  @Get('/all')
+  @Get('/all ')
   async getAllCategories(): Promise<Category[]> {
     return this.#_service.getAllCategories();
   }

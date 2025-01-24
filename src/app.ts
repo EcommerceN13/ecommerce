@@ -151,5 +151,6 @@ import { Banner } from './modules/banner/model';
     //   provide: APP_GUARD,
     // },
   ],
+  
 })
 export class AppModule { }
