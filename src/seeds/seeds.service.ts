@@ -22,7 +22,7 @@ export class SeedsService implements OnModuleInit {
 
         if (usersCount == 0) {
             await this.userModel.create({
-                fullname: "Abduqodir",
+                fullname: "Abduqodir Team Lead",
                 email: "abduqodiir@gmail.com",
                 phone_number: "+998884891727",
                 image: "/ahmad_aka.jpg_6f5b92c6-44a8-47ae-9101-972a2c8982b4.jpg",
@@ -37,9 +37,39 @@ export class SeedsService implements OnModuleInit {
         const categoryCount = await this.categoryModel.count()
         if (categoryCount == 0) {
             await this.categoryModel.create({
-                name: "telephones",
-                image: "/galaxy_s24_samsung_1705488155097.webp",
-                icon: "/Group.png",
+                name: "Noubuklar",
+                image: "/noutbuklar.png",
+                icon: "/noutbuklar.svg",
+            })
+            await this.categoryModel.create({
+                name: "Smartfonlar",
+                image: "/smartfonlar.png",
+                icon: "/smartfonlar.svg",
+            })
+            await this.categoryModel.create({
+                name: "Konditsiyonerlar",
+                image: "/konditsiyoner.png",
+                icon: "/konditsiyoner.svg",
+            })
+            await this.categoryModel.create({
+                name: "Televizorlar",
+                image: "/televizor.png",
+                icon: "/televizor.svg",
+            })
+            await this.categoryModel.create({
+                name: "Muzlatgitchlar",
+                image: "/muzlakich.png",
+                icon: "/muzlatkich.svg",
+            })
+            await this.categoryModel.create({
+                name: "Kiryuvish mashinalari",
+                image: "/kiryuvish_mashinasi.png",
+                icon: "/kiryuvish_mashinasi.svg",
+            })
+            await this.categoryModel.create({
+                name: "Chang yutkichlar",
+                image: "/changyutkich.jpg",
+                icon: "/changyutkich.svg",
             })
         }
     }
