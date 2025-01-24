@@ -126,10 +126,6 @@ export class AuthService {
       throw new HttpException("Email yoki parol noto'g'ri", HttpStatus.UNAUTHORIZED);
     }
 
-    if (!user.is_verified) {
-      throw new HttpException('Iltimos, emailingizni tasdiqlang', HttpStatus.FORBIDDEN);
-    }
-
     const tokens = this.generateTokens(user.id, user.email);
     return {
       ...tokens,

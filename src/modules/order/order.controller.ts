@@ -18,12 +18,16 @@ import { Order } from './models/order.model';
 import { OrderService } from './order.service';
 import { OrderStatus } from './enums';
 import { CreateOrderDto, UpdateOrderDto } from './dto';
+import { Protected, Roles } from '@decorators';
+import { UserRoles } from '../user';
 
 @ApiTags('orders')
 @Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Post()
   @ApiOperation({ summary: 'Create new order' })
   @ApiResponse({
@@ -40,6 +44,8 @@ export class OrderController {
     }
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Get()
   @ApiOperation({ summary: 'Get all orders' })
   @ApiResponse({ status: 200, description: 'Return all orders', type: [Order] })
@@ -51,6 +57,8 @@ export class OrderController {
     }
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin, UserRoles.user])
   @Get(':id')
   @ApiOperation({ summary: 'Get order by id' })
   @ApiResponse({ status: 200, description: 'Return order by id', type: Order })
@@ -67,6 +75,8 @@ export class OrderController {
     }
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin])
   @Patch(':id')
   @ApiOperation({ summary: 'Update order by id' })
   @ApiResponse({
@@ -90,6 +100,8 @@ export class OrderController {
     }
   }
 
+  @Protected(true)
+  @Roles([UserRoles.admin])
   @Delete(':id')
   @ApiOperation({ summary: 'Delete order by id' })
   @ApiResponse({ status: 200, description: 'Order deleted successfully' })

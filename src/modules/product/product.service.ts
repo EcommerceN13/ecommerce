@@ -13,6 +13,7 @@ import { PaginatedResponse } from './interfaces/paginate-product.interface';
 import { ProductItem } from '../product_item';
 import { Variation } from '../variation';
 import { VariationOption } from '../variation_option';
+import { ProductConfiguration } from '../product_configuration';
 
 @Injectable()
 export class ProductService {
@@ -102,9 +103,9 @@ export class ProductService {
         {
           model: ProductItem,
           include: [{
-            model: VariationOption,
+            model: ProductConfiguration,
             include: [{
-              model: Variation,
+              model: VariationOption,
               attributes: ['name', 'color']
             }]
           }]

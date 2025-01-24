@@ -24,13 +24,13 @@ import {
 import { Category } from './models';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
-
 @ApiTags('Category')
 @Controller('/categories')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Protected(false)
+  @Roles([UserRoles.admin, UserRoles.user])
   @ApiOperation({
     description: 'Barcha kategoriyalarni daraxt ko‘rinishida olish',
     summary: 'Kategoriyalarni daraxt ko‘rinishida olish',
@@ -44,6 +44,7 @@ export class CategoryController {
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Kategoriya yaratish' })
   @Protected(true)
+  @Roles([UserRoles.admin])
   @UseInterceptors(
     FileFieldsInterceptor([
       { name: 'image', maxCount: 1 },
@@ -51,19 +52,20 @@ export class CategoryController {
     ]),
   )
   @Post('/add')
-async createCategory(
-  @Body() createCategoryDto: CreateCategoryDto,
-  @UploadedFiles()
-  files: { image: Express.Multer.File; icon: Express.Multer.File },
-): Promise<{ message: string; category: Category }> {
-  return this.categoryService.createCategory(
-    createCategoryDto,
-    files.image[0],
-    files.icon[0],
-  );
-}
+  async createCategory(
+    @Body() createCategoryDto: CreateCategoryDto,
+    @UploadedFiles()
+    files: { image: Express.Multer.File; icon: Express.Multer.File },
+  ): Promise<{ message: string; category: Category }> {
+    return this.categoryService.createCategory(
+      createCategoryDto,
+      files.image[0],
+      files.icon[0],
+    );
+  }
 
   @Protected(false)
+  @Roles([UserRoles.admin, UserRoles.user])
   @ApiOperation({
     summary: 'Bitta kategoriyani barcha ichki kategoriyalari bilan olish',
   })
@@ -78,6 +80,7 @@ async createCategory(
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Categoryni Update qilish' })
   @Protected(true)
+  @Roles([UserRoles.admin])
   @Patch('/update/:categoryId')
   @UseInterceptors(
     FileFieldsInterceptor([
@@ -104,6 +107,7 @@ async createCategory(
 
   @ApiBearerAuth()
   @Protected(true)
+  @Roles([UserRoles.admin])
   @ApiOperation({
     summary: 'Categoryni Ochirib tashlash',
   })

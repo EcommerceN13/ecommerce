@@ -10,6 +10,7 @@ import {
 import { ProductConfiguration } from 'src/modules/product_configuration';
 import { Product } from 'src/modules/product/models/product.model';
 import { Color } from 'src/modules/color';
+import { VariationOption } from 'src/modules/variation_option';
 
 @Table({ tableName: 'product_item', timestamps: true })
 export class ProductItem extends Model {
