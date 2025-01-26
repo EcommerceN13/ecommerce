@@ -78,16 +78,16 @@ export class SeedsService implements OnModuleInit {
         const productCount = await this.productModel.count()
         if (productCount == 0) {
             await this.productModel.create({
-                name: "S25",
-                category_id: 1,
+                name: "Смартфон Xiaomi 12 Lite 8/128Gb Қора kamera 48/68 px",
+                category_id: 2,
                 description: "The Samsung Galaxy S25 is expected to be a modern and high-tech smartphone. Its display will feature Dynamic AMOLED 2X technology for improved brightness and efficiency. The device will be powered by the latest Snapdragon or Exynos processors. The camera may include enhanced night mode and superior zoom capabilities. Its battery will support longer usage and faster charging technology.",
                 nasiya: "6 oy",
                 summary: "The Samsung Galaxy S25 is anticipated to deliver powerful performance with the latest processors and a stunning Dynamic AMOLED 2X display. It will also feature an upgraded camera system and a long-lasting battery with fast charging support.",
-                price: 12000,
+                price: 6999999,
                 rating: 5,
                 is_aksiya: true,
-                brand_id: 1,
-                image: "/product_image.jpg"
+                brand_id: 3,
+                image: "/airpods.jpg"
             })
         }
     }
@@ -98,8 +98,29 @@ export class SeedsService implements OnModuleInit {
         if(brandCount == 0) {
             await this.brandModel.create({
                 name: "Samsung",
-                image: "/samsung_brand"
+                image: "/samsung_brand.png"
             })
+            await this.brandModel.create({
+                name: "Artel",
+                image: "/artel.png"
+            })
+            await this.brandModel.create({
+                name: "Apple",
+                image: "/apple.png"
+            })
+            await this.brandModel.create({
+                name: "Vivo",
+                image: "/vivo.png"
+            })
+            await this.brandModel.create({
+                name: "Huwavei",
+                image: "/huwavei.png"
+            })
+            await this.brandModel.create({
+                name: "Nokia",
+                image: "/nokia.png"
+            })
+
         }
     }
 }
