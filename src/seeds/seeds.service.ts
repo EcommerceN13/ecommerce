@@ -59,7 +59,7 @@ export class SeedsService implements OnModuleInit {
             await this.categoryModel.create({
                 name: "Muzlatgitchlar",
                 image: "/muzlakich.png",
-                icon: "/muzlatkich.svg",
+                icon: "/muzlakich.svg",
             })
             await this.categoryModel.create({
                 name: "Kiryuvish mashinalari",
