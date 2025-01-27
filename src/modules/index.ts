@@ -20,3 +20,4 @@ export * from "./address"
 export * from "./color"
 export * from './telegram'
 export * from './contact'
+export * from './banner'

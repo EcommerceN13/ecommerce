@@ -1,7 +1,6 @@
 import { Attributes } from "sequelize";
 import { CartItem } from "../models";
 import { IsNumber, IsPositive } from "class-validator";
-import { Min } from "sequelize-typescript";
 
 export class UpdateCartItemDto implements Partial<Attributes<CartItem>> {
     @IsNumber()

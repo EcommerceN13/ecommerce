@@ -39,6 +39,8 @@ import {
   Contact,
   ContactModule,
   TelegramModule,
+  Banner,
+  BannerModule,
 } from '@modules';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -48,8 +50,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './modules/auth/auth.module';
 import { SeedsModule } from '@seeds';
 import { RegionModule } from './modules/region/region.module';
-import { BannerModule } from './modules/banner/banner.module';
-import { Banner } from './modules/banner/model';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -138,18 +139,17 @@ import { Banner } from './modules/banner/model';
     ColorModule,
     ContactModule,
     TelegramModule,
-    BannerModule    
   ],
   controllers: [],
   providers: [
-    // {
-    //   useClass: CheckAuthGuard,
-    //   provide: APP_GUARD,
-    // },
-    // {
-    //   useClass: CheckRoleGuard,
-    //   provide: APP_GUARD,
-    // },
+    {
+      useClass: CheckAuthGuard,
+      provide: APP_GUARD,
+    },
+    {
+      useClass: CheckRoleGuard,
+      provide: APP_GUARD,
+    },
   ],
 })
 export class AppModule { }

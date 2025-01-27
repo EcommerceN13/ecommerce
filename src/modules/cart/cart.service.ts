@@ -10,15 +10,21 @@ export class CartService {
     constructor(@InjectModel(Cart) private cartModel: typeof Cart) { }
 
     async getAllCarts(): Promise<Cart[]> {
-        return await this.cartModel.findAll({include: [
-                  { model: User},
-                  { model: Product },
-                ]})
+        return await this.cartModel.findAll({
+            include: [
+                { model: User },
+                { model: Product },
+            ]
+        })
     }
 
     async getSingleCart(id: number): Promise<Cart> {
         return this.cartModel.findOne({
-            where: { id }
+            where: { id },
+            include: [
+                { model: User },
+                { model: Product },
+            ]
         })
     }
 

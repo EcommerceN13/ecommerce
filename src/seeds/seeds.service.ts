@@ -1,4 +1,4 @@
-import { Brand, Category, Product, User, UserRoles } from "@modules";
+import { Banner, Brand, Category, Product, User, UserRoles } from "@modules";
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 
@@ -7,7 +7,8 @@ export class SeedsService implements OnModuleInit {
     constructor(@InjectModel(User) private userModel: typeof User,
         @InjectModel(Category) private categoryModel: typeof Category,
         @InjectModel(Product) private productModel: typeof Product,
-        @InjectModel(Brand) private brandModel: typeof Brand
+        @InjectModel(Brand) private brandModel: typeof Brand,
+        @InjectModel(Banner) private bannerModel: typeof Banner
     ) { }
 
     async onModuleInit() {
@@ -15,6 +16,7 @@ export class SeedsService implements OnModuleInit {
         await this.seedCategory(),
         await this.seedBrand()
         await this.seedProduct()
+        await this.seedBanner()
     }
 
     async seedUsers(): Promise<void> {
@@ -121,6 +123,30 @@ export class SeedsService implements OnModuleInit {
                 image: "/nokia.png"
             })
 
+        }
+    }
+
+    async seedBanner(): Promise<void> {
+        const bannerCount = await this.bannerModel.count()
+        if (bannerCount == 0) {
+            await this.bannerModel.create({
+                product_id: 1,
+                description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
+                image: "banner_imgae1.png",
+                name: "Siz kutgan Xiaomi 12 Mi Laite"
+            })
+            await this.bannerModel.create({
+                product_id: 1,
+                description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
+                image: "banner_imgae1.png",
+                name: "Siz kutgan Xiaomi 12 Mi Laite"
+            })
+            await this.bannerModel.create({
+                product_id: 1,
+                description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
+                image: "banner_imgae1.png",
+                name: "Siz kutgan Xiaomi 12 Mi Laite"
+            })
         }
     }
 }
