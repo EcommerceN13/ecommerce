@@ -1,4 +1,4 @@
-import { Brand, Category, Product, User, UserRoles } from "@modules";
+import { Banner, Brand, Category, Product, User, UserRoles } from "@modules";
 import { Injectable, OnModuleInit } from "@nestjs/common";
 import { InjectModel } from "@nestjs/sequelize";
 
@@ -7,7 +7,8 @@ export class SeedsService implements OnModuleInit {
     constructor(@InjectModel(User) private userModel: typeof User,
         @InjectModel(Category) private categoryModel: typeof Category,
         @InjectModel(Product) private productModel: typeof Product,
-        @InjectModel(Brand) private brandModel: typeof Brand
+        @InjectModel(Brand) private brandModel: typeof Brand,
+        @InjectModel(Banner) private bannerModel: typeof Banner
     ) { }
 
     async onModuleInit() {
@@ -15,6 +16,7 @@ export class SeedsService implements OnModuleInit {
         await this.seedCategory(),
         await this.seedBrand()
         await this.seedProduct()
+        await this.seedBanner()
     }
 
     async seedUsers(): Promise<void> {
@@ -59,7 +61,7 @@ export class SeedsService implements OnModuleInit {
             await this.categoryModel.create({
                 name: "Muzlatgitchlar",
                 image: "/muzlakich.png",
-                icon: "/muzlatkich.svg",
+                icon: "/muzlakich.svg",
             })
             await this.categoryModel.create({
                 name: "Kiryuvish mashinalari",
@@ -78,16 +80,16 @@ export class SeedsService implements OnModuleInit {
         const productCount = await this.productModel.count()
         if (productCount == 0) {
             await this.productModel.create({
-                name: "S25",
-                category_id: 1,
+                name: "Смартфон Xiaomi 12 Lite 8/128Gb Қора kamera 48/68 px",
+                category_id: 2,
                 description: "The Samsung Galaxy S25 is expected to be a modern and high-tech smartphone. Its display will feature Dynamic AMOLED 2X technology for improved brightness and efficiency. The device will be powered by the latest Snapdragon or Exynos processors. The camera may include enhanced night mode and superior zoom capabilities. Its battery will support longer usage and faster charging technology.",
                 nasiya: "6 oy",
                 summary: "The Samsung Galaxy S25 is anticipated to deliver powerful performance with the latest processors and a stunning Dynamic AMOLED 2X display. It will also feature an upgraded camera system and a long-lasting battery with fast charging support.",
-                price: 12000,
+                price: 6999999,
                 rating: 5,
                 is_aksiya: true,
-                brand_id: 1,
-                image: "/product_image.jpg"
+                brand_id: 3,
+                image: "/airpods.jpg"
             })
         }
     }
@@ -98,7 +100,52 @@ export class SeedsService implements OnModuleInit {
         if(brandCount == 0) {
             await this.brandModel.create({
                 name: "Samsung",
-                image: "/samsung_brand"
+                image: "/samsung_brand.png"
+            })
+            await this.brandModel.create({
+                name: "Artel",
+                image: "/artel.png"
+            })
+            await this.brandModel.create({
+                name: "Apple",
+                image: "/apple.png"
+            })
+            await this.brandModel.create({
+                name: "Vivo",
+                image: "/vivo.png"
+            })
+            await this.brandModel.create({
+                name: "Huwavei",
+                image: "/huwavei.png"
+            })
+            await this.brandModel.create({
+                name: "Nokia",
+                image: "/nokia.png"
+            })
+
+        }
+    }
+
+    async seedBanner(): Promise<void> {
+        const bannerCount = await this.bannerModel.count()
+        if (bannerCount == 0) {
+            await this.bannerModel.create({
+                product_id: 1,
+                description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
+                image: "banner_imgae1.png",
+                name: "Siz kutgan Xiaomi 12 Mi Laite"
+            })
+            await this.bannerModel.create({
+                product_id: 1,
+                description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
+                image: "banner_imgae1.png",
+                name: "Siz kutgan Xiaomi 12 Mi Laite"
+            })
+            await this.bannerModel.create({
+                product_id: 1,
+                description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
+                image: "banner_imgae1.png",
+                name: "Siz kutgan Xiaomi 12 Mi Laite"
             })
         }
     }
