@@ -130,27 +130,27 @@ export class AuthService {
     const user = await this.userModel.findOne({ where: { email } });
 
     if (!user) {
-      throw new HttpException("Email yoki parol noto'g'ri", HttpStatus.UNAUTHORIZED);
+        throw new HttpException("Email yoki parol noto'g'ri", HttpStatus.UNAUTHORIZED);
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user.password); // Hash bilan solishtirish
     if (!isPasswordValid) {
-      throw new HttpException("Email yoki parol noto'g'ri", HttpStatus.UNAUTHORIZED);
+        throw new HttpException("Email yoki parol noto'g'ri", HttpStatus.UNAUTHORIZED);
     }
 
     const tokens = this.generateTokens(user.id, user.email);
     return {
-      ...tokens,
-      user: {
-        id: user.id,
-        fullname: user.fullname,
-        email: user.email,
-        role: user.role,
-        is_verified: user.is_verified,
-      },
-      message: 'Muvaffaqiyatli login qilindi',
+        ...tokens,
+        user: {
+            id: user.id,
+            fullname: user.fullname,
+            email: user.email,
+            role: user.role,
+            is_verified: user.is_verified,
+        },
+        message: 'Muvaffaqiyatli login qilindi',
     };
-  }
+}
 
   async sendOtpForPasswordReset(email: string): Promise<{ message: string }> {
     const user = await this.userModel.findOne({ where: { email } });

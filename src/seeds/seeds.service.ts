@@ -14,7 +14,7 @@ export class SeedsService implements OnModuleInit {
     async onModuleInit() {
         await this.seedUsers()
         await this.seedCategory(),
-        await this.seedBrand()
+            await this.seedBrand()
         await this.seedProduct()
         await this.seedBanner()
     }
@@ -93,18 +93,25 @@ export class SeedsService implements OnModuleInit {
             })
         }
     }
-
     async seedBrand(): Promise<void> {
         const brandCount = await this.brandModel.count()
 
-        if(brandCount == 0) {
+        if (brandCount == 0) {
+            await this.brandModel.create({
+                name: "Artel",
+                image: "/artel.png"
+            })
             await this.brandModel.create({
                 name: "Samsung",
                 image: "/samsung_brand.png"
             })
             await this.brandModel.create({
-                name: "Artel",
-                image: "/artel.png"
+                name: "Nokia",
+                image: "/nokia.png"
+            })
+            await this.brandModel.create({
+                name: "Mi",
+                image: "/mi.png"
             })
             await this.brandModel.create({
                 name: "Apple",
@@ -114,13 +121,10 @@ export class SeedsService implements OnModuleInit {
                 name: "Vivo",
                 image: "/vivo.png"
             })
+
             await this.brandModel.create({
                 name: "Huwavei",
                 image: "/huwavei.png"
-            })
-            await this.brandModel.create({
-                name: "Nokia",
-                image: "/nokia.png"
             })
 
         }
@@ -132,19 +136,19 @@ export class SeedsService implements OnModuleInit {
             await this.bannerModel.create({
                 product_id: 1,
                 description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
-                image: "banner_imgae1.png",
+                image: "banner_image1.png",
                 name: "Siz kutgan Xiaomi 12 Mi Laite"
             })
             await this.bannerModel.create({
                 product_id: 1,
                 description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
-                image: "banner_imgae1.png",
+                image: "banner_image1.png",
                 name: "Siz kutgan Xiaomi 12 Mi Laite"
             })
             await this.bannerModel.create({
                 product_id: 1,
                 description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
-                image: "banner_imgae1.png",
+                image: "banner_image1.png",
                 name: "Siz kutgan Xiaomi 12 Mi Laite"
             })
         }
