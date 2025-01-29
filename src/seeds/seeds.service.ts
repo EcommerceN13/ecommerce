@@ -14,7 +14,7 @@ export class SeedsService implements OnModuleInit {
     async onModuleInit() {
         await this.seedUsers()
         await this.seedCategory(),
-        await this.seedBrand()
+            await this.seedBrand()
         await this.seedProduct()
         await this.seedBanner()
     }
@@ -93,11 +93,14 @@ export class SeedsService implements OnModuleInit {
             })
         }
     }
-
     async seedBrand(): Promise<void> {
         const brandCount = await this.brandModel.count()
 
-        if(brandCount == 0) {
+        if (brandCount == 0) {
+            await this.brandModel.create({
+                name: "Artel",
+                image: "/artel.png"
+            })
             await this.brandModel.create({
                 name: "Artel",
                 image: "/artel.png"
@@ -122,7 +125,6 @@ export class SeedsService implements OnModuleInit {
                 name: "Vivo",
                 image: "/vivo.png"
             })
-            
             await this.brandModel.create({
                 name: "Huwavei",
                 image: "/huwavei.png"

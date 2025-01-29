@@ -8,7 +8,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ColorService } from './color.service';
 import { CreateColorDto } from './dto/create-color.dto';
 import { UpdateColorDto } from './dto/update-color.dto';
@@ -17,6 +17,7 @@ import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
 
 @ApiTags('Color')
+@ApiBearerAuth()
 @Controller('color')
 export class ColorController {
   constructor(private readonly colorService: ColorService) {}

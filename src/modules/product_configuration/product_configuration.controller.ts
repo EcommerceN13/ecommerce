@@ -12,6 +12,7 @@ import { CreateProductConfigurationDto } from './dto/create-product_configuratio
 import { UpdateProductConfigurationDto } from './dto/update-product_configuration.dto';
 import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('product-configuration')
 export class ProductConfigurationController {
@@ -19,6 +20,7 @@ export class ProductConfigurationController {
     private readonly productConfigurationService: ProductConfigurationService,
   ) {}
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Post()
@@ -42,6 +44,7 @@ export class ProductConfigurationController {
     return this.productConfigurationService.findOne(+id);
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Patch(':id')
@@ -55,6 +58,7 @@ export class ProductConfigurationController {
     );
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin, UserRoles.user])
   @Delete(':id')

@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './models';
-import { ApiConsumes, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateProductDto, UpdateProductDto } from './dto';
 import { ProductFilterDto } from './interfaces';
@@ -123,6 +123,7 @@ export class ProductController {
     return await this.#_service.getMostPopularProducts(parsedLimit);
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Create product' })
@@ -136,6 +137,7 @@ export class ProductController {
     return await this.#_service.createProduct(createProductPayload, image);
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Update product' })
@@ -150,8 +152,9 @@ export class ProductController {
     return await this.#_service.updateProduct(+id, updateProductPayload, file);
   }
 
+  @ApiBearerAuth()
   @Protected(true)
-  @Roles([UserRoles.admin, UserRoles.user])
+  @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Delete product' })
   @Delete('/:id')
   async deleteProduct(@Param('id') id: string): Promise<{ message: string }> {

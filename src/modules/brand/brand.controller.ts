@@ -11,7 +11,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { BrandService } from './brand.service';
-import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Brand } from './models';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateBrandRequest, UpdateBrandRequest } from './interfaces';
@@ -26,7 +26,7 @@ export class BrandController {
   constructor(service: BrandService) {
     this.#_brandService = service;
   }
-
+  @ApiBearerAuth()
   @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Brandni create qilish' })
   @ApiConsumes('multipart/form-data')
@@ -55,6 +55,7 @@ export class BrandController {
   ): Promise<Brand> {
     return await this.#_brandService.getSingleBrand(+id);
   }
+  @ApiBearerAuth()
   @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Update brand' })
   @ApiConsumes('multipart/form-data')
@@ -77,6 +78,7 @@ export class BrandController {
     };
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Brandni Ochirish' })
