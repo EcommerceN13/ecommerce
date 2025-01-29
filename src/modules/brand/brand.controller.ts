@@ -27,7 +27,6 @@ export class BrandController {
     this.#_brandService = service;
   }
 
-  @Protected(true)
   @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Brandni create qilish' })
   @ApiConsumes('multipart/form-data')
@@ -40,7 +39,6 @@ export class BrandController {
     return await this.#_brandService.createBrand(createBrandDto, image);
   }
 
-  @Protected(false)
   @Roles([UserRoles.admin, UserRoles.user])
   @ApiOperation({ summary: 'Hamma brandlarni olish' })
   @Get('/all')
@@ -57,8 +55,6 @@ export class BrandController {
   ): Promise<Brand> {
     return await this.#_brandService.getSingleBrand(+id);
   }
-
-  @Protected(true)
   @Roles([UserRoles.admin])
   @ApiOperation({ summary: 'Update brand' })
   @ApiConsumes('multipart/form-data')
