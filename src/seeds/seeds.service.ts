@@ -93,7 +93,7 @@ export class SeedsService implements OnModuleInit {
                 price: 6999999,
                 rating: 5,
                 is_aksiya: true,
-                brand_id: 3,
+                brand_id: 1,
                 image: "/airpods.jpg"
             })
         }
