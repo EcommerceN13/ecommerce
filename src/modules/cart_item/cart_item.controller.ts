@@ -12,9 +12,10 @@ import { CreateCartItemDto } from './dto';
 import { UpdateCartItemDto } from './dto';
 import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('cart-item')
+@ApiBearerAuth()
 @Controller('cart-item')
 export class CartItemController {
   constructor(private readonly cartItemService: CartItemService) {}

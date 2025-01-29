@@ -6,6 +6,7 @@ import { Category } from './models';
 import { CreateCategoryRequest, UpdateCategoryRequest } from './interfaces';
 import { FileService } from '../file';
 import { Product } from '../product';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class CategoryService {
@@ -58,6 +59,16 @@ export class CategoryService {
       message: 'Category Created Successfully',
       category: category,
     };
+  }
+
+  async findByName(name: string): Promise<Category[]> {
+    return this.categoryModel.findAll({
+      where: {
+        name: {
+          [Op.iLike]: `%${name}%`,
+        },
+      },
+    });
   }
 
 async getOneCategory(id: number): Promise<Category> {

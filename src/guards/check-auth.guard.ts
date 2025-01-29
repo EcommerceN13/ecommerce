@@ -16,13 +16,8 @@ import {
 } from '@nestjs/jwt';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-// import { UserRoles } from '../modules/user';
 import { Protected } from '@decorators';
-
-enum UserRoles {
-    USER = 'user',
-    ADMIN = 'admin',
-}
+import { UserRoles } from '@modules';
 
 export declare interface RequestInterface extends Request {
   userId: number | undefined;
@@ -49,7 +44,7 @@ export class CheckAuthGuard implements CanActivate {
     );
 
     if (!isProtected) {
-      request.role = UserRoles.USER;
+      request.role = UserRoles.user;
       return true;
     }
 

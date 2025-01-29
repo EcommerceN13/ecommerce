@@ -33,8 +33,8 @@ export class AuthService {
     };
   }
 
-  async register(registerDto: RegisterDto): Promise<{ message: string }> {
-    const { email, fullname, password} = registerDto;
+  async register(registerDto: RegisterDto): Promise<AuthResponse> {
+    const { email, fullname, password } = registerDto;
 
     const existingUser = await this.userModel.findOne({ where: { email } });
     if (existingUser) {
@@ -43,13 +43,25 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await this.userModel.create({
+    const user = await this.userModel.create({
       fullname,
       email,
       password: hashedPassword,
     });
 
-    return { message: 'Ro‘yxatdan o‘tish muvaffaqiyatli amalga oshirildi' };
+    const tokens = this.generateTokens(user.id, user.email);
+
+    return {
+      ...tokens,
+      user: {
+        id: user.id,
+        fullname: user.fullname,
+        email: user.email,
+        role: user.role,
+        is_verified: user.is_verified,
+      },
+      message: 'Ro‘yxatdan o‘tish muvaffaqiyatli amalga oshirildi',
+    };
   }
 
   async sendOtp(email: string): Promise<{ message: string }> {
@@ -59,7 +71,7 @@ export class AuthService {
     }
 
     const otp = this.generateOtp();
-    const expiresAt = Date.now() + 5 * 60 * 1000; 
+    const expiresAt = Date.now() + 5 * 60 * 1000;
 
     global.otpStore = global.otpStore || {};
     global.otpStore[email] = { otp, expiresAt, userId: user.id };
@@ -147,7 +159,7 @@ export class AuthService {
     }
 
     const otp = this.generateOtp();
-    const expiresAt = Date.now() + 5 * 60 * 1000; // 5 daqiqa amal qilish muddati
+    const expiresAt = Date.now() + 5 * 60 * 1000;
 
     global.otpStore = global.otpStore || {};
     global.otpStore[email] = { otp, expiresAt, userId: user.id };
