@@ -102,6 +102,10 @@ export class SeedsService implements OnModuleInit {
                 image: "/artel.png"
             })
             await this.brandModel.create({
+                name: "Artel",
+                image: "/artel.png"
+            })
+            await this.brandModel.create({
                 name: "Samsung",
                 image: "/samsung_brand.png"
             })
@@ -121,7 +125,6 @@ export class SeedsService implements OnModuleInit {
                 name: "Vivo",
                 image: "/vivo.png"
             })
-
             await this.brandModel.create({
                 name: "Huwavei",
                 image: "/huwavei.png"
