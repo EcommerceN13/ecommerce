@@ -116,7 +116,7 @@ export class SeedsService implements OnModuleInit {
                     name: "MacBook Pro M2 14-inch",
                     category_id: 3,
                     description: "Apple MacBook Pro M2 kuchli ishlash va uzoq batareya quvvati bilan ajralib turadi.",
-                    nasiya: "18 oy",
+                    nasiya: "6 oy",
                     summary: "Apple M2 chip, 14-inch Retina displey, 16GB RAM, 512GB SSD.",
                     price: 19999999,
                     rating: 5,
@@ -131,7 +131,7 @@ export class SeedsService implements OnModuleInit {
                     nasiya: "6 oy",
                     summary: "Active Noise Cancellation, Spatial Audio, va uzun batareya muddati.",
                     price: 2499999,
-                    rating: 4.8,
+                    rating: 4,
                     is_aksiya: false,
                     brand_id: 2,
                     image: "/airpodspro2.png"
@@ -152,7 +152,7 @@ export class SeedsService implements OnModuleInit {
                     name: "Dell XPS 15 Laptop",
                     category_id: 3,
                     description: "Dell XPS 15 kuchli ishlash va mukammal ekran bilan eng yaxshi tanlov.",
-                    nasiya: "18 oy",
+                    nasiya: "3 oy",
                     summary: "Intel Core i9, 32GB RAM, 1TB SSD, NVIDIA RTX 3050 Ti.",
                     price: 17999999,
                     rating: 5,
@@ -167,7 +167,7 @@ export class SeedsService implements OnModuleInit {
                     nasiya: "12 oy",
                     summary: "Apple Pencil qo‘llab-quvvatlashi, 5G va Face ID.",
                     price: 13999999,
-                    rating: 4.9,
+                    rating: 5,
                     is_aksiya: true,
                     brand_id: 2,
                     image: "/ipad12.png"
@@ -179,10 +179,10 @@ export class SeedsService implements OnModuleInit {
                     nasiya: "6 oy",
                     summary: "Bluetooth 5.1, 24 soat batareya muddati, USB-C zaryadlash.",
                     price: 2999999,
-                    rating: 4.8,
+                    rating: 3,
                     is_aksiya: false,
                     brand_id: 6,
-                    image: "/boseqe.png"
+                    image: "/boseque.png"
                 },
                 {
                     name: "Logitech MX Master 3S",
@@ -194,18 +194,18 @@ export class SeedsService implements OnModuleInit {
                     rating: 5,
                     is_aksiya: true,
                     brand_id: 7,
-                    image: "/logitecr.png"
+                    image: "/logitech.png"
                 },
                 {
                     name: "Canon EOS R5 Camera",
-                    category_id: 8,
+                    category_id: 6,
                     description: "Canon EOS R5 - professional 8K video yozish imkoniyati bilan kamera.",
-                    nasiya: "24 oy",
+                    nasiya: "6 oy",
                     summary: "45MP sensor, 8K video, Dual Pixel AF II.",
                     price: 23999999,
                     rating: 5,
                     is_aksiya: false,
-                    brand_id: 8,
+                    brand_id: 6,
                     image: "/canon.png"
                 },
             ]);
@@ -261,13 +261,13 @@ export class SeedsService implements OnModuleInit {
                 {
                     product_id: 2,
                     description: "Samsung Galaxy S25 Ultra – yuqori sifatli kamera va kuchli protsessor bilan sizga ajoyib tajriba taqdim etadi.",
-                    image: "banner_image2.png",
+                    image: "s25ultra.png",
                     name: "Samsung Galaxy S25 Ultra yangiliklari"
                 },
                 {
                     product_id: 3,
                     description: "MacBook Pro M2 bilan samaradorlik va kreativlikni birlashtiring. 14-inch Retina displey va M2 chip.",
-                    image: "banner_image3.png",
+                    image: "macbookprom2.png",
                     name: "MacBook Pro M2 – Kuchli va Ishonchli"
                 },
             ]);
@@ -280,15 +280,15 @@ export class SeedsService implements OnModuleInit {
         if (productItemCount == 0) {
             const productItems = [
                 { price: 2999999, image: "product1.jpg", product_id: 1, color_id: 1 },
-                { price: 3499999, image: "product2.jpg", product_id: 1, color_id: 2 },
-                { price: 3999999, image: "product3.jpg", product_id: 1, color_id: 3 },
-                { price: 4499999, image: "product4.jpg", product_id: 1, color_id: 4 },
-                { price: 4999999, image: "product5.jpg", product_id: 1, color_id: 5 },
-                { price: 5499999, image: "product6.jpg", product_id: 1, color_id: 1 },
-                { price: 5999999, image: "product7.jpg", product_id: 1, color_id: 2 },
-                { price: 6499999, image: "product8.jpg", product_id: 1, color_id: 3 },
-                { price: 6999999, image: "product9.jpg", product_id: 1, color_id: 4 },
-                { price: 7499999, image: "product10.jpg", product_id: 1, color_id: 5 },
+                { price: 3499999, image: "product2.jpg", product_id: 2, color_id: 2 },
+                { price: 3999999, image: "product3.jpg", product_id: 3, color_id: 3 },
+                { price: 4499999, image: "product4.jpg", product_id: 4, color_id: 4 },
+                { price: 4999999, image: "product5.jpg", product_id: 5, color_id: 5 },
+                { price: 5499999, image: "product6.jpg", product_id: 6, color_id: 1 },
+                { price: 5999999, image: "product7.jpg", product_id: 7, color_id: 2 },
+                { price: 6499999, image: "product8.jpg", product_id: 8, color_id: 3 },
+                { price: 6999999, image: "product9.jpg", product_id: 9, color_id: 4 },
+                { price: 7499999, image: "product10.jpg", product_id: 10, color_id: 5 },
             ];
 
             await this.productItemModel.bulkCreate(productItems);
