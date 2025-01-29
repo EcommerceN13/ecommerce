@@ -12,11 +12,13 @@ import { CreateVariationDto } from './dto/create-variation.dto';
 import { UpdateVariationDto } from './dto/update-variation.dto';
 import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('variations')
 export class VariationController {
   constructor(private readonly variationService: VariationService) {}
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Post()
@@ -38,6 +40,7 @@ export class VariationController {
     return this.variationService.findOne(+id);
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Patch(':id')
@@ -48,6 +51,7 @@ export class VariationController {
     return this.variationService.update(+id, updateVariationDto);
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Delete(':id')

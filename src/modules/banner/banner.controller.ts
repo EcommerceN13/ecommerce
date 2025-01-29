@@ -3,7 +3,7 @@ import { BannerService } from './banner.service';
 import { CreateBannerDto, UpdateBannerDto } from './dto';
 import { Banner } from './model';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes, ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiConsumes, ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
 
@@ -12,6 +12,7 @@ import { UserRoles } from '../user';
 export class BannerController {
   constructor(private readonly bannerService: BannerService) {}
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Post()
@@ -43,6 +44,7 @@ export class BannerController {
     return this.bannerService.findOne(id);
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Put(':id')
@@ -54,6 +56,7 @@ export class BannerController {
     return this.bannerService.update(id, updateBannerDto);
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Delete(':id')

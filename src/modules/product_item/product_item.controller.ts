@@ -3,7 +3,7 @@ import { ProductItemService } from './product_item.service';
 import { CreateProductItemDto } from './dto';
 import { UpdateProductItemDto } from './dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiConsumes } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes } from '@nestjs/swagger';
 import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
 
@@ -11,6 +11,7 @@ import { UserRoles } from '../user';
 export class ProductItemController {
   constructor(private readonly productItemService: ProductItemService) {}
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Post()
@@ -35,6 +36,7 @@ export class ProductItemController {
     return this.productItemService.findOne(+id);
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Patch(':id')
@@ -42,6 +44,7 @@ export class ProductItemController {
     return this.productItemService.update(+id, updateProductItemDto);
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin])
   @Delete(':id')
