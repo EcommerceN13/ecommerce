@@ -12,8 +12,11 @@ import { MeService } from './me.service';
 import { User } from './models';
 import { Protected, Roles } from '@decorators';
 import { UserRoles } from './enums';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('me')
+@ApiBearerAuth()
+@ApiTags('me')
 export class MeController {
   constructor(private readonly meService: MeService) {}
 

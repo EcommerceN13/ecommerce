@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Put } from "@nestjs/common";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { CartService } from "./cart.service";
 import { Cart } from "./models";
 import { CreateCartDto, UpdateCartDto } from "./dtos";
@@ -7,6 +7,7 @@ import { Protected, Roles } from "@decorators";
 import { UserRoles } from "../user";
 
 @ApiTags('cart')
+@ApiBearerAuth()
 @Controller('cart')
 export class CartController {
     constructor(private readonly service: CartService) { }

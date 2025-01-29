@@ -12,13 +12,14 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './models';
-import { ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto, UpdateUserDto } from './dtos';
 import { Protected, Roles } from '@decorators';
 import { UserRoles } from './enums';
 
 @ApiTags('Users')
+@ApiBearerAuth()
 @Controller('users')
 export class UserController {
   #_service: UserService;
@@ -36,7 +37,7 @@ export class UserController {
 
   @ApiOperation({ summary: 'Yagona userlarni olish' })
   @Protected(true)
-  @Roles([UserRoles.admin])
+  @Roles([UserRoles.admin, UserRoles.user])
   @Get('/:id')
   @ApiOperation({ summary: 'Yagona userni olish' })
   async getSingleUser(@Param('id', ParseIntPipe) id: number): Promise<User> {

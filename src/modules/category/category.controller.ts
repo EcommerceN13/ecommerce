@@ -69,6 +69,17 @@ export class CategoryController {
   @Protected(false)
   @Roles([UserRoles.admin, UserRoles.user])
   @ApiOperation({
+    description: `Kategoriyalarni nomi bo'yicha qidirib topib beradi. Misol: 'Tel' deb qidirsa 'Telefon' yoki 'Televizor' chiqaradi`,
+    summary: `Kategoriyalarni nomi bo'yicha qidirish`,
+  })
+  @Get("/search")
+  async findByName(@Query('name') name: string): Promise<Category[]> {
+    return this.categoryService.findByName(name);
+  }
+
+  @Protected(false)
+  @Roles([UserRoles.admin, UserRoles.user])
+  @ApiOperation({
     summary: 'Bitta kategoriyani barcha ichki kategoriyalari bilan olish',
   })
   @Get('/:categoryId')

@@ -10,7 +10,7 @@ import {
   HttpStatus,
   ParseIntPipe,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 import { AddressService } from './address.service';
 import { CreateAddressDto, UpdateAddressDto } from './dto';
 import { Protected, Roles } from '@decorators';
@@ -21,6 +21,7 @@ import { UserRoles } from '../user';
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin, UserRoles.user])
   @Post()
@@ -44,6 +45,7 @@ export class AddressController {
     }
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin, UserRoles.user])
   @Get()
@@ -63,6 +65,7 @@ export class AddressController {
     }
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin, UserRoles.user])
   @Get(':id')
@@ -99,6 +102,7 @@ export class AddressController {
     }
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin, UserRoles.user])
   @Patch(':id')
@@ -142,6 +146,7 @@ export class AddressController {
     }
   }
 
+  @ApiBearerAuth()
   @Protected(true)
   @Roles([UserRoles.admin, UserRoles.user])
   @Delete(':id')
