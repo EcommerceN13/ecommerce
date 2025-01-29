@@ -138,18 +138,13 @@ export class ProductService {
     });
   }
 
-  async getAllAksiyadagiProducts(): Promise<Product[]> {
-    return await this.productModel.findAll({
-      where: { is_aksiya: true },
-      include: [Category, Like, Comment],
-    });
-  }
-
-  async getMostPopularProducts(limit: number = 5): Promise<Product[]> {
-    return await this.productModel.findAll({
-      order: [['rating', 'DESC']],
-      limit,
-      include: [Category, Like, Comment],
+  async getTopDiscountedProducts(): Promise<Product[]> {
+    return this.productModel.findAll({
+      where: {
+        is_aksiya: true,
+      },
+      order: [['rating', 'DESC']], // Rating bo'yicha tartiblash (katta -> kichik)
+      limit: 10, // Faqat eng yaxshi 10 ta mahsulotni olish
     });
   }
 

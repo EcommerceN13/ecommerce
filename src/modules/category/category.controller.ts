@@ -28,7 +28,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 @ApiTags('Category')
 @Controller('/categories')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(private readonly categoryService: CategoryService) { }
 
   @Protected(false)
   @Roles([UserRoles.admin, UserRoles.user])
@@ -37,9 +37,10 @@ export class CategoryController {
     summary: 'Kategoriyalarni daraxt ko‘rinishida olish',
   })
   @Get('/all')
-  async getAllCategories(): Promise<Category[]> {
-    return this.categoryService.getAllCategories();
+  async getAllCategories(@Query('limit') limit?: number): Promise<Category[]> {
+    return this.categoryService.getAllCategories(2, limit || 7);
   }
+
 
   @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
