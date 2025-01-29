@@ -46,19 +46,14 @@ export class SeedsService implements OnModuleInit {
         const categoryCount = await this.categoryModel.count()
         if (categoryCount == 0) {
             await this.categoryModel.create({
-                name: "Noubuklar",
+                name: "Kiryuvish mashinalari",
+                image: "/kiryuvish_mashinasi.png",
+                icon: "/kiryuvish_mashinasi.svg",
+            })
+            await this.categoryModel.create({
+                name: "Noutbuklar",
                 image: "/noutbuklar.png",
                 icon: "/noutbuklar.svg",
-            })
-            await this.categoryModel.create({
-                name: "Smartfonlar",
-                image: "/smartfonlar.png",
-                icon: "/smartfonlar.svg",
-            })
-            await this.categoryModel.create({
-                name: "Konditsiyonerlar",
-                image: "/konditsiyoner.png",
-                icon: "/konditsiyoner.svg",
             })
             await this.categoryModel.create({
                 name: "Televizorlar",
@@ -71,9 +66,14 @@ export class SeedsService implements OnModuleInit {
                 icon: "/muzlakich.svg",
             })
             await this.categoryModel.create({
-                name: "Kiryuvish mashinalari",
-                image: "/kiryuvish_mashinasi.png",
-                icon: "/kiryuvish_mashinasi.svg",
+                name: "Konditsiyonerlar",
+                image: "/konditsiyoner.png",
+                icon: "/konditsiyoner.svg",
+            })
+            await this.categoryModel.create({
+                name: "Smartfonlar",
+                image: "/smartfonlar.png",
+                icon: "/smartfonlar.svg",
             })
             await this.categoryModel.create({
                 name: "Chang yutkichlar",
