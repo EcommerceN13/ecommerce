@@ -20,6 +20,7 @@ export class SeedsService implements OnModuleInit {
         await this.seedBrand()
         await this.seedColor()
         await this.seedProduct()
+        await this.seedColor()
         await this.seedBanner()
         await this.seedProductItem()
     }
@@ -84,22 +85,133 @@ export class SeedsService implements OnModuleInit {
     }
 
     async seedProduct(): Promise<void> {
-        const productCount = await this.productModel.count()
-        if (productCount == 0) {
-            await this.productModel.create({
-                name: "Смартфон Xiaomi 12 Lite 8/128Gb Қора kamera 48/68 px",
-                category_id: 2,
-                description: "The Samsung Galaxy S25 is expected to be a modern and high-tech smartphone. Its display will feature Dynamic AMOLED 2X technology for improved brightness and efficiency. The device will be powered by the latest Snapdragon or Exynos processors. The camera may include enhanced night mode and superior zoom capabilities. Its battery will support longer usage and faster charging technology.",
-                nasiya: "6 oy",
-                summary: "The Samsung Galaxy S25 is anticipated to deliver powerful performance with the latest processors and a stunning Dynamic AMOLED 2X display. It will also feature an upgraded camera system and a long-lasting battery with fast charging support.",
-                price: 6999999,
-                rating: 5,
-                is_aksiya: true,
-                brand_id: 1,
-                image: "/airpods.png"
-            })
+        const productCount = await this.productModel.count();
+        if (productCount === 0) {
+            await this.productModel.bulkCreate([
+                {
+                    name: "Смартфон Xiaomi 12 Lite 8/128Gb Қора kamera 48/68 px",
+                    category_id: 2,
+                    description: "Xiaomi 12 Lite – zamonaviy dizayn va kuchli kameraga ega smartfon.",
+                    nasiya: "6 oy",
+                    summary: "Engil va kuchli smartfon, 120Hz AMOLED displey bilan.",
+                    price: 6999999,
+                    rating: 5,
+                    is_aksiya: true,
+                    brand_id: 3,
+                    image: "/xiamo12lite.png"
+                },
+                {
+                    name: "Samsung Galaxy S25 Ultra",
+                    category_id: 2,
+                    description: "Samsung Galaxy S25 Ultra - yuqori sifatli kamera va kuchli protsessor bilan.",
+                    nasiya: "12 oy",
+                    summary: "Snapdragon 8 Gen 3 protsessor, 200 MP kamera va AMOLED 2X displey.",
+                    price: 11999999,
+                    rating: 5,
+                    is_aksiya: false,
+                    brand_id: 1,
+                    image: "/s25ultra.png"
+                },
+                {
+                    name: "MacBook Pro M2 14-inch",
+                    category_id: 3,
+                    description: "Apple MacBook Pro M2 kuchli ishlash va uzoq batareya quvvati bilan ajralib turadi.",
+                    nasiya: "18 oy",
+                    summary: "Apple M2 chip, 14-inch Retina displey, 16GB RAM, 512GB SSD.",
+                    price: 19999999,
+                    rating: 5,
+                    is_aksiya: true,
+                    brand_id: 2,
+                    image: "/macbookprom2.png"
+                },
+                {
+                    name: "AirPods Pro 2",
+                    category_id: 4,
+                    description: "Apple AirPods Pro 2 - faollikni bostirish funksiyasi bilan mukammal eshitish tajribasi.",
+                    nasiya: "6 oy",
+                    summary: "Active Noise Cancellation, Spatial Audio, va uzun batareya muddati.",
+                    price: 2499999,
+                    rating: 4.8,
+                    is_aksiya: false,
+                    brand_id: 2,
+                    image: "/airpodspro2.png"
+                },
+                {
+                    name: "Sony PlayStation 5",
+                    category_id: 5,
+                    description: "Sony PlayStation 5 – keyingi avlod o‘yin konsoli, kuchli grafika va tez yuklanish bilan.",
+                    nasiya: "12 oy",
+                    summary: "8K grafik, ray tracing, va DualSense kontroller bilan yuqori o‘yin tajribasi.",
+                    price: 4999999,
+                    rating: 5,
+                    is_aksiya: true,
+                    brand_id: 4,
+                    image: "/ps5.png"
+                },
+                {
+                    name: "Dell XPS 15 Laptop",
+                    category_id: 3,
+                    description: "Dell XPS 15 kuchli ishlash va mukammal ekran bilan eng yaxshi tanlov.",
+                    nasiya: "18 oy",
+                    summary: "Intel Core i9, 32GB RAM, 1TB SSD, NVIDIA RTX 3050 Ti.",
+                    price: 17999999,
+                    rating: 5,
+                    is_aksiya: true,
+                    brand_id: 5,
+                    image: "/dellxps5.png"
+                },
+                {
+                    name: "iPad Pro 12.9-inch (2023)",
+                    category_id: 3,
+                    description: "iPad Pro 12.9-inch kuchli Apple M2 chip va Liquid Retina XDR displey bilan.",
+                    nasiya: "12 oy",
+                    summary: "Apple Pencil qo‘llab-quvvatlashi, 5G va Face ID.",
+                    price: 13999999,
+                    rating: 4.9,
+                    is_aksiya: true,
+                    brand_id: 2,
+                    image: "/ipad12.png"
+                },
+                {
+                    name: "Bose QuietComfort 45",
+                    category_id: 4,
+                    description: "Bose QC 45 – aktiv shovqin kamaytirish bilan mukammal naushnik.",
+                    nasiya: "6 oy",
+                    summary: "Bluetooth 5.1, 24 soat batareya muddati, USB-C zaryadlash.",
+                    price: 2999999,
+                    rating: 4.8,
+                    is_aksiya: false,
+                    brand_id: 6,
+                    image: "/boseqe.png"
+                },
+                {
+                    name: "Logitech MX Master 3S",
+                    category_id: 7,
+                    description: "Logitech MX Master 3S - eng yaxshi ergonomik sichqoncha.",
+                    nasiya: "3 oy",
+                    summary: "Uzoq batareya, ultra tez skroll, Bluetooth va USB-C zaryadlash.",
+                    price: 999999,
+                    rating: 5,
+                    is_aksiya: true,
+                    brand_id: 7,
+                    image: "/logitecr.png"
+                },
+                {
+                    name: "Canon EOS R5 Camera",
+                    category_id: 8,
+                    description: "Canon EOS R5 - professional 8K video yozish imkoniyati bilan kamera.",
+                    nasiya: "24 oy",
+                    summary: "45MP sensor, 8K video, Dual Pixel AF II.",
+                    price: 23999999,
+                    rating: 5,
+                    is_aksiya: false,
+                    brand_id: 8,
+                    image: "/canon.png"
+                },
+            ]);
         }
     }
+
     async seedBrand(): Promise<void> {
         const brandCount = await this.brandModel.count()
 
@@ -137,28 +249,31 @@ export class SeedsService implements OnModuleInit {
     }
 
     async seedBanner(): Promise<void> {
-        const bannerCount = await this.bannerModel.count()
-        if (bannerCount == 0) {
-            await this.bannerModel.create({
-                product_id: 1,
-                description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
-                image: "banner_image1.png",
-                name: "Siz kutgan Xiaomi 12 Mi Laite"
-            })
-            await this.bannerModel.create({
-                product_id: 1,
-                description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
-                image: "banner_image1.png",
-                name: "Siz kutgan Xiaomi 12 Mi Laite"
-            })
-            await this.bannerModel.create({
-                product_id: 1,
-                description: "Orginallik va qulay narxni o'zida jamlagan  Xiaomi 12 Mi Laite  siz uchun eng yaxshi arziydigan takliflarimizdan biridir!ii",
-                image: "banner_image1.png",
-                name: "Siz kutgan Xiaomi 12 Mi Laite"
-            })
+        const bannerCount = await this.bannerModel.count();
+        if (bannerCount === 0) {
+            await this.bannerModel.bulkCreate([
+                {
+                    product_id: 1,
+                    description: "Orginallik va qulay narxni o'zida jamlagan Xiaomi 12 Mi Lite siz uchun eng yaxshi takliflarimizdan biridir!",
+                    image: "banner_image1.png",
+                    name: "Siz kutgan Xiaomi 12 Mi Lite"
+                },
+                {
+                    product_id: 2,
+                    description: "Samsung Galaxy S25 Ultra – yuqori sifatli kamera va kuchli protsessor bilan sizga ajoyib tajriba taqdim etadi.",
+                    image: "banner_image2.png",
+                    name: "Samsung Galaxy S25 Ultra yangiliklari"
+                },
+                {
+                    product_id: 3,
+                    description: "MacBook Pro M2 bilan samaradorlik va kreativlikni birlashtiring. 14-inch Retina displey va M2 chip.",
+                    image: "banner_image3.png",
+                    name: "MacBook Pro M2 – Kuchli va Ishonchli"
+                },
+            ]);
         }
     }
+    
     async seedProductItem(): Promise<void> {
         const productItemCount = await this.productItemModel.count();
 
