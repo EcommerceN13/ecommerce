@@ -8,7 +8,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CommentService } from './comment.service';
 import { Comment } from './models';
 import { CreateCommentDto, UpdateCommentDto } from './dtos';
@@ -16,6 +16,7 @@ import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
 
 @ApiTags('comment')
+@ApiBearerAuth()
 @Controller('comment')
 export class CommentController {
   constructor(private readonly service: CommentService) {}

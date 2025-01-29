@@ -16,7 +16,7 @@ import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
 
 @ApiTags('region')
-// @ApiBearerAuth()
+@ApiBearerAuth()
 @Controller('region')
 export class RegionController {
   constructor(private readonly regionService: RegionService) {}
@@ -34,7 +34,7 @@ export class RegionController {
 
   // Parent Regionlarni olish (masalan, Toshkent viloyati yoki Toshkent shahri)
   @Protected(true)
-  @Roles([UserRoles.admin])
+  @Roles([UserRoles.admin, UserRoles.user])
   @Get('parent')
   @ApiOperation({ summary: 'Get parent regions' })
   @ApiResponse({
@@ -49,7 +49,7 @@ export class RegionController {
 
   // Regionni ID bo'yicha olish
   @Protected(true)
-  @Roles([UserRoles.admin])
+  @Roles([UserRoles.admin, UserRoles.user])
   @Get(':id')
   @ApiOperation({ summary: 'Get region by id' })
   async getRegionById(@Param('id', ParseIntPipe) id: number): Promise<Region> {

@@ -13,7 +13,7 @@ import {
   HttpException,
   Patch,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { Order } from './models/order.model';
 import { OrderService } from './order.service';
 import { OrderStatus } from './enums';
@@ -22,6 +22,7 @@ import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
 
 @ApiTags('orders')
+@ApiBearerAuth()
 @Controller('orders')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
