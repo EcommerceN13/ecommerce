@@ -17,23 +17,23 @@ export class SeedsService implements OnModuleInit {
     async onModuleInit() {
         await this.seedUsers()
         await this.seedCategory(),
-            await this.seedBrand()
+        await this.seedBrand()
         await this.seedProduct()
         await this.seedBanner()
     }
 
     async seedUsers(): Promise<void> {
         const usersCount = await this.userModel.count();
-    
+
         if (usersCount == 0) {
-            const hashedPassword = await bcrypt.hash("password123", 10); 
-    
+            const hashedPassword = await bcrypt.hash("password123", 10);
+
             await this.userModel.create({
                 fullname: "Abduqodir Team Lead",
                 email: "abduqodiir@gmail.com",
                 phone_number: "+998884891727",
                 image: "/ahmad_aka.jpg_6f5b92c6-44a8-47ae-9101-972a2c8982b4.jpg",
-                password: hashedPassword, 
+                password: hashedPassword,
                 is_verified: true,
                 role: UserRoles.admin
             });
@@ -160,7 +160,7 @@ export class SeedsService implements OnModuleInit {
     }
     async seedProductItem(): Promise<void> {
         const productItemCount = await this.productItemModel.count();
-        
+
         if (productItemCount == 0) {
             const productItems = [
                 { price: 2999999, image: "/product1.jpg", product_id: 1, color_id: 1 },
@@ -174,14 +174,14 @@ export class SeedsService implements OnModuleInit {
                 { price: 6999999, image: "/product9.jpg", product_id: 9, color_id: 4 },
                 { price: 7499999, image: "/product10.jpg", product_id: 10, color_id: 5 },
             ];
-    
+
             await this.productItemModel.bulkCreate(productItems);
         }
     }
 
     async seedColor(): Promise<void> {
         const colorCount = await this.colorModel.count();
-        
+
         if (colorCount == 0) {
             const colors = [
                 { name: "Red", color_code: "#FF0000" },
@@ -190,10 +190,10 @@ export class SeedsService implements OnModuleInit {
                 { name: "Black", color_code: "#000000" },
                 { name: "White", color_code: "#FFFFFF" },
             ];
-    
+
             await this.colorModel.bulkCreate(colors);
         }
     }
-    
-    
+
+
 }
