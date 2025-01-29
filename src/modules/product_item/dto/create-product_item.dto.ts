@@ -1,13 +1,10 @@
 import {
   IsNotEmpty,
-  IsNumber,
   IsNumberString,
   IsOptional,
-  IsPositive,
   IsString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
 
 export class CreateProductItemDto {
   @ApiProperty({
@@ -16,7 +13,6 @@ export class CreateProductItemDto {
     type: Number,
     minimum: 0.01,
   })
-  @Type(() => Number)
   @IsNotEmpty()
   @IsNumberString()
   price: number;
@@ -37,7 +33,6 @@ export class CreateProductItemDto {
     example: 1,
     type: Number,
   })
-  @Type(() => Number)
   @IsNotEmpty()
   @IsNumberString()
   product_id: number;
@@ -47,9 +42,8 @@ export class CreateProductItemDto {
     example: 1,
     type: Number,
   })
-  @Type(() => Number)
+  
   @IsNotEmpty()
-  @IsNumber()
-  @IsPositive()
+  @IsNumberString()
   color_id: number;
 }

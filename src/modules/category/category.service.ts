@@ -14,11 +14,13 @@ export class CategoryService {
     private fileService: FileService,
   ) {}
 
-  async getAllCategories(depth: number = 2): Promise<Category[]> {
+  async getAllCategories(depth: number = 2, limit: number = 7): Promise<Category[]> {
     return await this.categoryModel.findAll({
-      include: this.buildCategoryTree(depth),
+        include: this.buildCategoryTree(depth),
+        limit: limit
     });
-  }
+}
+
   
   private buildCategoryTree(depth: number): any[] {
     if (depth === 0) return [];
