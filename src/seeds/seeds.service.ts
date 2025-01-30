@@ -283,16 +283,16 @@ export class SeedsService implements OnModuleInit {
 
         if (productItemCount == 0) {
             const productItems = [
-                { price: 2999999, image: "product1.jpg", product_id: 1, color_id: 1 },
-                { price: 3499999, image: "product2.jpg", product_id: 2, color_id: 2 },
-                { price: 3999999, image: "product3.jpg", product_id: 3, color_id: 3 },
-                { price: 4499999, image: "product4.jpg", product_id: 4, color_id: 4 },
-                { price: 4999999, image: "product5.jpg", product_id: 5, color_id: 5 },
-                { price: 5499999, image: "product6.jpg", product_id: 6, color_id: 1 },
-                { price: 5999999, image: "product7.jpg", product_id: 7, color_id: 2 },
-                { price: 6499999, image: "product8.jpg", product_id: 8, color_id: 3 },
-                { price: 6999999, image: "product9.jpg", product_id: 9, color_id: 4 },
-                { price: 7499999, image: "product10.jpg", product_id: 10, color_id: 5 },
+                { price: 2999999, image: "xiamo12lite.png", product_id: 1, color_id: 1 },
+                { price: 3499999, image: "s25ultra.png", product_id: 2, color_id: 2 },
+                { price: 3999999, image: "macbookprom2.png", product_id: 3, color_id: 3 },
+                { price: 4499999, image: "airpodspro2.png", product_id: 4, color_id: 4 },
+                { price: 4999999, image: "ps5.png", product_id: 5, color_id: 5 },
+                { price: 5499999, image: "dellxps5.png", product_id: 6, color_id: 1 },
+                { price: 5999999, image: "ipad12.png", product_id: 7, color_id: 2 },
+                { price: 6499999, image: "boseque.png", product_id: 8, color_id: 3 },
+                { price: 6999999, image: "logitech.png", product_id: 9, color_id: 4 },
+                { price: 7499999, image: "canon.png", product_id: 10, color_id: 5 },
             ];
 
             await this.productItemModel.bulkCreate(productItems);
