@@ -137,18 +137,6 @@ export class SeedsService implements OnModuleInit {
                     image: "/airpodspro2.png"
                 },
                 {
-                    name: "Sony PlayStation 5",
-                    category_id: 5,
-                    description: "Sony PlayStation 5 – keyingi avlod o‘yin konsoli, kuchli grafika va tez yuklanish bilan.",
-                    nasiya: "12 oy",
-                    summary: "8K grafik, ray tracing, va DualSense kontroller bilan yuqori o‘yin tajribasi.",
-                    price: 4999,
-                    rating: 5,
-                    is_aksiya: true,
-                    brand_id: 8,
-                    image: "/ps5.png"
-                },
-                {
                     name: "Dell XPS 15 Laptop",
                     category_id: 3,
                     description: "Dell XPS 15 kuchli ishlash va mukammal ekran bilan eng yaxshi tanlov.",
@@ -243,10 +231,6 @@ export class SeedsService implements OnModuleInit {
             await this.brandModel.create({
                 name: "Huwavei",
                 image: "/huwavei.png"
-            })
-            await this.brandModel.create({
-                name: "Sony",
-                image: "/sony.png"
             })
 
         }
