@@ -67,7 +67,7 @@ export class SeedsService implements OnModuleInit {
                 icon: "/televizor.svg",
             })
             await this.categoryModel.create({
-                name: "Muzlatgitchlar",
+                name: "Muzlatkichlar",
                 image: "/muzlakich.png",
                 icon: "/muzlakich.svg",
             })
@@ -94,10 +94,10 @@ export class SeedsService implements OnModuleInit {
                     description: "Xiaomi 12 Lite – zamonaviy dizayn va kuchli kameraga ega smartfon.",
                     nasiya: "6 oy",
                     summary: "Engil va kuchli smartfon, 120Hz AMOLED displey bilan.",
-                    price: 6999999,
+                    price: 6999,
                     rating: 5,
                     is_aksiya: true,
-                    brand_id: 3,
+                    brand_id: 4,
                     image: "/xiamo12lite.png"
                 },
                 {
@@ -106,10 +106,10 @@ export class SeedsService implements OnModuleInit {
                     description: "Samsung Galaxy S25 Ultra - yuqori sifatli kamera va kuchli protsessor bilan.",
                     nasiya: "12 oy",
                     summary: "Snapdragon 8 Gen 3 protsessor, 200 MP kamera va AMOLED 2X displey.",
-                    price: 11999999,
+                    price: 11999,
                     rating: 5,
                     is_aksiya: false,
-                    brand_id: 1,
+                    brand_id: 2,
                     image: "/s25ultra.png"
                 },
                 {
@@ -118,10 +118,10 @@ export class SeedsService implements OnModuleInit {
                     description: "Apple MacBook Pro M2 kuchli ishlash va uzoq batareya quvvati bilan ajralib turadi.",
                     nasiya: "18 oy",
                     summary: "Apple M2 chip, 14-inch Retina displey, 16GB RAM, 512GB SSD.",
-                    price: 19999999,
+                    price: 19999,
                     rating: 5,
                     is_aksiya: true,
-                    brand_id: 2,
+                    brand_id: 5,
                     image: "/macbookprom2.png"
                 },
                 {
@@ -130,10 +130,10 @@ export class SeedsService implements OnModuleInit {
                     description: "Apple AirPods Pro 2 - faollikni bostirish funksiyasi bilan mukammal eshitish tajribasi.",
                     nasiya: "6 oy",
                     summary: "Active Noise Cancellation, Spatial Audio, va uzun batareya muddati.",
-                    price: 2499999,
+                    price: 2499,
                     rating: 4.8,
                     is_aksiya: false,
-                    brand_id: 2,
+                    brand_id: 5,
                     image: "/airpodspro2.png"
                 },
                 {
@@ -142,10 +142,10 @@ export class SeedsService implements OnModuleInit {
                     description: "Sony PlayStation 5 – keyingi avlod o‘yin konsoli, kuchli grafika va tez yuklanish bilan.",
                     nasiya: "12 oy",
                     summary: "8K grafik, ray tracing, va DualSense kontroller bilan yuqori o‘yin tajribasi.",
-                    price: 4999999,
+                    price: 4999,
                     rating: 5,
                     is_aksiya: true,
-                    brand_id: 4,
+                    brand_id: 8,
                     image: "/ps5.png"
                 },
                 {
@@ -154,10 +154,10 @@ export class SeedsService implements OnModuleInit {
                     description: "Dell XPS 15 kuchli ishlash va mukammal ekran bilan eng yaxshi tanlov.",
                     nasiya: "18 oy",
                     summary: "Intel Core i9, 32GB RAM, 1TB SSD, NVIDIA RTX 3050 Ti.",
-                    price: 17999999,
+                    price: 17999,
                     rating: 5,
                     is_aksiya: true,
-                    brand_id: 5,
+                    brand_id: 1,
                     image: "/dellxps5.png"
                 },
                 {
@@ -166,10 +166,10 @@ export class SeedsService implements OnModuleInit {
                     description: "iPad Pro 12.9-inch kuchli Apple M2 chip va Liquid Retina XDR displey bilan.",
                     nasiya: "12 oy",
                     summary: "Apple Pencil qo‘llab-quvvatlashi, 5G va Face ID.",
-                    price: 13999999,
+                    price: 13999,
                     rating: 4.9,
                     is_aksiya: true,
-                    brand_id: 2,
+                    brand_id: 5,
                     image: "/ipad12.png"
                 },
                 {
@@ -178,7 +178,7 @@ export class SeedsService implements OnModuleInit {
                     description: "Bose QC 45 – aktiv shovqin kamaytirish bilan mukammal naushnik.",
                     nasiya: "6 oy",
                     summary: "Bluetooth 5.1, 24 soat batareya muddati, USB-C zaryadlash.",
-                    price: 2999999,
+                    price: 29999,
                     rating: 4.8,
                     is_aksiya: false,
                     brand_id: 6,
@@ -190,10 +190,10 @@ export class SeedsService implements OnModuleInit {
                     description: "Logitech MX Master 3S - eng yaxshi ergonomik sichqoncha.",
                     nasiya: "3 oy",
                     summary: "Uzoq batareya, ultra tez skroll, Bluetooth va USB-C zaryadlash.",
-                    price: 999999,
+                    price: 999,
                     rating: 5,
                     is_aksiya: true,
-                    brand_id: 7,
+                    brand_id: 3,
                     image: "/logitecr.png"
                 },
                 {
@@ -202,10 +202,10 @@ export class SeedsService implements OnModuleInit {
                     description: "Canon EOS R5 - professional 8K video yozish imkoniyati bilan kamera.",
                     nasiya: "24 oy",
                     summary: "45MP sensor, 8K video, Dual Pixel AF II.",
-                    price: 23999999,
+                    price: 2399,
                     rating: 5,
                     is_aksiya: false,
-                    brand_id: 8,
+                    brand_id: 6,
                     image: "/canon.png"
                 },
             ]);
@@ -243,6 +243,10 @@ export class SeedsService implements OnModuleInit {
             await this.brandModel.create({
                 name: "Huwavei",
                 image: "/huwavei.png"
+            })
+            await this.brandModel.create({
+                name: "Sony",
+                image: "/sony.png"
             })
 
         }
