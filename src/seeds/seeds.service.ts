@@ -276,7 +276,7 @@ export class SeedsService implements OnModuleInit {
                 { price: 5999999, image: "ipad12.png", product_id: 7, color_id: 2 },
                 { price: 6499999, image: "boseque.png", product_id: 8, color_id: 3 },
                 { price: 6999999, image: "logitech.png", product_id: 9, color_id: 4 },
-                { price: 7499999, image: "canon.png", product_id: 10, color_id: 5 },
+                { price: 7499999, image: "canon.png", product_id: 9, color_id: 5 },
             ];
 
             await this.productItemModel.bulkCreate(productItems);
