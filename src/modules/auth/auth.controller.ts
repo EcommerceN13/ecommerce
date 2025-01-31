@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { LoginDto, RegisterDto, VerifyOtpDto, ResetPasswordDto } from './dtos';
 import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
+import { SendOTPDto } from './dtos/send-otp.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -15,8 +16,8 @@ export class AuthController {
 
   @Post('send-otp')
   @HttpCode(HttpStatus.OK)
-  async sendOtp(@Body('email') email: string): Promise<{ message: string }> {
-    return this.authService.sendOtp(email);
+  async sendOtp(@Body() sendOtpDto: SendOTPDto): Promise<{ message: string }> {
+    return this.authService.sendOtp(sendOtpDto.email);
   }
 
   @Post('verify-otp')
@@ -33,8 +34,8 @@ export class AuthController {
 
   @Post('forgot-password')
   @HttpCode(HttpStatus.OK)
-  async sendOtpForPasswordReset(@Body('email') email: string): Promise<{ message: string }> {
-    return this.authService.sendOtpForPasswordReset(email);
+  async sendOtpForPasswordReset(@Body() sendOtpDto: SendOTPDto): Promise<{ message: string }> {
+    return this.authService.sendOtpForPasswordReset(sendOtpDto.email);
   }
 
   @Post('reset-password')
