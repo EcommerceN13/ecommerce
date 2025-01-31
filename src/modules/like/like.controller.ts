@@ -8,24 +8,32 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LikeService } from './like.service';
 import { Like } from './models';
-import { CreateLikeDto, UpdateLikeDto } from './dtos';
+import { CreateLikeDto, ToggleLikeDto, UpdateLikeDto } from './dtos';
 import { Protected, Roles } from '@decorators';
 import { UserRoles } from '../user';
 
 @ApiTags('like')
 @Controller('like')
 export class LikeController {
-  constructor(private readonly service: LikeService) {}
+  constructor(private readonly likeService: LikeService) { }
 
-  @Protected(false)
-  @Roles([UserRoles.admin, UserRoles.user])
-  @Get()
-  @ApiOperation({ summary: 'Get all likes' })
-  async getAllLikes(): Promise<Like[]> {
-    return this.service.getAllLikes();
+  @Post('toggle')
+  @Roles([UserRoles.user, UserRoles.admin])
+  @ApiOperation({ summary: 'Toggle like for a product' })
+  @ApiResponse({ status: 200, description: 'Like toggled successfully.' })
+  async toggleLike(@Body() toggleLikeDto: ToggleLikeDto) {
+    return this.likeService.toggleLike(toggleLikeDto);
+  }
+
+  @Get('user/:userId')
+  @Roles([UserRoles.user, UserRoles.admin])
+  @ApiOperation({ summary: 'Get liked products for a user' })
+  @ApiResponse({ status: 200, description: 'Returns an array of liked products.' })
+  async getLikedProducts(@Param('userId') userId: string) {
+    return this.likeService.getLikedProducts(+userId);
   }
 
   @Protected(false)
@@ -33,7 +41,7 @@ export class LikeController {
   @Get('/:id')
   @ApiOperation({ summary: 'Get a single LIKE by ID' })
   async getSingleLike(@Param('id') id: string): Promise<Like> {
-    return this.service.getSingleLike(+id);
+    return this.likeService.getSingleLike(+id);
   }
 
   @Protected(false)
@@ -41,7 +49,7 @@ export class LikeController {
   @Post('/add')
   @ApiOperation({ summary: 'Create a new like' })
   async createLike(@Body() payload: CreateLikeDto) {
-    return this.service.createLike(payload);
+    return this.likeService.createLike(payload);
   }
 
   @Protected(false)
@@ -49,7 +57,7 @@ export class LikeController {
   @Put('/update/:id')
   @ApiOperation({ summary: 'Update a like by ID' })
   async updateLike(@Param('id') id: string, @Body() payload: UpdateLikeDto) {
-    return this.service.updateLike(+id, payload);
+    return this.likeService.updateLike(+id, payload);
   }
 
   @Protected(false)
@@ -57,7 +65,7 @@ export class LikeController {
   @Delete('/delete/:id')
   @ApiOperation({ summary: 'Delete a like by ID' })
   async deleteLike(@Param('id') id: string) {
-    const deleted = await this.service.deleteLike(+id);
+    const deleted = await this.likeService.deleteLike(+id);
     if (!deleted) throw new NotFoundException(`Like with ID ${id} not found`);
     return { message: 'Like deleted successfully' };
   }

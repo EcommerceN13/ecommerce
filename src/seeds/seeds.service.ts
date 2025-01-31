@@ -15,15 +15,17 @@ export class SeedsService implements OnModuleInit {
     ) { }
 
     async onModuleInit() {
-        await this.seedUsers()
-        await this.seedCategory(),
-        await this.seedBrand()
-        await this.seedColor()
-        await this.seedProduct()
-        await this.seedColor()
-        await this.seedBanner()
-        await this.seedProductItem()
+        await this.seedUsers();
+        await this.seedCategory();
+        await this.seedBrand();
+        await this.seedColor();
+        
+        await this.seedProduct(); // Ensure this runs first
+    
+        await this.seedBanner();
+        await this.seedProductItem(); // Run after products exist
     }
+    
 
     async seedUsers(): Promise<void> {
         const usersCount = await this.userModel.count();
@@ -273,24 +275,34 @@ export class SeedsService implements OnModuleInit {
     
     async seedProductItem(): Promise<void> {
         const productItemCount = await this.productItemModel.count();
-
+        const productCount = await this.productModel.count();
+    
+        console.log(`Existing products: ${productCount}`);
+        console.log(`Existing product items: ${productItemCount}`);
+    
+        if (productCount === 0) {
+            console.error("❌ Error: No products found. Cannot insert product items.");
+            return;
+        }
+    
         if (productItemCount == 0) {
             const productItems = [
                 { price: 2999999, image: "xiamo12lite.png", product_id: 1, color_id: 1 },
-                { price: 3499999, image: "s25ultra.png", product_id: 2, color_id: 2},
+                { price: 3499999, image: "s25ultra.png", product_id: 2, color_id: 2 },
                 { price: 3999999, image: "macbookprom2.png", product_id: 3, color_id: 3 },
-                { price: 4499999, image: "airpodspro2.png", product_id: 4, color_id: 4},
+                { price: 4499999, image: "airpodspro2.png", product_id: 4, color_id: 4 },
                 { price: 4999999, image: "ps5.png", product_id: 5, color_id: 5 },
-                { price: 5499999, image: "dellxps5.png", product_id: 6, color_id: 1},
-                { price: 5999999, image: "ipad12.png", product_id: 7, color_id: 2},
+                { price: 5499999, image: "dellxps5.png", product_id: 6, color_id: 1 },
+                { price: 5999999, image: "ipad12.png", product_id: 7, color_id: 2 },
                 { price: 6499999, image: "boseque.png", product_id: 8, color_id: 3 },
-                { price: 6999999, image: "logitech.png", product_id: 9, color_id: 4},
+                { price: 6999999, image: "logitech.png", product_id: 9, color_id: 4 },
                 { price: 7499999, image: "canon.png", product_id: 9, color_id: 5 },
             ];
-
+    
             await this.productItemModel.bulkCreate(productItems);
         }
     }
+    
 
     async seedColor(): Promise<void> {
         const colorCount = await this.colorModel.count();
