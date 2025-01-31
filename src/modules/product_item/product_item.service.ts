@@ -5,6 +5,9 @@ import { CreateProductItemDto } from './dto';
 import { UpdateProductItemDto } from './dto';
 import { Attributes } from 'sequelize';
 import { FileService } from '../file';
+import { ProductConfiguration } from '../product_configuration';
+import { VariationOption } from '../variation_option';
+import { Variation } from '../variation';
 
 @Injectable()
 export class ProductItemService {
@@ -25,7 +28,24 @@ export class ProductItemService {
   }
 
   async findOne(id: number): Promise<ProductItem> {
-    const productItem = await this.productItemModel.findByPk(id, { include: [{ all: true }] });
+    const productItem = await this.productItemModel.findByPk(id, { include: [
+      { 
+        all: true 
+      },
+      {
+        model: ProductConfiguration,
+        include: [
+          {
+            model: VariationOption,
+            include: [
+              {
+                model: Variation
+              }
+            ]
+          }
+        ]
+      }
+    ] });
     if (!productItem) {
       throw new NotFoundException(`ProductItem with ID ${id} not found.`);
     }

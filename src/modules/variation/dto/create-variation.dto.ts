@@ -6,10 +6,6 @@ export class CreateVariationDto {
   name: string;
 
   @IsNotEmpty()
-  @IsString()
-  color: string;
-
-  @IsNotEmpty()
   @IsNumber()
   @IsPositive()
   category_id: number;
