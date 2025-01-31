@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Product } from './models';
 import { FileService } from '../file';
@@ -6,7 +6,7 @@ import { CreateProductDto } from './dto';
 import { UpdateProductRequest } from './interfaces/update-product.interface';
 import { Op } from 'sequelize';
 import { ProductFilterDto } from './interfaces';
-import { Like } from '../like';
+import { Like, LikeService } from '../like';
 import { Comment } from '../comment';
 import { Category } from '../category';
 import { PaginatedResponse } from './interfaces/paginate-product.interface';
@@ -18,9 +18,28 @@ import { ProductConfiguration } from '../product_configuration';
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectModel(Product) private productModel: typeof Product,
-    private fileService: FileService,
-  ) { }
+    @InjectModel(Product)
+    private readonly productModel: typeof Product,
+    private readonly fileService: FileService,
+    @Inject(forwardRef(() => LikeService))
+    private readonly likeService: LikeService,
+  ) {}
+
+  async findLikedByUser(userId: number): Promise<Product[]> {
+    return this.productModel.findAll({
+      include: [
+        {
+          model: Like,
+          where: { user_id: userId },
+          attributes: [],
+        },
+      ],
+      where: {
+        is_liked: true,
+      },
+    })
+  }
+
 
   async getAllProducts(
     filters?: ProductFilterDto,
