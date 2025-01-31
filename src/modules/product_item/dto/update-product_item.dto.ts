@@ -1,7 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateProductItemDto } from './create-product_item.dto';
-import { IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
 
 export class UpdateProductItemDto extends PartialType(CreateProductItemDto) {
@@ -47,4 +47,13 @@ export class UpdateProductItemDto extends PartialType(CreateProductItemDto) {
   @IsNumber()
   @IsPositive()
   color_id?: number;
+
+   @ApiProperty({
+      description: 'Mahsulotni yoqtirgan yoki yoqtirmaganligi',
+      example: true,
+      type: Boolean,
+    })
+    @IsNotEmpty()
+    @IsBoolean()
+    is_liked: boolean;
 }

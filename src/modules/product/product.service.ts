@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Product } from './models';
 import { FileService } from '../file';
@@ -207,4 +207,23 @@ export class ProductService {
       message: 'Product deleted successfully',
     };
   }
+
+  async toggleProductLike(id: number): Promise<{ message: string; product: Product }> {
+    const product = await this.productModel.findByPk(id);
+  
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+  
+    // Toggle the is_liked status
+    product.is_liked = !product.is_liked;
+  
+    await product.save();
+  
+    return {
+      message: `Product is_liked status successfully updated to ${product.is_liked}`,
+      product,
+    };
+  }
+
 }
