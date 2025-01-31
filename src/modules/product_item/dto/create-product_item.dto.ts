@@ -1,4 +1,5 @@
 import {
+  IsBoolean,
   IsNotEmpty,
   IsNumberString,
   IsOptional,
@@ -46,4 +47,13 @@ export class CreateProductItemDto {
   @IsNotEmpty()
   @IsNumberString()
   color_id: number;
+
+  @ApiProperty({
+    description: 'Mahsulotni yoqtirgan yoki yoqtirmaganligi',
+    example: true,
+    type: Boolean,
+  })
+  @IsNotEmpty()
+  @IsBoolean()
+  is_liked: boolean;
 }

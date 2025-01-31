@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -144,4 +145,13 @@ export class ProductController {
   async deleteProduct(@Param('id') id: string): Promise<{ message: string }> {
     return await this.#_service.deleteProduct(+id);
   }
+
+  @Protected(false)
+@Roles([UserRoles.admin, UserRoles.user])
+@ApiOperation({ summary: 'Toggle is_liked status for a product' })
+@Patch('/:id/toggle-like')
+async toggleProductLike(@Param('id') id: number): Promise<{ message: string; product: Product }> {
+  return await this.#_service.toggleProductLike(id);
+}
+
 }

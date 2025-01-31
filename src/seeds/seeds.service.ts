@@ -98,7 +98,8 @@ export class SeedsService implements OnModuleInit {
                     rating: 5,
                     is_aksiya: true,
                     brand_id: 4,
-                    image: "/xiamo12lite.png"
+                    image: "/xiamo12lite.png",
+                    is_liked: false
                 },
                 {
                     name: "Samsung Galaxy S25 Ultra",
@@ -110,7 +111,8 @@ export class SeedsService implements OnModuleInit {
                     rating: 5,
                     is_aksiya: false,
                     brand_id: 2,
-                    image: "/s25ultra.png"
+                    image: "/s25ultra.png",
+                    is_liked: false
                 },
                 {
                     name: "MacBook Pro M2 14-inch",
@@ -122,7 +124,8 @@ export class SeedsService implements OnModuleInit {
                     rating: 5,
                     is_aksiya: true,
                     brand_id: 5,
-                    image: "/macbookprom2.png"
+                    image: "/macbookprom2.png",
+                    is_liked: false
                 },
                 {
                     name: "AirPods Pro 2",
@@ -134,7 +137,8 @@ export class SeedsService implements OnModuleInit {
                     rating: 4,
                     is_aksiya: false,
                     brand_id: 5,
-                    image: "/airpodspro2.png"
+                    image: "/airpodspro2.png",
+                    is_liked: false
                 },
                 {
                     name: "Dell XPS 15 Laptop",
@@ -146,7 +150,8 @@ export class SeedsService implements OnModuleInit {
                     rating: 5,
                     is_aksiya: true,
                     brand_id: 1,
-                    image: "/dellxps5.png"
+                    image: "/dellxps5.png",
+                    is_liked: false
                 },
                 {
                     name: "iPad Pro 12.9-inch (2023)",
@@ -158,7 +163,8 @@ export class SeedsService implements OnModuleInit {
                     rating: 5,
                     is_aksiya: true,
                     brand_id: 5,
-                    image: "/ipad12.png"
+                    image: "/ipad12.png",
+                    is_liked: false
                 },
                 {
                     name: "Bose QuietComfort 45",
@@ -170,7 +176,8 @@ export class SeedsService implements OnModuleInit {
                     rating: 3,
                     is_aksiya: false,
                     brand_id: 6,
-                    image: "/boseque.png"
+                    image: "/boseque.png",
+                    is_liked: false
                 },
                 {
                     name: "Logitech MX Master 3S",
@@ -182,7 +189,8 @@ export class SeedsService implements OnModuleInit {
                     rating: 5,
                     is_aksiya: true,
                     brand_id: 7,
-                    image: "/logitech.png"
+                    image: "/logitech.png",
+                    is_liked: false
                 },
                 {
                     name: "Canon EOS R5 Camera",
@@ -194,7 +202,8 @@ export class SeedsService implements OnModuleInit {
                     rating: 5,
                     is_aksiya: false,
                     brand_id: 6,
-                    image: "/canon.png"
+                    image: "/canon.png",
+                    is_liked: false
                 },
             ]);
         }
@@ -268,14 +277,14 @@ export class SeedsService implements OnModuleInit {
         if (productItemCount == 0) {
             const productItems = [
                 { price: 2999999, image: "xiamo12lite.png", product_id: 1, color_id: 1 },
-                { price: 3499999, image: "s25ultra.png", product_id: 2, color_id: 2 },
+                { price: 3499999, image: "s25ultra.png", product_id: 2, color_id: 2},
                 { price: 3999999, image: "macbookprom2.png", product_id: 3, color_id: 3 },
-                { price: 4499999, image: "airpodspro2.png", product_id: 4, color_id: 4 },
+                { price: 4499999, image: "airpodspro2.png", product_id: 4, color_id: 4},
                 { price: 4999999, image: "ps5.png", product_id: 5, color_id: 5 },
-                { price: 5499999, image: "dellxps5.png", product_id: 6, color_id: 1 },
-                { price: 5999999, image: "ipad12.png", product_id: 7, color_id: 2 },
+                { price: 5499999, image: "dellxps5.png", product_id: 6, color_id: 1},
+                { price: 5999999, image: "ipad12.png", product_id: 7, color_id: 2},
                 { price: 6499999, image: "boseque.png", product_id: 8, color_id: 3 },
-                { price: 6999999, image: "logitech.png", product_id: 9, color_id: 4 },
+                { price: 6999999, image: "logitech.png", product_id: 9, color_id: 4},
                 { price: 7499999, image: "canon.png", product_id: 9, color_id: 5 },
             ];
 

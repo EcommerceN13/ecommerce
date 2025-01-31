@@ -22,6 +22,9 @@ export class Product extends Model {
   @Column({ type: DataType.TEXT, allowNull: false, unique: true })
   name: string;
 
+  @Column({ type: DataType.BOOLEAN, allowNull: false })
+  is_liked: boolean;
+
   @ForeignKey(() => Category)
   @Column({
     type: DataType.BIGINT,
