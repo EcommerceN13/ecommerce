@@ -32,7 +32,6 @@ export class CartService {
         const new_cart = await this.cartModel.create({
             user_id: payload.user_id,
             product_id: payload.product_id,
-            count: payload.count
         })
 
         return {

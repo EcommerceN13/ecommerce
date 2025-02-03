@@ -21,12 +21,4 @@ export class CreateCartDto implements CreateCartRequest {
     @IsNumber()
     product_id: number;
 
-    @ApiProperty({
-        description: 'Mahsulot soni',
-        example: 1,
-        required: true,
-        type: Number,
-    })
-    @IsNumber()
-    count: number;
 }

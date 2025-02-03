@@ -23,13 +23,4 @@ export class UpdateCartDto implements UpdateCartRequest {
     @IsNumber()
     product_id: number;
 
-    @ApiProperty({
-        description: 'Mahsulot soni',
-        example: 1,
-        required: false,
-        type: Number,
-    })
-    @IsOptional()
-    @IsNumber()
-    count: number;
 }
