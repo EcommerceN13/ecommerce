@@ -1,22 +1,23 @@
 import {
-    Table,
-    Model,
-    Column,
-    DataType,
-    ForeignKey,
-    BelongsTo
-  } from 'sequelize-typescript';
-import { Cart } from 'src/modules/cart/models';
-import { Product } from 'src/modules/product/models/product.model';
+  Table,
+  Model,
+  Column,
+  DataType,
+  ForeignKey,
+  BelongsTo,
+} from 'sequelize-typescript';
+import { User } from 'src/modules/user';
+import { Product } from 'src/modules/product';
 
 @Table({ tableName: 'cart_item', timestamps: true })
 export class CartItem extends Model {
-  @ForeignKey(() => Cart)
-  @Column({ type: DataType.BIGINT, allowNull: false })
-  cart_id: number;
+  
+  @ForeignKey(() => User)
+  @Column({ type: DataType.BIGINT, allowNull: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  user_id: number;
 
   @ForeignKey(() => Product)
-  @Column({ type: DataType.BIGINT, allowNull: false })
+  @Column({ type: DataType.BIGINT, allowNull: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   product_id: number;
 
   @Column({ type: DataType.BIGINT, allowNull: false })
@@ -25,8 +26,8 @@ export class CartItem extends Model {
   @Column({ type: DataType.INTEGER, allowNull: false })
   price: number;
 
-  @BelongsTo(() => Cart)
-  cart: Cart;
+  @BelongsTo(() => User)
+  user: User;
 
   @BelongsTo(() => Product)
   product: Product;

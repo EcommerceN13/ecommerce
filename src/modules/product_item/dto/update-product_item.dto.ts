@@ -56,4 +56,6 @@ export class UpdateProductItemDto extends PartialType(CreateProductItemDto) {
     @IsNotEmpty()
     @IsBoolean()
     is_liked: boolean;
+
+    
 }

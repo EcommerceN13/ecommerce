@@ -6,15 +6,16 @@ import { CartItem } from '../models';
 
 // CreateCartItemDto
 export class CreateCartItemDto implements Partial<Attributes<CartItem>> {
+
   @ApiProperty({
-    description: 'The ID of the cart',
+    description: 'The ID of the user',
     example: 1,
     required: true,
     type: Number,
   })
   @IsNotEmpty()
   @IsPositive()
-  cart_id: number;
+  user_id: number;
 
   @ApiProperty({
     description: 'The ID of the product',

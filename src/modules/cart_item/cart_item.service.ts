@@ -6,6 +6,7 @@ import { UpdateCartItemDto } from './dto';
 import { Attributes } from 'sequelize';
 import { Cart } from '../cart/models';
 import { Product } from '../product';
+import { User } from '../user';
 
 @Injectable()
 export class CartItemService {
@@ -18,7 +19,7 @@ export class CartItemService {
   async findAll(): Promise<CartItem[]> {
     return this.cartItemModel.findAll(
       {include: [
-                { model: Cart},
+                { model: User},
                 { model: Product },
               ]}
     );

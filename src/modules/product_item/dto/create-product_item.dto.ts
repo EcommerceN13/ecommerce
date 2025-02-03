@@ -1,6 +1,7 @@
 import {
   IsBoolean,
   IsNotEmpty,
+  IsNumber,
   IsNumberString,
   IsOptional,
   IsString,
@@ -56,4 +57,13 @@ export class CreateProductItemDto {
   @IsNotEmpty()
   @IsBoolean()
   is_liked: boolean;
+
+  @ApiProperty({
+          description: 'Foydalanuvchi ID raqami',
+          example: 1,
+          required: true,
+          type: Number,
+      })
+      @IsNumber()
+      user_id: number;
 }
