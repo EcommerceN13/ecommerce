@@ -9,6 +9,8 @@ import { Comment } from '../comment';
 
 import { Address } from '../address';
 import { Region } from '../region';
+import { CartItem } from '../cart_item';
+import { Product } from '../product';
 
 @Injectable()
 export class UserService {
@@ -23,6 +25,7 @@ export class UserService {
         { model: Like, attributes: ['id', 'product_id'] },
 
         { model: Comment, attributes: ['id', 'product_id'] },
+        { model: CartItem, attributes: ['id', 'product_id'] },
         {
           model: Address,
           include: [
@@ -43,6 +46,16 @@ export class UserService {
 
         { model: Comment, attributes: ['id', 'product_id'] },
         {
+          model: CartItem,
+          attributes: ['id', 'product_id'],
+          include: [
+            {
+              model: Product,
+              as: 'product',
+            }
+          ]
+        },
+        {
           model: Address,
           include: [
             { model: Region, as: 'region' },
@@ -58,8 +71,8 @@ export class UserService {
     payload: CreateUserDto,
     file: Express.Multer.File,
   ): Promise<{ message: string; new_user: User }> {
+    
     const image = await this.fileService.uploadFile(file);
-
     const new_user = await this.userModel.create({
       fullname: payload.fullname,
       email: payload.email,

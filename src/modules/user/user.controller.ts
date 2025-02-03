@@ -52,7 +52,7 @@ export class UserController {
   @UseInterceptors(FileInterceptor('image'))
   async createUser(
     @Body() createUserPayload: CreateUserDto,
-    @UploadedFile() image: Express.Multer.File,
+    @UploadedFile() image: Express.Multer.File
   ): Promise<{ message: string; new_user: CreateUserDto }> {
     await this.#_service.createUser(createUserPayload, image);
     return {

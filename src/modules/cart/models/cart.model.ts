@@ -11,9 +11,9 @@ import { User } from 'src/modules/user'; // User modelini import qiling
 
 @Table({ tableName: 'cart', timestamps: true })
 export class Cart extends Model {
-  @ForeignKey(() => User) // User modeliga foreign key
-  @Column({ type: DataType.BIGINT, allowNull: false })
-  user_id: number;
+  // @ForeignKey(() => User) // User modeliga foreign key
+  // @Column({ type: DataType.BIGINT, allowNull: false })
+  // user_id: number;
 
   @ForeignKey(() => Product)
   @Column({ type: DataType.BIGINT, allowNull: false })
@@ -23,6 +23,6 @@ export class Cart extends Model {
   @BelongsTo(() => Product)
   product: Product;
 
-  @BelongsTo(() => User) 
-  user: User;
+  // @BelongsTo(() => User) 
+  // user: User;
 }

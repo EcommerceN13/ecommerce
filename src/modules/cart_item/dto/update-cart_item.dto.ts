@@ -1,6 +1,6 @@
 import { Attributes } from 'sequelize';
 import { CartItem } from '../models';
-import { IsNumber, IsOptional, IsPositive } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsPositive } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateCartItemDto implements Partial<Attributes<CartItem>> {
@@ -14,6 +14,16 @@ export class UpdateCartItemDto implements Partial<Attributes<CartItem>> {
   @IsPositive()
   @IsOptional()
   cart_id?: number;
+
+  @ApiProperty({
+      description: 'The ID of the user',
+      example: 1,
+      required: false,
+      type: Number,
+    })
+    @IsOptional()
+    @IsPositive()
+    user_id?: number;
 
   @ApiProperty({
     description: 'The ID of the product',
