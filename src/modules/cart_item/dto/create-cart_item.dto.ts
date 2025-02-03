@@ -9,6 +9,8 @@ export class CreateCartItemDto implements Partial<Attributes<CartItem>> {
   @ApiProperty({
     description: 'The ID of the cart',
     example: 1,
+    required: true,
+    type: Number,
   })
   @IsNotEmpty()
   @IsPositive()
@@ -17,6 +19,8 @@ export class CreateCartItemDto implements Partial<Attributes<CartItem>> {
   @ApiProperty({
     description: 'The ID of the product',
     example: 1,
+    required: true,
+    type: Number,
   })
   @IsNotEmpty()
   @IsPositive()
@@ -26,6 +30,8 @@ export class CreateCartItemDto implements Partial<Attributes<CartItem>> {
     description: 'The quantity of the product in the cart',
     example: 2,
     minimum: 1,
+    required: true,
+    type: Number,
   })
   @IsNotEmpty()
   @Min(1)
@@ -34,6 +40,8 @@ export class CreateCartItemDto implements Partial<Attributes<CartItem>> {
   @ApiProperty({
     description: 'The price of the product',
     example: 29.99,
+    required: true,
+    type: Number,
   })
   @IsNotEmpty()
   @IsPositive()
